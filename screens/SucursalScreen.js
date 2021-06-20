@@ -1,19 +1,26 @@
 import React from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {View, Text, StyleSheet,DrawerLayoutAndroid, ScrollView} from 'react-native';
 import {Title, Card, Button, Switch} from 'react-native-paper';
 
 const CuponScreen = ({
+  drawer,menu,
   titulo,
   descripcion,
   ciudad,
   direccion,
   telefono,
-  navigation,
+  navigation
 }) => {
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
 
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
   return (
+    <DrawerLayoutAndroid
+    renderNavigationView={()=>menu}
+    drawerPosition='left'
+    drawerWidth={300}
+    ref={drawer}
+    >
     <ScrollView>
       <View style={styles.contenedor}>
         <Card>
@@ -41,6 +48,7 @@ const CuponScreen = ({
         </Button>
       </View>
     </ScrollView>
+    </DrawerLayoutAndroid>
   );
 };
 const styles = StyleSheet.create({

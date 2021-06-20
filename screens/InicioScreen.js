@@ -1,7 +1,7 @@
 import React from 'react';
 import {AppRegistry, View, Text, StyleSheet, Image} from 'react-native';
 import BotonComponente from '../componentes/BotonComponente';
-
+import * as ViewsNames from '../const/ViewsNames.js';
 
 const InicioScreen = ({navigation}) => {
   return (
@@ -12,12 +12,12 @@ const InicioScreen = ({navigation}) => {
       <View style={styles.containerBotones}>
         <BotonComponente
           texto="Registrarse"
-          screen={() => navigation.navigate('RegistroUnoScreen')}
+          onPress={() => navigation.navigate('RegistroUnoScreen')}
           estilo={styles.botonPrimario}
         />
         <BotonComponente
           texto="Iniciar Sesión"
-          screen={() => navigation.navigate('LoginScreen')}
+          onPress={() => navigation.navigate(ViewsNames.LoginScreenName)}
           estilo={styles.botonSecundario}
         />
       </View>

@@ -1,9 +1,9 @@
 import React from 'react';
 import {Text, StyleSheet, View} from 'react-native';
 import {Button} from 'react-native-paper';
-export default function BotonComponente({texto, screen, estilo}) {
+export default function BotonComponente({texto,onPress, estilo}) {
   return (
-    <Button mode="contained" style={estilo} onPress={screen}>
+    <Button mode="contained" style={estilo} onPress={onPress}>
       {texto}
     </Button>
   );

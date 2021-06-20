@@ -8,11 +8,9 @@ import {
   TouchableHighlight,
   DrawerLayoutAndroid,
 } from 'react-native';
-import {Card, Title, Avatar, Paragraph, Button} from 'react-native-paper';
 import CuponNegocio from '../componentes/CuponNegocio';
 import ItemCiudad from '../componentes/ItemCiudad';
 import UltimaSucursal from '../componentes/UltimaSucursal';
-import  { MenuSimple } from '../MyDrawer/menu';
 
 const CUPON_LIST = [
   {
@@ -48,24 +46,15 @@ const CUPON_LIST = [
 
 
 
-const DashboardScreen = ({navigation}) => {
-    
-    
-    const drawer= useRef(null);
+const DashboardScreen = ({drawer, menu,navigation}) => {
    const [cupon, setState] = useState([]);
-    const menu=MenuSimple;
-  useEffect(() => {
-    //carga los datos al inicio, aqui debemos traelo
-  }, []);
-
   function handleOnPress() {
     navigation.navigate('CuponScreen');
   }
 
   return (
-    <DrawerLayoutAndroid
-        
-    renderNavigationView={menu}
+    <DrawerLayoutAndroid        
+      renderNavigationView={()=>menu}
         drawerPosition='left'
         drawerWidth={300}
         ref={drawer}
