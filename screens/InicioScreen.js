@@ -16,7 +16,7 @@ const InicioScreen = ({navigation}) => {
       <View style={styles.containerBotones}>
         <BotonComponente
           texto="Registrarse"
-          onPress={() => navigation.navigate('RegistroUnoScreen')}
+          onPress={() => navigation.navigate(ViewsNames.RegistroUnoScreenName)}
           estilo={stylesApp.btnPrimary}
         />
         <BotonComponente

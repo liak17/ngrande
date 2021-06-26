@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, TouchableHighlight} from 'react-native';
 import {Button, Title, Checkbox, Card} from 'react-native-paper';
 import {stylesApp} from '../const/styles.js';
+import * as ViewsNames from '../const/ViewsNames.js';
 
 const RegistroUnoScreen = ({navigation}) => {
   return (
@@ -9,7 +10,7 @@ const RegistroUnoScreen = ({navigation}) => {
       <Title style={stylesApp.textTitle}>REGISTRARSE</Title>
       <View style={{flexDirection:'row', paddingTop:83}}>
       <View style={styles.cuadro}>
-        <TouchableHighlight onPress={() => navigation.navigate('RegistroScreen')}>
+        <TouchableHighlight onPress={() => navigation.navigate(ViewsNames.RegistroScreenName)}>
         <Card>
           <Card.Cover source={{uri: 'https://picsum.photos/100/100'}} />
         </Card>

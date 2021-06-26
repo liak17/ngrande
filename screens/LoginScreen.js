@@ -1,113 +1,97 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import * as ViewsNames from '../const/ViewsNames.js';
 import axios from 'axios';
 import BotonComponente from '../componentes/BotonComponente';
-import { getErrorFormat, getWhereClause, setValue } from '../utils/index.js';
+import { setValue, validateField } from '../utils/index.js';
+import {
+  handlerErrores, existThisDataForThisScreen
+  , handlerRemoveErrores, getErrorFormat
+} from '../utils/ErroresHandlers.js';
 import { VALIDAR } from '../const/Urls.js';
 import { ERRORS } from '../const/Errors.js';
 import { stylesApp } from '../const/styles.js';
+import { Spinner } from '../componentes/ui/Spinner.js'
 
 const { loginScreen } = ERRORS;
-const handlerErrores = (prev, { cod, error, screen }) => {
-  const id = cod;
-  const currentErrores = prev.slice();
-  const existThisError = currentErrores.some(({ cod }) => (cod === id));
-  if (!existThisError) {
-    return [...prev, { cod, error, screen }];
-  } else {
-    return currentErrores;
-  }
-}
-const handlerRemoveErrores = (prev, cod) => {
-  const id = cod;
-  const current = prev.slice();
-  const errorresUpdate = current.filter(({ cod }) => cod !== id);
-  return errorresUpdate;
-}
 
-const validateField = (source, minSize, maxSize) => {
-  if (typeof source === 'string') {
-    return source.length > minSize - 1 && source.length < maxSize - 1
-  }
-}
-
-const consulta = async (url, whereClause) => {
-  try {    
-    return await axios.post(url, {whereClause:whereClause});    
+const consulta = async (url, whereClause) => { 
+    
+  try {
+    return await axios.post(url, {
+      whereClause: [
+        {
+          attr: "ruc",
+          value: "22270222138"
+        }, {
+          attr: "password", value: "1234"
+        }]
+    }
+    );
   } catch (error) {
     console.log(error);
     alert('verifica los datos')
   }
 }
-const Spinner = () => {
-  return (
-    <View>
-      <Text style={styles.subtitulo}>Validando espere porfavor </Text>
-      <ActivityIndicator size="large" color="#FA4141" />
-    </View>)
-}
+
 /*Render*/
 const LoginScreen = ({ navigation, login, setlogin,
   isLoading, setIsLoading, errores, seterrores }) => {
 
-  const { cedula, password, isLogin } = login;
-
+  const { cedula, password } = login;
   const spinner = isLoading ? <Spinner /> : null;
 
-  if (isLogin) navigation.navigate(ViewsNames.DashboardScreenName);
-
   const iniciarSesion = async () => {
+
+    const { camposVacios } = loginScreen;
     const validateFills = validateField(cedula, 9, 13) &&
       validateField(password, 3, 8);
-    const { camposVacios } = loginScreen;
+
     if (validateFills) {
       setIsLoading(true)
       const { noExiste } = loginScreen;
       seterrores((prev) => handlerRemoveErrores(prev, camposVacios.cod));
-         
-      const r=[{
+      
+      const campos = [{
         attr: "ruc",
         value: cedula
       }, {
-        attr: "password", 
+        attr: "password",
         value:password
       }];
       
-      const resultado=await consulta(VALIDAR,r).then((res) => {        
+      const resultado=await consulta(VALIDAR, campos).then((res) => {
+        console.log(res);
         const { data } = res;
         const { cod_user } = data;
-        console.log(res);
-        if (cod_user > 0) {
-          setValue('isLogin',true,setlogin)
-          navigation.navigate(ViewsNames.DashboardScreenName)
+        if (cod_user > 0) {                    
+          setValue('isLogin', true, setlogin)
+          //navigation.navigate(ViewsNames.DashboardScreenName)
         } else {
           const error = getErrorFormat(ViewsNames.LoginScreenName, noExiste)
           seterrores((prev) => handlerErrores(prev, error));
         }
-      }).catch(e => {
+      }).
+      catch(e => {
+        console.log(e);
         const error = getErrorFormat(ViewsNames.LoginScreenName, noExiste)
         seterrores((prev) => handlerErrores(prev, error));
       })
-      
+
       setIsLoading(false);
     }
     else {
-
       const error = getErrorFormat(ViewsNames.LoginScreenName, camposVacios)
       seterrores((prev) => handlerErrores(prev, error));
     }
   };
-  const erroresLogin = errores.filter(({ screen }) =>
-    screen === ViewsNames.LoginScreenName);
-
-
-  const erroresComponent = erroresLogin.map(({ error }, i) =>
-    (<Text style={styles.subtitulo} key={i}>{error}</Text>))
-
-
-
+  const someErrorForThisScreen = existThisDataForThisScreen(errores, 'screen',
+    ViewsNames.LoginScreenName);
+  const erroresLogin = someErrorForThisScreen ? errores.filter(({ screen }) =>
+    screen === ViewsNames.LoginScreenName) : [];
+  const erroresComponent = erroresLogin.length > 0 ? erroresLogin.map(({ error }, i) =>
+    (<Text style={styles.subtitulo} key={i}>{error}</Text>)) : null;
 
   return (
     <ScrollView>
@@ -117,7 +101,7 @@ const LoginScreen = ({ navigation, login, setlogin,
         alignItems: 'center'
       }}>
         {spinner}
-        {errores.length > 0 ? erroresComponent : null}
+        {erroresComponent ? erroresComponent : null}
       </View>
       <View style={styles.container}>
 
@@ -150,9 +134,17 @@ const LoginScreen = ({ navigation, login, setlogin,
           />
         </View>
       </View>
-      </ScrollView>
+    </ScrollView>
   );
 };
+
+
+
+
+
+
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -169,9 +161,8 @@ const styles = StyleSheet.create({
     alignContent: 'flex-end',
     flexDirection: 'row',
     justifyContent: 'center',
-  
-  },
 
+  },
   titulo: {
     fontSize: 48,
     fontFamily: 'Poppins',
