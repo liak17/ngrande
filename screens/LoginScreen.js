@@ -7,6 +7,7 @@ import BotonComponente from '../componentes/BotonComponente';
 import { getErrorFormat, getWhereClause, setValue } from '../utils/index.js';
 import { VALIDAR } from '../const/Urls.js';
 import { ERRORS } from '../const/Errors.js';
+import { stylesApp } from '../const/styles.js';
 
 const { loginScreen } = ERRORS;
 const handlerErrores = (prev, { cod, error, screen }) => {
