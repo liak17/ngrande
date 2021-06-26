@@ -1,48 +1,3 @@
-<<<<<<< HEAD
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
-import {TextInput} from 'react-native-paper';
-import * as ViewsNames from '../const/ViewsNames.js';
-import axios from 'axios';
-import BotonComponente from '../componentes/BotonComponente';
-import { stylesApp } from '../const/styles.js';
-
-const LoginScreen = ({navigation, login, setlogin}) => {
-  const {cedula, password, isLogin} = login;
-
-  const setValue = (name, value) => {
-    setlogin(prev => Object.assign(prev, {[name]: value}));
-  };
-
-  const iniciarSesion = async () => {
-    if (cedula !== '' && password !== '') {
-      const url = 'https://infinite-crag-10539.herokuapp.com/validate/login';
-
-      try {
-        const resultado = await axios
-          .post(url, {
-            whereClause: [
-              {
-                attr: 'ruc',
-                value: '22270222138',
-              },
-              {
-                attr: 'password',
-                value: '1234',
-              },
-            ],
-          })
-          .catch(error => alert('verifica los datos'));
-        console.log(resultado.data);
-        setValue('isLogin', true);
-        console.log(isLogin);
-        navigation.navigate(ViewsNames.DashboardScreenName);
-      } catch (error) {
-        alert('verifica los datos');
-      }
-    } else {
-      alert('Por favor rellena los datos');
-=======
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import { TextInput } from 'react-native-paper';
@@ -141,7 +96,6 @@ const LoginScreen = ({ navigation, login, setlogin,
 
       const error = getErrorFormat(ViewsNames.LoginScreenName, camposVacios)
       seterrores((prev) => handlerErrores(prev, error));
->>>>>>> 29c7cf662919446e85489a8b17395f646092b3a0
     }
   };
   const erroresLogin = errores.filter(({ screen }) =>
@@ -155,10 +109,6 @@ const LoginScreen = ({ navigation, login, setlogin,
 
 
   return (
-<<<<<<< HEAD
-    <ScrollView style={stylesApp.container}>
-      <View>
-=======
     <ScrollView>
       <View style={{
         paddingTop: 10, justifyContent: 'center',
@@ -171,7 +121,6 @@ const LoginScreen = ({ navigation, login, setlogin,
       <View style={styles.container}>
 
 
->>>>>>> 29c7cf662919446e85489a8b17395f646092b3a0
         <Text style={styles.titulo}>INICIAR SESION</Text>
         <TextInput
           style={stylesApp.inputStyle}
@@ -195,12 +144,8 @@ const LoginScreen = ({ navigation, login, setlogin,
           <BotonComponente
             texto="Iniciar Sesión"
             onPress={iniciarSesion}
-<<<<<<< HEAD
-            estilo={stylesApp.btnSecondary}
-=======
             estilo={styles.botonSecundario}
 
->>>>>>> 29c7cf662919446e85489a8b17395f646092b3a0
           />
         </View>
       </View>
@@ -217,11 +162,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     alignContent: 'space-between',
     height: '100%',
-<<<<<<< HEAD
-  
-=======
     marginTop: 0
->>>>>>> 29c7cf662919446e85489a8b17395f646092b3a0
   },
   containerBotones: {
     alignContent: 'flex-end',
