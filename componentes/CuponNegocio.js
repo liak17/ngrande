@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text, StyleSheet, View, TouchableHighlight} from 'react-native';
 import {Card, Title, Avatar, Paragraph, Button} from 'react-native-paper';
+import {stylesApp} from '../const/styles.js';
 export default function CuponNegocio ({cupon, onPress}){
     return(
         <TouchableHighlight onPress={onPress} style={{marginTop:16}}>
@@ -8,9 +9,9 @@ export default function CuponNegocio ({cupon, onPress}){
             <Card>
                 <Card.Cover source={{uri:cupon.imagen}} />
                 <Card.Content>
-                    <Title>{cupon.tituloCupon}</Title>
-                   <Text style={styles.textoPrecioNormal}>{cupon.precioNormal}$</Text>
-                   <Text style={styles.textoGana}>GANA: {cupon.gana}$</Text> 
+                    <Title style={stylesApp.titleCupon}>{cupon.tituloCupon}</Title>
+                   <Text style={stylesApp.textoPrecioNormal}>{cupon.precioNormal}$</Text>
+                   <Text style={stylesApp.textoGana}>GANA: {cupon.gana}$</Text> 
                 </Card.Content>
                 
             </Card>

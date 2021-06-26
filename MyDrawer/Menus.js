@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableHighlight, StyleSheet } from 'react-native';
 import { menuNegocio } from '../const/MenuOpciones.js';
+import { Menu, Divider, Title } from 'react-native-paper';
 
 
 
@@ -21,15 +22,16 @@ export const MenuSimple = () => (
 export const MenuNegocio = ({ navigation }) => {
   const opcionesNegocio = menuNegocio;
   const renderMenu = ({ title, screen, id }) => (
-    <TouchableHighlight
-      key={id}
-      style={styles.button}
-      onPress={() => navigation.navigate(screen)}>
-      <Text style={styles.paragraph}>{title}</Text>
-    </TouchableHighlight>)
+    <View key={id}>
+    <Menu.Item onPress={() => navigation.navigate(screen)} title={title} icon='camera' />
+    </View>
+    )
   const menu = opcionesNegocio.map(renderMenu);
   return (
-    <View style={styles.contenedor}>      
+    <View style={styles.contenedor}>  
+    <Title style={styles.txtMenu}>DEALERS PLUS</Title>
+    <Text style={styles.txtMenu}>ADMINISTRA TU NEGOCIO</Text>
+    <Divider style={{marginTop:16}}/>
       {menu}
     </View>
   );
@@ -41,23 +43,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical:16,
-    paddingHorizontal:16,
+    paddingTop:16,
+  
     
   },
-  navigationContainer: {
-    backgroundColor: "#ecf0f1"
-  },
-  button:{
-    borderRadius: 10,
-    borderWidth:1,
-    marginVertical:2,
-    backgroundColor:'#1ef',
-    borderColor:'#e1e1e1'
-  },
-  paragraph: {
-    padding: 16,
-    fontSize: 15,
-    textAlign: "center"
+  txtMenu: {
+    paddingStart:16,
   }
 });

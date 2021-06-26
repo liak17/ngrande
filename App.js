@@ -5,11 +5,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 //constant
 import * as Screens from './const/ViewsNames.js';
-//Pantallas
-import Menu from './MyDrawer/Menus.js';
+//Pantallas Generales
 import InicioScreen from './screens/InicioScreen';
 import RegistroScreen from './screens/RegistroScreen';
 import RegistroUnoScreen from './screens/RegistroUnoScreen';
+//Pantallas Negocios
 import DashboardScreen from './screens/DashboardScreen';
 import NuevoCuponScreen from './screens/NuevoCuponScreen';
 import CuponScreen from './screens/CuponScreen';
@@ -17,6 +17,10 @@ import LoginScreen from './screens/LoginScreen';
 import SucursalScreen from './screens/SucursalScreen';
 import NuevaSucursalScreen from './screens/NuevaSucursalScreen';
 import ListaCuponesScreen from './screens/ListaCuponesScreen';
+import PerfilScreen from './screens/PerfilScreen';
+//Pantallas Usuario
+import DashboardUserScreen from './screens/DashboardUserScreen';
+import ListaCategoriasScreen from './screens/ListaCategoriasScreen';
 import { MenuNegocio, MenuSimple } from './MyDrawer/Menus';
 
 const Stack = createStackNavigator();
@@ -67,6 +71,13 @@ const MyStack = ({ drawer, user, login, setlogin }) => {
           ></DashboardScreen>}
       </Stack.Screen>
 
+      <Stack.Screen name={Screens.PerfilScreenName} >
+        {(props) =>
+          <PerfilScreen {...props}
+            drawer={drawer} menu={getMenu(props)}
+          ></PerfilScreen>}
+      </Stack.Screen>
+
       <Stack.Screen name={Screens.NuevoCuponScreenName}  >
         {(props) =>
           <NuevoCuponScreen {...props}
@@ -101,7 +112,11 @@ const MyStack = ({ drawer, user, login, setlogin }) => {
             drawer={drawer} menu={getMenu(props)}
           ></ListaCuponesScreen>}
       </Stack.Screen>
+      <Stack.Screen name={Screens.DashboardUserScreenName}
+        component={DashboardUserScreen} />
 
+<Stack.Screen name={Screens.ListaCategoriasScreenName}
+        component={ListaCategoriasScreen} />
     </Stack.Navigator>
   );
 }

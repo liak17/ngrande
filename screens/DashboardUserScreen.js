@@ -44,57 +44,31 @@ const CUPON_LIST = [
   },
 ];
 
-const SUCURSALES_LIST = [
-  {
-    id:1,
-    nombreSucursal:'Calzado de Pedro',
-    ciudad:'Quito',
-    pais:'Ecuador'
-  },
-  {
-    id:2,
-    nombreSucursal:'Calzado de Pedro',
-    ciudad:'Quito',
-    pais:'Ecuador'
-  },
-  {
-    id:3,
-    nombreSucursal:'Calzado de Pedro',
-    ciudad:'Quito',
-    pais:'Ecuador'
-  },
-  {
-    id:4,
-    nombreSucursal:'Calzado de Pedro',
-    ciudad:'Quito',
-    pais:'Ecuador'
-  },
-]
 
 const CIUDADES_LISTS = [
   {
     id:1,
-    ciudad:'Quito',
+    ciudad:'Tecnologia',
     cantidadSucursales:12,
   },
   {
     id:2,
-    ciudad:'Guayaquil',
+    ciudad:'Ropa',
     cantidadSucursales:12,
   },
   {
     id:3,
-    ciudad:'Loja',
+    ciudad:'Zapatos',
     cantidadSucursales:12,
   },
   {
     id:4,
-    ciudad:'Cuenca',
+    ciudad:'Camisas',
     cantidadSucursales:12,
   },
 ]
 
-const DashboardScreen = ({drawer, menu,navigation}) => {
+const DashboardUserScreen = ({drawer, menu,navigation}) => {
    const [cupon, setState] = useState([]);
   function handleOnPress() {
     navigation.navigate('CuponScreen');
@@ -109,9 +83,9 @@ const DashboardScreen = ({drawer, menu,navigation}) => {
     >
       
         <ScrollView style={stylesApp.container}>
-          <Text style={stylesApp.textTitle}>MIS SUCURSALES</Text>
+          <Text style={stylesApp.textTitle}>DESCUENTOS</Text>
           <View style={{flex: 1}}>
-            <Text style={stylesApp.subTitle}>Ordenar por Ciudad</Text>
+            <Text style={stylesApp.subTitle} onPress={() => navigation.navigate('ListaCategoriasScreen')}>Ordenar por Categoría</Text>
             <View style={{paddingTop: 12}}>
               <FlatList
               horizontal={true}
@@ -122,27 +96,12 @@ const DashboardScreen = ({drawer, menu,navigation}) => {
               />
             </View>
           </View>
-          <View style={{flex: 2}}>
-            <Text
-              style={stylesApp.subTitle}
-              onPress={() => navigation.navigate('ListaCuponesScreen')}>
-              Últimas Sucursales
-            </Text>
-            <FlatList 
-            horizontal={true}
-            data={SUCURSALES_LIST}
-            renderItem={({item})=> (
-              <UltimaSucursal sucursal={item} onPress={handleOnPress}/>
-            )
-            
-            }/>
-          </View>
 
           <View style={{flex: 3}}>
             <Text
               style={stylesApp.subTitle }
               onPress={() => navigation.navigate('ListaCuponesScreen')}>
-              Últimos Cupones
+              Últimas Promociones
             </Text>
             <FlatList
               data={CUPON_LIST}
@@ -171,7 +130,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DashboardScreen;
+export default DashboardUserScreen;
 
 {/* <TouchableHighlight
               onPress={() => navigation.navigate('SucursalScreen')}>

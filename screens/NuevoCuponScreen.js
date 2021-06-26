@@ -19,7 +19,8 @@ const NuevoCuponScreen = ({ navigation, menu, drawer }) => {
                     </Card>
                     <TextInput
                         style={styles.textoInputs}
-                        label="Título" />
+                        label="Título" 
+                        />
                     <TextInput
                         style={styles.textoInputs}
                         label="Descripción" />

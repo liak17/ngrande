@@ -2,75 +2,41 @@ import React from 'react';
 import {AppRegistry, View, Text, StyleSheet, Image} from 'react-native';
 import BotonComponente from '../componentes/BotonComponente';
 import * as ViewsNames from '../const/ViewsNames.js';
+import {stylesApp} from '../const/styles.js';
 
 const InicioScreen = ({navigation}) => {
   return (
-    <View style={styles.container}>
+    <View style={stylesApp.container}>
+      <Image source={require('../assets/gg.jpeg')}
+        style={{ justifyContent: 'center', height:300, width:300}}
+      />
+      <Text style={stylesApp.subTitle}>BIENVENIDO A</Text>
+      <Text style={stylesApp.textTitle}>NGRANDE</Text>
     
-      <Text style={styles.subtitulo}>BIENVENIDO A</Text>
-      <Text style={styles.titulo}>NGRANDE</Text>
       <View style={styles.containerBotones}>
         <BotonComponente
           texto="Registrarse"
           onPress={() => navigation.navigate('RegistroUnoScreen')}
-          estilo={styles.botonPrimario}
+          estilo={stylesApp.btnPrimary}
         />
         <BotonComponente
           texto="Iniciar Sesión"
           onPress={() => navigation.navigate(ViewsNames.LoginScreenName)}
-          estilo={styles.botonSecundario}
+          estilo={stylesApp.btnSecondary}
         />
       </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
-  botonPrimario: {
-    backgroundColor: '#FA4141',
-    padding: 18,
-    borderRadius: 50,
-    fontSize: 14,
-    fontFamily: 'Poppins',
-    marginStart: 4,
-    marginEnd: 8,
-  },
-  botonSecundario: {
-    backgroundColor: '#7755CC',
-    padding: 18,
-    borderRadius: 50,
-    fontSize: 14,
-    marginEnd: 8,
-  },
-  container: {
-    flexDirection: 'column',
-    paddingVertical: 15,
-    paddingLeft: 16,
-    borderBottomWidth: 1,
-    alignContent: 'space-between',
-    height:'100%',
-  },
   containerBotones: {
     flexDirection: 'row',
-    flexWrap:'wrap',
-    position:'absolute',
-    bottom:29
-    
+    justifyContent: 'center',
+    flex:0,
+    alignContent: 'flex-end',
+    marginTop: 16,
   },
-  subtitulo: {
-    fontSize: 18,
-    fontFamily: 'Poppins',
-    fontWeight: 'bold',
-    marginTop:200
-  },
-  titulo: {
-    fontSize: 48,
-    fontFamily: 'Poppins',
-    fontWeight: 'bold',
-    marginTop:16
-    },
-  ggg: {
-    backgroundColor: '#6C63FF',
-  },
+
 });
 
 export default InicioScreen;

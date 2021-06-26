@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
-import {Button, TextInput, Checkbox} from 'react-native-paper';
+import {Button, TextInput, Checkbox, List} from 'react-native-paper';
 
 const RegistroScreen = (props) => {
   const [state, setState] = useState({
@@ -31,65 +31,89 @@ const RegistroScreen = (props) => {
       
   };
   return (
-    <ScrollView>
+    <ScrollView style={{backgroundColor:'#F2F2F3'}}>
       <View style={styles.contenedor}>
         <Text style={styles.titulo}>REGISTRARSE</Text>
         <TextInput
-          label="cedula"
+        style={styles.textInput}
+        outlineColor="#ffff"
+          label="Cedula"
           mode="outlined"
-          icon=""
+          left={<TextInput.Icon name="eye" />}
           onChangeText={value => cogerTexto('cedula', value)}
         />
         <TextInput
-          label="nombre"
+        outlineColor="#ffff"
+          label="Nombre"
           mode="outlined"
+          left={<TextInput.Icon name="eye" />}
           onChangeText={value => cogerTexto('nombre', value)}
         />
         <TextInput
-          label="email"
+        outlineColor="#ffff"
+          label="Email"
           mode="outlined"
+          left={<TextInput.Icon name="eye" />}
           onChangeText={value => cogerTexto('email', value)}
         />
         <TextInput
-          label="telefono"
+        outlineColor="#ffff"
+          label="Teléfono"
           mode="outlined"
+          left={<TextInput.Icon name="eye" />}
           onChangeText={value => cogerTexto('telefono', value)}
         />
         <TextInput
-          label="pais"
+        outlineColor="#ffff"
+          label="País"
           mode="outlined"
+          left={<TextInput.Icon name="eye" />}
           onChangeText={value => cogerTexto('pais', value)}
         />
         <TextInput
-          label="ciudad"
+        outlineColor="#ffff"
+          label="Ciudad"
           mode="outlined"
+          left={<TextInput.Icon name="eye" />}
           onChangeText={value => cogerTexto('ciudad', value)}
         />
         <TextInput
-          label="categoria"
+        outlineColor="#ffff"
+          label="Categoria"
           mode="outlined"
+          left={<TextInput.Icon name="eye" />}
           onChangeText={value => cogerTexto('categoria', value)}
         />
-        <Text>
-          Acepto los terminos y condiciones
+        <Text style={{fontFamily: 'Poppins-Light'}}>
+          Acepto los Términos y Condiciones
           <Checkbox status="unchecked" />
         </Text>
+        
+      </View>
+      <View style={{flexDirection: 'row',justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={styles.texto,{fontSize:12}}>¿Ya tienes una cuenta? Inicia Sesión</Text>
         <Button
+        uppercase={false}
           style={styles.botonPrimario}
           mode="contained"
           onPress={() => crearNuevoUsuario()}>
-          Registrarse
+          <Text style={{fontFamily: 'Poppins-Regular', fontSize:14}}>Registrarse</Text>
         </Button>
-      </View>
+        </View>
     </ScrollView>
   );
 };
 const styles = StyleSheet.create({
   botonPrimario: {
     backgroundColor: '#FA4141',
-    padding: 18,
+    paddingVertical: 0,
+    paddingHorizontal:0,
     borderRadius: 50,
     marginTop: 16,
+    fontFamily: 'Poppins-Regular', 
+    paddingVertical:16,
+    paddingHorizontal:15,
+    marginStart:16
   },
   botonSecundario: {
     backgroundColor: '#7755CC',
@@ -101,11 +125,20 @@ const styles = StyleSheet.create({
   },
   titulo: {
     fontSize: 36,
+    fontFamily: 'Poppins-Bold'
   },
   contenedor: {
     marginTop: 26,
     marginLeft: 39,
     marginRight: 39,
+    display:'flex'
   },
+  textInput:{
+    fontFamily: 'Poppins-Light'
+  }
+  ,
+  texto:{
+    fontFamily: 'Poppins-Regular'
+  }
 });
 export default RegistroScreen;
