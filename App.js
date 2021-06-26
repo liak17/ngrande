@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef,useEffect} from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -21,7 +21,10 @@ import { MenuNegocio, MenuSimple } from './MyDrawer/Menus';
 
 const Stack = createStackNavigator();
 
-const MyStack = ({ drawer, user, login, setlogin }) => {
+const MyStack = ({ drawer, user, login,
+                  setlogin, isLoading, setIsLoading,
+                errores,seterrores }) => {
+                                    
   const { rol } = user;
   const { isLogin } = login;
   const initialRoute = isLogin ? Screens.DashboardScreenName :
@@ -56,7 +59,11 @@ const MyStack = ({ drawer, user, login, setlogin }) => {
 
       <Stack.Screen name={Screens.LoginScreenName}>
         {(props) => (<LoginScreen {...props}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
           setlogin={setlogin}
+          errores={errores}
+          seterrores={seterrores}
           login={login} />)}
       </Stack.Screen>
 
@@ -108,16 +115,22 @@ const MyStack = ({ drawer, user, login, setlogin }) => {
 
 export default function App() {
   const drawer = useRef(null);
+  const [isLoading, setIsLoading] = useState(false)
   const [login, setlogin] = useState({
-    cedula: '1727028134',
-    password: '123',
+    cedula: '22270222138',
+    password: '',
     isLogin: false
   });
   const [user, setuser] = useState({ rol: 'negocio', id: '1' })
-
+  const [errores, seterrores] = useState([])  
   return (
     <NavigationContainer>
-      <MyStack drawer={drawer}
+      <MyStack
+        errores={errores}
+        seterrores={seterrores}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+        drawer={drawer}
         login={login}
         setlogin={setlogin}
         user={user}
