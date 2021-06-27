@@ -19,7 +19,7 @@ export const MenuSimple = () => (
 
   </View>
 );
-export const MenuNegocio = ({ navigation }) => {
+export const MenuNegocio = ({ navigation,nombre_completo }) => {
   const opcionesNegocio = menuNegocio;
   const renderMenu = ({ title, screen, id }) => (
     <View key={id}>
@@ -29,7 +29,7 @@ export const MenuNegocio = ({ navigation }) => {
   const menu = opcionesNegocio.map(renderMenu);
   return (
     <View style={styles.contenedor}>  
-    <Title style={styles.txtMenu}>DEALERS PLUS</Title>
+    <Title style={styles.txtMenu}>{nombre_completo}</Title>
     <Text style={styles.txtMenu}>ADMINISTRA TU NEGOCIO</Text>
     <Divider style={{marginTop:16}}/>
       {menu}

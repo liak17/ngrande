@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+
 //constant
 import * as ViewsNames from './const/ViewsNames.js';
 //Pantallas Generales
@@ -21,117 +21,12 @@ import PerfilScreen from './screens/PerfilScreen';
 //Pantallas Usuario
 import DashboardUserScreen from './screens/DashboardUserScreen';
 import ListaCategoriasScreen from './screens/ListaCategoriasScreen';
-import { MenuNegocio, MenuSimple } from './MyDrawer/Menus';
-import { Stack, StackGeneral } from './stacks/index.js';
-import axios from 'axios';
+
+import { Stack, StackGeneral, StackNegocioUser } from './stacks/index.js';
 
 
-const MyStack = ({ drawer, user, login,
-  setlogin, isLoading, setIsLoading,
-  errores, seterrores }) => {
 
-  const { rol } = user;
-  const { isLogin } = login;
-  const initialRoute = isLogin ? ViewsNames.DashboardScreenName :
-    ViewsNames.InicioScreen;
-  const getMenu = (props) => {
-    const menu = rol === 'negocio' ? <MenuNegocio {...props} /> : <MenuSimple />;
-    return (menu);
-  }
-  return (
-    <Stack.Navigator
-      initialRouteName={initialRoute}
-      screenOptions={{
-        title: 'Ngrande',
-        headerTitleAlign: 'center',
-        headerStyle: {
-          backgroundColor: '#f4520a'
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold'
-        }
-      }}>
-
-      <Stack.Screen name={ViewsNames.InicioScreenName}
-      >
-        {(props) => <InicioScreen {...props} />}
-      </Stack.Screen>
-
-      <Stack.Screen name={ViewsNames.RegistroUnoScreenName}
-        component={RegistroUnoScreen} />
-
-      <Stack.Screen name={ViewsNames.RegistroScreenName}
-        component={RegistroScreen} />
-
-      <Stack.Screen name={ViewsNames.LoginScreenName}>
-        {(props) => (<LoginScreen {...props}
-          isLoading={isLoading}
-          setIsLoading={setIsLoading}
-          setlogin={setlogin}
-          errores={errores}
-          seterrores={seterrores}
-          login={login} />)}
-      </Stack.Screen>
-
-      <Stack.Screen name={ViewsNames.DashboardScreenName} >
-        {(props) =>
-          <DashboardScreen {...props}
-            drawer={drawer} menu={getMenu(props)}
-          ></DashboardScreen>}
-      </Stack.Screen>
-
-      <Stack.Screen name={ViewsNames.PerfilScreenName} >
-        {(props) =>
-          <PerfilScreen {...props}
-            drawer={drawer} menu={getMenu(props)}
-          ></PerfilScreen>}
-      </Stack.Screen>
-
-      <Stack.Screen name={ViewsNames.NuevoCuponScreenName}  >
-        {(props) =>
-          <NuevoCuponScreen {...props}
-            drawer={drawer} menu={getMenu(props)}
-          ></NuevoCuponScreen>}
-      </Stack.Screen>
-
-      <Stack.Screen name={ViewsNames.CuponScreenName} >
-        {(props) =>
-          <CuponScreen {...props}
-            drawer={drawer} menu={getMenu(props)}
-          ></CuponScreen>}
-      </Stack.Screen>
-
-      <Stack.Screen name={ViewsNames.SucursalScreenName} >
-        {(props) =>
-          <SucursalScreen {...props}
-            drawer={drawer} menu={getMenu(props)}
-          ></SucursalScreen>}
-      </Stack.Screen>
-
-      <Stack.Screen name={ViewsNames.NuevaSucursalScreenName}>
-        {(props) =>
-          <NuevaSucursalScreen {...props}
-            drawer={drawer} menu={getMenu(props)}
-          ></NuevaSucursalScreen>}
-      </Stack.Screen>
-
-      <Stack.Screen name={ViewsNames.ListaCuponesScreenName}>
-        {(props) =>
-          <ListaCuponesScreen {...props}
-            drawer={drawer} menu={getMenu(props)}
-          ></ListaCuponesScreen>}
-      </Stack.Screen>
-      <Stack.Screen name={ViewsNames.DashboardUserScreenName}
-        component={DashboardUserScreen} />
-
-      <Stack.Screen name={ViewsNames.ListaCategoriasScreenName}
-        component={ListaCategoriasScreen} />
-    </Stack.Navigator>
-  );
-}
-
-export default function App() {  
+export default function App() {
   const drawer = useRef(null);
   const [isLoading, setIsLoading] = useState(false)
   const [login, setlogin] = useState({
@@ -149,6 +44,7 @@ export default function App() {
     setIsLoading={setIsLoading}
     login={login}
     setlogin={setlogin}
+    setuser={setuser}
   />);
 
 
@@ -156,13 +52,8 @@ export default function App() {
 
   useEffect(() => {
 
-    const StackNegocio = () => (<MyStack
-      errores={errores}
-      seterrores={seterrores}
-      isLoading={isLoading}
-      setIsLoading={setIsLoading}
+    const StackNegocio = () => (<StackNegocioUser
       drawer={drawer}
-      login={login}
       setlogin={setlogin}
       user={user}
     />);
@@ -172,8 +63,8 @@ export default function App() {
     } else {
       setcurrentStack(StackBasic)
     }
-    return () => {
-      setcurrentStack(StackBasic)
+    return () => {      
+      setcurrentStack(StackBasic)      
     }
   }, [login, errores, isLoading, user])
 

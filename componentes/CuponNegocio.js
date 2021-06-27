@@ -9,9 +9,9 @@ export default function CuponNegocio ({cupon, onPress}){
             <Card>
                 <Card.Cover source={{uri:cupon.imagen}} />
                 <Card.Content>
-                    <Title style={stylesApp.titleCupon}>{cupon.tituloCupon}</Title>
-                   <Text style={stylesApp.textoPrecioNormal}>{cupon.precioNormal}$</Text>
-                   <Text style={stylesApp.textoGana}>GANA: {cupon.gana}$</Text> 
+                    <Title style={stylesApp.titleCupon}>{cupon.titulo}</Title>
+                   <Text style={stylesApp.textoPrecioNormal}>{cupon.precio}$</Text>
+                   <Text style={stylesApp.textoGana}>GANA: {cupon.precio_descuento}$</Text> 
                 </Card.Content>
                 
             </Card>

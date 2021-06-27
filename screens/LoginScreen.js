@@ -16,28 +16,17 @@ import { Spinner } from '../componentes/ui/Spinner.js'
 
 const { loginScreen } = ERRORS;
 
-const consulta = async (url, whereClause) => { 
-    
-  try {
-    return await axios.post(url, {
-      whereClause: [
-        {
-          attr: "ruc",
-          value: "22270222138"
-        }, {
-          attr: "password", value: "1234"
-        }]
-    }
-    );
+const consulta = async (url, whereClause) => {
+  try {    
+    return await axios.post(url, {whereClause:whereClause});    
   } catch (error) {
     console.log(error);
     alert('verifica los datos')
   }
 }
-
 /*Render*/
-const LoginScreen = ({ navigation, login, setlogin,
-  isLoading, setIsLoading, errores, seterrores }) => {
+const LoginScreen = ({  login, setlogin,
+  isLoading, setIsLoading, errores, seterrores,setuser }) => {
 
   const { cedula, password } = login;
   const spinner = isLoading ? <Spinner /> : null;
@@ -61,13 +50,13 @@ const LoginScreen = ({ navigation, login, setlogin,
         value:password
       }];
       
-      const resultado=await consulta(VALIDAR, campos).then((res) => {
-        console.log(res);
+      const resultado=await consulta(VALIDAR, campos).then((res) => {        
+        
         const { data } = res;
         const { cod_user } = data;
         if (cod_user > 0) {                    
           setValue('isLogin', true, setlogin)
-          //navigation.navigate(ViewsNames.DashboardScreenName)
+          setuser(data);
         } else {
           const error = getErrorFormat(ViewsNames.LoginScreenName, noExiste)
           seterrores((prev) => handlerErrores(prev, error));
