@@ -97,10 +97,11 @@ const CIUDADES_LISTS = [
 
 
 
-const DashboardScreen = ({ drawer, menu, navigation }) => {
+const DashboardScreen = ({ drawer, menu, navigation,user }) => {
   const [dataInit, setData] = useState(null);
   const [refresh, setrefresh] = useState(false)
   const [cupon, setState] = useState([]);
+  console.log(user);
   useEffect(async () => {
     const consultarApi = async (limitOp) => {
       

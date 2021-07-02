@@ -1,24 +1,31 @@
 
 
 
-export const existThisDataForThisScreen = (errores, attr, value) => {
-    if (errores.length > 0) {
+export const haveThisKeyValue = (errores, attr, value) => {
+    
+    if (errores&&errores.length > 0) {
         return errores.some((error) => error[attr] === value)
     } else {
         return false;
     }
 };
 
-export const handlerErrores = (prev, { cod, error, screen }) => {
-    const id = cod;
-    const currentErrores = prev.slice();
-    const existThisError = existThisDataForThisScreen(currentErrores, 'cod', id);
-    if (!existThisError) {
-        return [...prev, { cod, error, screen }];
-    } else {
-        return currentErrores;
+export const handlerErrores = (prev, ...errores) => {    
+    
+    if (prev && prev.length>0) {
+        const currentErrores= errores.map(({ cod,screen,error})=>
+        {
+            const haveError=prev.some((current)=>current.cod===cod);
+            return haveError?null:{cod,screen,error}            
+        });
+        const currentFilter=currentErrores.filter((obj)=>obj!==null);
+        return[...prev,...currentFilter];
+    }else{
+        return errores
     }
+
 }
+
 export const handlerRemoveErrores = (prev, cod) => {
     const id = cod;
     const current = prev.slice();
@@ -26,6 +33,4 @@ export const handlerRemoveErrores = (prev, cod) => {
     return errorresUpdate;
 }
 
-export const getErrorFormat = (screen, { error, cod }) => {
-    return { screen, error, cod }
-}
+

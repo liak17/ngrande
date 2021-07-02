@@ -48,7 +48,7 @@ export const StackNegocioUser = ({ drawer, user, setlogin }) => {
             <Stack.Screen name={ViewsNames.DashboardScreenName} >
                 {(props) =>
                     <DashboardScreen {...props}
-                        
+                         user={user}
                          drawer={drawer}
                          menu={getMenu(props)}
                     ></DashboardScreen>}

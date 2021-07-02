@@ -1,23 +1,24 @@
-export const setValue = (name, value,handler) => {
-    handler(prev => (Object.assign(prev, { [name]: value })));
-  };
+export const setValue = (name, value, handler) => {
+  handler(prev => (Object.assign(prev, { [name]: value })));
+};
 
-export const getWhereClause=(listOfattr)=>{
-    const whereClause={};
-    if (Array.isArray(listOfattr)) {        
-        listOfattr.forEach(({attr,value})=>{
-            whereClause[attr]=value;
-        });
-    }
-    return whereClause;
-}
-export const getErrorFormat=(screen,{error,cod})=>{
-  return {screen,error,cod}
+export const getWhereClause = (listOfattr) => {
+  const whereClause = {};
+  if (Array.isArray(listOfattr)) {
+    listOfattr.forEach(({ attr, value }) => {
+      whereClause[attr] = value;
+    });
+  }
+  return whereClause;
 }
 
-export const validateField = (source, minSize, maxSize) => {
+export const validateFieldExactLength = (data, ...values) => {
+  return values.some(val=>data.length===val);
+}
+
+export const validateFieldRage = (source, minSize, maxSize) => {
   if (typeof source === 'string') {
-    return source.length > minSize - 1 && source.length < maxSize - 1
+    return source.length >= minSize && source.length <= maxSize - 1
   }
 }
 
