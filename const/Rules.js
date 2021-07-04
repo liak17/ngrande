@@ -1,28 +1,29 @@
-export const LOGINRULES={
-    cedula:{
-        length:11
+export const LOGINRULES = {
+    cedula: {
+        length: 11
     },
     ruc: {
-        length:13
+        length: 13
     },
     password: {
-        min:'',
-        max:''
+        min: '',
+        max: ''
     }
 }
-export const RULESSTRING={
-    equal:"equalString",
-    equalBetween:"equalBetweenString"
+export const RULESSTRING = {
+    equal: "equalString",
+    equalBetween: "equalBetweenString"
 }
-export const RULESLENGTH={
-    max:"max",
-    min:"min",
-    equal:"equal"    
+export const RULESLENGTH = {
+    max: "max",
+    min: "min",
+    equal: "equal"
 }
-export const getRuleFormat=(value,{validator,params})=>({  identificador: {
-    value,
-    validators: [{
-      validator,
-      params
-     }]
-  }})
+export const getRuleFormat = ( { validator, params }) => ({
+    rules: {        
+        validators: [{
+            validator,
+            params
+        }]
+    }
+})

@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react'
+import React, { useEffect, useCallback } from 'react'
 
 //Pantallas Negocios 
 import DashboardScreen from '../screens/DashboardScreen.js';
@@ -19,17 +19,18 @@ import * as ViewsNames from '../const/ViewsNames.js';
 
 import { MenuNegocio } from '../MyDrawer/Menus.js'
 
+
 export const Stack = createStackNavigator();
 
 export const StackNegocioUser = ({ drawer, user, setlogin }) => {
 
     const { rol, nombre_completo } = user;
 
-    const getMenu = (props) => {
 
+    const getMenu = useCallback((props) => {
         return <MenuNegocio {...props}
             nombre_completo={nombre_completo} />
-    }
+    }, []);
 
     return (
         <Stack.Navigator
@@ -48,9 +49,9 @@ export const StackNegocioUser = ({ drawer, user, setlogin }) => {
             <Stack.Screen name={ViewsNames.DashboardScreenName} >
                 {(props) =>
                     <DashboardScreen {...props}
-                         user={user}
-                         drawer={drawer}
-                         menu={getMenu(props)}
+                        user={user}
+                        drawer={drawer}
+                        menu={getMenu(props)}
                     ></DashboardScreen>}
             </Stack.Screen>
 
@@ -103,6 +104,20 @@ export const StackNegocioUser = ({ drawer, user, setlogin }) => {
 export const StackGeneral = ({ login, setlogin, isLoading,
     setIsLoading, errores, seterrores, setuser }) => {
 
+    const LS = useCallback((props) => {
+        return (
+            <LoginScreen {...props}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
+                setlogin={setlogin}
+                login={login}
+                errores={errores}
+                setuser={setuser}
+                seterrores={seterrores}
+                 />
+        )
+    },[errores,login,isLoading] )    
+
     return (
         <Stack.Navigator
             initialRouteName={ViewsNames.InicioScreenName}
@@ -131,15 +146,7 @@ export const StackGeneral = ({ login, setlogin, isLoading,
             </Stack.Screen>
 
             <Stack.Screen name={ViewsNames.LoginScreenName}>
-                {(props) => (<LoginScreen {...props}
-                    isLoading={isLoading}
-                    setIsLoading={setIsLoading}
-                    setlogin={setlogin}
-                    login={login}
-                    errores={errores}
-                    setuser={setuser}
-                    seterrores={seterrores}
-                    login={login} />)}
+                {(props) => (<LS {...props} />)}
             </Stack.Screen>
 
         </Stack.Navigator>

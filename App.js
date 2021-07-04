@@ -1,12 +1,13 @@
 import 'react-native-gesture-handler';
-import React, { useState, useRef, useEffect } from 'react';
-
+import React, { useState, useRef, useEffect,useCallback } from 'react';
 import { Stack, StackGeneral, StackNegocioUser } from './stacks/index.js';
-
+import { NavigationContainer } from '@react-navigation/native';
 
 export default function App() {
   const drawer = useRef(null);
-  const StackBasic = () => (<StackGeneral
+
+  const StackBasic = useCallback( () => {
+    return (<StackGeneral
     errores={errores}
     seterrores={seterrores}
     isLoading={isLoading}
@@ -14,7 +15,9 @@ export default function App() {
     login={login}
     setlogin={setlogin}
     setuser={setuser}
-  />);
+  />)
+},[errores,login,isLoading]);
+
   const [currentStack, setcurrentStack] = useState(StackBasic);
   const [isLoading, setIsLoading] = useState(false)
   const [user, setuser] = useState({ rol: 'negocio', id: '1' });
@@ -24,22 +27,27 @@ export default function App() {
     password: '',
     isLogin: false
   });
+
+  const StackNegocio = useCallback(() => {
+
+    return (<StackNegocioUser
+      drawer={drawer}
+      setlogin={setlogin}
+      user={user}
+    />)
+  },[drawer, user]
+  )
+
   useEffect(() => {
+    console.log('render');
     if (login.isLogin) {
-      const StackNegocio = () => (<StackNegocioUser
-        drawer={drawer}
-        setlogin={setlogin}
-        user={user}
-      />);
-op      setcurrentStack(StackNegocio)
+      setcurrentStack(StackNegocio)
     } else {
       setcurrentStack(StackBasic)
     }
-    return () => {
-      setcurrentStack(StackBasic)
-    }
-  })
-  
+
+  }, [login])
+
 
   return (
     <NavigationContainer>
