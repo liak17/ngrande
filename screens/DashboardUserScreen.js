@@ -71,7 +71,7 @@ const CIUDADES_LISTS = [
 const DashboardUserScreen = ({drawer, menu,navigation}) => {
    const [cupon, setState] = useState([]);
   function handleOnPress() {
-    navigation.navigate('CuponScreen');
+    navigation.navigate('NegocioScreen');
   }
 
   return (

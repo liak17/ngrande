@@ -21,6 +21,13 @@ import PerfilScreen from './screens/PerfilScreen';
 //Pantallas Usuario
 import DashboardUserScreen from './screens/DashboardUserScreen';
 import ListaCategoriasScreen from './screens/ListaCategoriasScreen';
+import NegocioScreen from './screens/NegocioScreen';
+import ProductoScreen from './screens/ProductoScreen';
+import PerfilUsuarioScreen from './screens/PerfilUsuarioScreen';
+import EstadoUsuarioScreen from './screens/EstadoUsuarioScreen';
+import RedUsuarioScreen from './screens/RedUsuarioScreen';
+import OficinaUserScreen from './screens/OficinaUserScreen';
+import ReaderUserScreen from './screens/ReaderUserScreen';
 import { MenuNegocio, MenuSimple } from './MyDrawer/Menus';
 
 const Stack = createStackNavigator();
@@ -121,7 +128,48 @@ const MyStack = ({ drawer, user, login,
       </Stack.Screen>
       <Stack.Screen name={Screens.DashboardUserScreenName}
         component={DashboardUserScreen} />
-
+  <Stack.Screen name={Screens.NegocioScreenName}>
+        {(props) =>
+          <NegocioScreen {...props}
+            drawer={drawer} menu={getMenu(props)}
+          ></NegocioScreen>}
+      </Stack.Screen>
+      <Stack.Screen name={Screens.ProductoScreenName}>
+        {(props) =>
+          <ProductoScreen {...props}
+            drawer={drawer} menu={getMenu(props)}
+          ></ProductoScreen>}
+      </Stack.Screen>
+      <Stack.Screen name={Screens.PerfilUsuarioScreenName}>
+        {(props) =>
+          <PerfilUsuarioScreen {...props}
+            drawer={drawer} menu={getMenu(props)}
+          ></PerfilUsuarioScreen>}
+      </Stack.Screen>
+      <Stack.Screen name={Screens.EstadoUsuarioScreenName}>
+        {(props) =>
+          <EstadoUsuarioScreen {...props}
+            drawer={drawer} menu={getMenu(props)}
+          ></EstadoUsuarioScreen>}
+      </Stack.Screen>
+      <Stack.Screen name={Screens.RedUsuarioScreenName}>
+        {(props) =>
+          <RedUsuarioScreen {...props}
+            drawer={drawer} menu={getMenu(props)}
+          ></RedUsuarioScreen>}
+      </Stack.Screen>
+      <Stack.Screen name={Screens.OficinaUserScreenName}>
+        {(props) =>
+          <OficinaUserScreen {...props}
+            drawer={drawer} menu={getMenu(props)}
+          ></OficinaUserScreen>}
+      </Stack.Screen>
+      <Stack.Screen name={Screens.ReaderUsuarioScreenName}>
+        {(props) =>
+          <ReaderUserScreen {...props}
+            drawer={drawer} menu={getMenu(props)}
+          ></ReaderUserScreen>}
+      </Stack.Screen>
 <Stack.Screen name={Screens.ListaCategoriasScreenName}
         component={ListaCategoriasScreen} />
     </Stack.Navigator>

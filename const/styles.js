@@ -11,6 +11,12 @@ export const stylesApp =
             marginTop:16,
             color: "#000000"
         },
+        subTitle2:{
+            fontSize: 16,
+            fontFamily: 'Poppins-Regular',
+            marginTop:16,
+            color: "#000000"
+        },
         container: {
             display: "flex",
             height:'100%',
