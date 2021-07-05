@@ -54,6 +54,7 @@ const getErrores = ({ validators }) => {
     return [];
 }
 
+
 export const useCampoWithRules = (val) => {
 
     const [rules, setrules] = useState();

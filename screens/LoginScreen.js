@@ -66,6 +66,8 @@ const LoginScreen = ({ isLoading, setIsLoading, setlogin, login, errores,
 
   const { cedula, password } = login;
 
+  const [activate, setActivate] = useState(false)
+
   const [ci, setCedula, erroresCedula, setRules] = useCampoWithRules(cedula);
 
   const [pw, setPassword, erroresPassword, setRulesPassword] = useCampoWithRules(password);
@@ -108,7 +110,54 @@ const LoginScreen = ({ isLoading, setIsLoading, setlogin, login, errores,
     setErrors([...erroresPassword, ...erroresCedula]);
   }, [erroresPassword, erroresCedula])
 
-  useEffect(() => { }, [])
+  const Spinn = useCallback(() => {
+    if (activate) {
+      return (
+        <Spinner></Spinner>
+      );
+    }
+    return null;
+  }, [activate])
+
+  const r=useCallback(()=>{
+     
+  },[activate])
+  
+  // useEffect(() => {
+  //   if (activate && errors.length == 0) {
+  //     alert('1')
+  //   } else if (activate && errors.length > 0) {
+  //     alert('2')
+  //     setErrors((prev)=>[...prev,loginScreen.verifiqueLosDatos]);
+  //   }  
+    
+  // }, [activate, errors])
+
+  const ErroresComponentes = useCallback(
+    () => {
+      if (errors.length > 0) {
+        const erroresRender = errors.map((e) => (
+          <View key={e.cod}>
+            <Text>
+              {e.error}
+            </Text>
+          </View>))
+        return (
+          <View>
+            {erroresRender}
+          </View>
+        );
+        
+      }else{
+        return(<View>
+          <Text>NAda</Text>
+        </View>);
+      }
+
+
+    },
+    [errors]
+  )
 
   return (
     <ScrollView>
@@ -117,16 +166,10 @@ const LoginScreen = ({ isLoading, setIsLoading, setlogin, login, errores,
         marginBottom: 0,
         alignItems: 'center'
       }}>
-        {
-          errors.length > 0 && errors.map((e) => (
-            <View key={e.cod}>
-              <Text>
-                {e.error}                
-              </Text>
-            </View>)) 
-        }
-        {/* {spinner} */}
-        {/*erroresComponent ? erroresComponent : null*/}
+
+        <ErroresComponentes></ErroresComponentes>
+        <Spinn></Spinn>
+
       </View>
       <View style={styles.container}>
 
@@ -157,7 +200,7 @@ const LoginScreen = ({ isLoading, setIsLoading, setlogin, login, errores,
           <Text style={stylesApp.text}>¿Olvidaste la contraseña?</Text>
           <BotonComponente
             texto="Iniciar Sesión"
-            onPress={() => { }}
+            onPress={() => { setActivate(true) }}
             estilo={styles.botonSecundario}
           />
 

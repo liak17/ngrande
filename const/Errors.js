@@ -19,6 +19,11 @@ export const ERRORS = {
             error: 'El campo de cedula-ruc,debe contener con exactitud o 10 caracteres o 13 si es ruc.',
             screen: ViewsNames.LoginScreenName,
             createCustoError:(error,cod)=>generateCustomError(error,cod||'102',ViewsNames.LoginScreenName)
-        },
+        }, verifiqueLosDatos:{
+            cod:'103',
+            error: 'Verifique que todos los datos esten llenos',
+            screen: ViewsNames.LoginScreenName,
+            createCustoError:(error,cod)=>generateCustomError(error,cod||'103',ViewsNames.LoginScreenName)
+        }
     }
 }
