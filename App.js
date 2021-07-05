@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { useState, useRef, useEffect,useCallback } from 'react';
-import { Stack, StackGeneral, StackNegocioUser } from './stacks/index.js';
+import { Stack, StackGeneral, StackNegocioUser,StackUsuario } from './stacks/index.js';
 import { NavigationContainer } from '@react-navigation/native';
 
 export default function App() {
@@ -18,7 +18,9 @@ export default function App() {
   />)
 },[errores,login,isLoading]);
 
-  const [currentStack, setcurrentStack] = useState(StackBasic);
+
+  const [currentStack, setcurrentStack] = useState(StackUser);
+  //const [currentStack, setcurrentStack] = useState(StackBasic);
   const [isLoading, setIsLoading] = useState(false)
   const [user, setuser] = useState({ rol: 'negocio', id: '1' });
   const [errores, seterrores] = useState([]);
@@ -27,6 +29,15 @@ export default function App() {
     password: '',
     isLogin: false
   });
+  
+  const StackUser = useCallback(() => {
+
+    return (<StackUsuario
+      drawer={drawer}
+      
+    />)
+  },[drawer, user]
+)
 
   const StackNegocio = useCallback(() => {
 
@@ -43,7 +54,7 @@ export default function App() {
     if (login.isLogin) {
       setcurrentStack(StackNegocio)
     } else {
-      setcurrentStack(StackBasic)
+      setcurrentStack(StackUser)
     }
 
   }, [login])
