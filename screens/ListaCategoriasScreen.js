@@ -51,11 +51,13 @@ const ListaCategoriasScreen = ({ navigation, drawer, menu }) => {
 
             <View style={stylesApp.container}>
 
-
                 <View style={{ flex: 1 }}>
                     <Text style={stylesApp.textTitle}>CATEGORIAS</Text>
                     <FlatList
+                        columnWrapperStyle={{display: 'flex',justifyContent: 'center'}}
                         data={CUPON_LIST}
+                        horizontal={false}
+                        numColumns={2}
                         renderItem={({ item }) => <CuadroDoble texto={item} onPress={handleOnPress} />}
                         keyExtractor={item => item.id}
 
