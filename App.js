@@ -1,63 +1,89 @@
 import 'react-native-gesture-handler';
-import React, { useState, useRef, useEffect,useCallback } from 'react';
-import { Stack, StackGeneral, StackNegocioUser,StackUsuario } from './stacks/index.js';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { Stack, StackGeneral, StackNegocioUser, StackUsuario } from './stacks/index.js';
 import { NavigationContainer } from '@react-navigation/native';
+import { Roles } from './const/Roles.js';
+import axios from 'axios';
 
 export default function App() {
   const drawer = useRef(null);
 
-  const StackBasic = useCallback( () => {
+  const StackBasic = useCallback(() => {
     return (<StackGeneral
-    errores={errores}
-    seterrores={seterrores}
-    isLoading={isLoading}
-    setIsLoading={setIsLoading}
-    login={login}
-    setlogin={setlogin}
-    setuser={setuser}
-  />)
-},[errores,login,isLoading]);
-
-
-  const [currentStack, setcurrentStack] = useState(StackUser);
-  //const [currentStack, setcurrentStack] = useState(StackBasic);
-  const [isLoading, setIsLoading] = useState(false)
-  const [user, setuser] = useState({ rol: 'negocio', id: '1' });
-  const [errores, seterrores] = useState([]);
-  const [login, setlogin] = useState({
-    cedula: '22270222138',
-    password: '',
-    isLogin: false
-  });
+      errores={errores}
+      seterrores={seterrores}
+      login={login}
+      setlogin={setlogin}
+      setuser={setuser}
+    />)
+  }, [errores, login]);
   
-  const StackUser = useCallback(() => {
+  const [currentStack, setcurrentStack] = useState(StackBasic);
+  const [user, setuser] = useState({});
+  const [errores, seterrores] = useState([]);
+  const [login, setlogin] = useState(false);
+  const [negocioData, setNegocioData] = useState(0);
 
+  const StackUser = useCallback(() => {
     return (<StackUsuario
       drawer={drawer}
-      
     />)
-  },[drawer, user]
-)
+  }, [drawer, user]
+  )
+
+
+
+  useEffect(async () => {
+    const consultaNegocioData = async () => {
+    
+      const url = `https://infinite-crag-10539.herokuapp.com/negocio/user/${user.cod_user}`
+      try {
+        const res= await axios.get(url);
+        setNegocioData(res.data.cod_negocio);
+
+      } catch (error) {
+
+        alert('algo salio mal intentalo más tarde');
+      }
+    }
+    user.cod_user > 0 && user.roleCodRol===Roles.NEGOCIO.roleCodRol? await consultaNegocioData() : null;
+  });
 
   const StackNegocio = useCallback(() => {
-
+    
     return (<StackNegocioUser
       drawer={drawer}
       setlogin={setlogin}
       user={user}
+      negocioData={negocioData}
     />)
-  },[drawer, user]
+  }, [drawer, user, negocioData]
   )
 
-  useEffect(() => {
-    console.log('render');
-    if (login.isLogin) {
-      setcurrentStack(StackNegocio)
+
+
+  useEffect(async () => {
+
+    if (login) {
+      
+      const { roleCodRol } = user;
+
+      switch (roleCodRol) {
+        case Roles.NEGOCIO.roleCodRol:
+          negocioData > 0 ? setcurrentStack(StackNegocio) : setcurrentStack(StackBasic);
+          break;
+        case Roles.User.roleCodRol:
+          setcurrentStack(StackUser);
+          break;
+        default:
+          setcurrentStack(StackBasic);
+      }
+
     } else {
-      setcurrentStack(StackUser)
+      setcurrentStack(StackBasic)
     }
 
-  }, [login])
+  }, [login,negocioData])
 
 
   return (

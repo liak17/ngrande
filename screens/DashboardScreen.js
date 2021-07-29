@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import {
   View,
   Text,
@@ -13,59 +13,33 @@ import CuponNegocio from '../componentes/CuponNegocio';
 import ItemCiudad from '../componentes/ItemCiudad';
 import UltimaSucursal from '../componentes/UltimaSucursal';
 import { stylesApp } from '../const/styles.js';
-
-const CUPON_LIST = [
-  {
-    id: 1,
-    tituloCupon: 'Zapatos marca nike',
-    precioNormal: 23,
-    imagen: 'https://picsum.photos/650',
-    gana: 10,
-  },
-  {
-    id: 2,
-    tituloCupon: 'Tacones rojos de chanel',
-    precioNormal: 23,
-    imagen: 'https://picsum.photos/500',
-    gana: 10,
-  },
-  {
-    id: 3,
-    tituloCupon: 'Deportivos adidaas',
-    precioNormal: 23,
-    imagen: 'https://picsum.photos/600',
-    gana: 10,
-  },
-  {
-    id: 4,
-    tituloCupon: 'Crocs amarillas',
-    precioNormal: 23,
-    imagen: 'https://picsum.photos/700',
-    gana: 10,
-  },
-];
-
+import { ListaCupones } from '../componentes/ListOfCupones.js'
+import { GET_NEGOCIO ,GETCUPONES} from '../const/Urls.js'
 const SUCURSALES_LIST = [
   {
     id: 1,
+    cod_sucursal: 1,
     nombreSucursal: 'Calzado de Pedro',
     ciudad: 'Quito',
     pais: 'Ecuador'
   },
   {
     id: 2,
+    cod_sucursal: 2,
     nombreSucursal: 'Calzado de Pedro',
     ciudad: 'Quito',
     pais: 'Ecuador'
   },
   {
     id: 3,
+    cod_sucursal: 3,
     nombreSucursal: 'Calzado de Pedro',
     ciudad: 'Quito',
     pais: 'Ecuador'
   },
   {
     id: 4,
+    cod_sucursal: 4,
     nombreSucursal: 'Calzado de Pedro',
     ciudad: 'Quito',
     pais: 'Ecuador'
@@ -97,59 +71,35 @@ const CIUDADES_LISTS = [
 
 
 
-const DashboardScreen = ({ drawer, menu, navigation,user }) => {
+const DashboardScreen = ({ drawer, menu, navigation, user, negocioData }) => {
+
   const [dataInit, setData] = useState(null);
   const [refresh, setrefresh] = useState(false)
   const [cupon, setState] = useState([]);
-  console.log(user);
-  useEffect(async () => {
-    const consultarApi = async (limitOp) => {
+
+  
+  useEffect(async () => { 
       
-      const limit = limitOp | 8;
-      const url = 'https://infinite-crag-10539.herokuapp.com/get/cupon'
+    const consultarCuponesRecientes=async()=>{
+
       try {
-        const resultado = await
-          axios.post(url,
-            {
-              whereClause: [
-                {
-                  attr: "negocioCodNegocio",
-                  value: 5
-                }], limit
-            });
-
-        if (!dataInit) {
-          setData(resultado.data);
-          setrefresh(false)
-        } else {
-          const { data } = resultado;
-          const dataPrev = dataInit.slice();
-          const dataCurrent = () => {
-            return data.map((resCupon) => {
-              return dataPrev.some((cupon) => cupon.cod_cupon === resCupon.cod_cupon) ? null :
-                resCupon;
-            });
-          }
-
-
-          const datacurrent = [...dataPrev, ...dataCurrent]
-          console.log(datacurrent);
-          setData(datacurrent);
-          setrefresh(false)
-
-        }
+        
+        const url=GETCUPONES;
+        const whereClause=({whereClause:[{attr:"negocioCodNegocio",value:negocioData}]})
+        const resultado =await axios.post(url,whereClause);
+        const cupones=resultado.data;
+        setData(cupones);
 
       } catch (error) {
+        alert('algo salio mal');
         console.log(error);
-
-      }
-      return () => {
-        setrefresh(false)
       }
 
     }
-     await consultarApi();
-  }, [refresh])
+    
+    dataInit===null?await consultarCuponesRecientes():null;
+    
+  })
 
   const onRefreshHandler = () => {
     setrefresh(true)
@@ -158,6 +108,29 @@ const DashboardScreen = ({ drawer, menu, navigation,user }) => {
   function handleOnPress() {
     navigation.navigate('CuponScreen');
   }
+
+  const listaCuponFlatListConfig = ({
+    onRefreshHandler,
+    style: { flex: 1 },
+    flatListOptions: {
+      renderItem: ({ item }) => (
+        <CuponNegocio cupon={item}
+          onPress={handleOnPress} />),
+      keyNameAtrr: "cod_cupon"
+    },
+  });
+  const listaSucursalesFlatListConfig = ({
+    style: { flex: 2 },
+    flatListOptions: {
+      renderItem: (({ item }) => (
+        <UltimaSucursal  sucursal={item}
+          onPress={handleOnPress} />
+      )),
+      keyNameAtrr: "cod_sucursal",
+      horizontal: true,
+
+    },
+  });
 
   return (
     <DrawerLayoutAndroid
@@ -187,33 +160,32 @@ const DashboardScreen = ({ drawer, menu, navigation,user }) => {
             onPress={() => navigation.navigate('ListaCuponesScreen')}>
             Últimas Sucursales
           </Text>
-          <FlatList
-            horizontal={true}
-            data={SUCURSALES_LIST}
-            renderItem={({ item }) => (
-              <UltimaSucursal sucursal={item} onPress={handleOnPress} />
-            )
+          <ListaCupones
+            refresh={false}
+            dataInit={SUCURSALES_LIST}
+            settings={listaSucursalesFlatListConfig}
+          />
 
-            } />
         </View>
-
-        <View style={{ flex: 3 }}>
+        <View>
+          
           <Text
             style={stylesApp.subTitle}
             onPress={() => navigation.navigate('ListaCuponesScreen')}>
             Últimos Cupones
           </Text>
+
           <FlatList
-            data={dataInit}
-            onRefresh={onRefreshHandler}
-            ListEmptyComponent={<Text>NADA Aùn</Text>}
-            refreshing={refresh}
+            style={{ flex: 1 }}
             renderItem={({ item }) => (
-              <CuponNegocio key={item.cod_cupon} cupon={item}
-                onPress={handleOnPress} />
-            )}
-            keyExtractor={(item) => item.cod_cupon}
+              <CuponNegocio cupon={item}
+                onPress={handleOnPress} />)}
+            data={dataInit}
+            keyExtractor={item => item.id}
+            ListEmptyComponent={<Text>NADA Aùn</Text>}
           />
+
+
         </View>
 
       </ScrollView>

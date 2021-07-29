@@ -3,16 +3,13 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import axios from 'axios';
 import BotonComponente from '../componentes/BotonComponente';
-import {
-  handlerErrores, handlerRemoveErrores
-} from '../utils/ErroresHandlers.js';
 import { VALIDAR } from '../const/Urls.js';
 import { ERRORS } from '../const/Errors.js';
 import { stylesApp } from '../const/styles.js';
 import { Spinner } from '../componentes/ui/Spinner.js'
 import { getRuleFormat, LOGINRULES, RULESLENGTH, RULESSTRING } from '../const/Rules.js';
 import { useCampoWithRules } from '../utils/HooksCustom.js';
-
+import { ErroresComponent } from '../componentes/ErroresComponent.js'
 
 const { loginScreen } = ERRORS;
 
@@ -21,7 +18,7 @@ const consulta = async (url, whereClause) => {
 }
 
 const whoIsThisIdentificador = (identificador) => {
-  console.log(identificador, "relow");
+
   if (!identificador) {
     return 'na';
   }
@@ -61,16 +58,18 @@ const validatorCampo = ({ value, typeOfrule, valueOfRule, trowError }) => {
 
 
 /*Render*/
-const LoginScreen = ({ isLoading, setIsLoading, setlogin, login, errores,
-  setuser, seterrores }) => {
+const LoginScreen = ({ setlogin,login, setuser }) => {
 
-  const { cedula, password } = login;
+  
+  const [firstFocusCi, setFirstFocusCi] = useState(false);
+
+  const [firstFocusPw, setFirstFocusPw] = useState(false);
 
   const [activate, setActivate] = useState(false)
 
-  const [ci, setCedula, erroresCedula, setRules] = useCampoWithRules(cedula);
+  const [ci, setCedula, erroresCedula, setRulesCedula] = useCampoWithRules("");
 
-  const [pw, setPassword, erroresPassword, setRulesPassword] = useCampoWithRules(password);
+  const [pw, setPassword, erroresPassword, setRulesPassword] = useCampoWithRules("");
 
   const [errors, setErrors] = useState([]);
 
@@ -99,65 +98,69 @@ const LoginScreen = ({ isLoading, setIsLoading, setlogin, login, errores,
   }, [pw]);
 
   useEffect(() => {
-    setRulesPassword(rulesPassword);
-  }, [pw])
+
+    if (firstFocusPw) {
+      setRulesPassword(rulesPassword);
+    }
+
+  }, [pw, firstFocusPw])
 
   useEffect(() => {
-    setRules(rulesCedula);
-  }, [ci])
+
+    if (firstFocusCi) {
+      setRulesCedula(rulesCedula);
+    }
+
+  }, [ci, firstFocusCi])
 
   useEffect(() => {
-    setErrors([...erroresPassword, ...erroresCedula]);
+
+    setErrors([...erroresCedula, ...erroresPassword]);
   }, [erroresPassword, erroresCedula])
 
-  const Spinn = useCallback(() => {
-    if (activate) {
-      return (
-        <Spinner></Spinner>
-      );
+
+
+  const loginUser = async () => {
+
+    const isActivate = activate;
+    const userDoFirstActions=errors.length === 0 && firstFocusCi && firstFocusPw;
+    setActivate(!isActivate)
+    console.log(whoIsThisIdentificador(ci))
+    if (userDoFirstActions) {
+      const campos = [{
+        attr: whoIsThisIdentificador(ci),
+        value: ci
+      }, {
+        attr: "password",
+        value: pw
+      }];
+      await consulta(VALIDAR, campos).then(res => {
+        const { cod_user } = res.data;
+        if (cod_user === 0) {
+          alert('Verifica el usuario o la contraseña ');
+        } else {
+          setuser(res.data)
+          setlogin(prev => {
+            const currentData=prev;
+             return setlogin(true);
+
+             })
+        }
+
+
+      }).
+        catch(e => {
+          alert('Verifica el usuario o la contraseña ');
+        })
+
+    } else {
+      alert('Ingresa el usuario y contraseña')
     }
-    return null;
-  }, [activate])
+    setActivate(false);
 
-  const r=useCallback(()=>{
-     
-  },[activate])
-  
-  // useEffect(() => {
-  //   if (activate && errors.length == 0) {
-  //     alert('1')
-  //   } else if (activate && errors.length > 0) {
-  //     alert('2')
-  //     setErrors((prev)=>[...prev,loginScreen.verifiqueLosDatos]);
-  //   }  
-    
-  // }, [activate, errors])
-
-  const ErroresComponentes = useCallback(
-    () => {
-      if (errors.length > 0) {
-        const erroresRender = errors.map((e) => (
-          <View key={e.cod}>
-            <Text>
-              {e.error}
-            </Text>
-          </View>))
-        return (
-          <View>
-            {erroresRender}
-          </View>
-        );
-        
-      }else{
-        return(<View>
-          <Text>NAda</Text>
-        </View>);
-      }
+  }
 
 
-    },
-    [errors]
-  )
 
   return (
     <ScrollView>
@@ -166,13 +169,11 @@ const LoginScreen = ({ isLoading, setIsLoading, setlogin, login, errores,
         marginBottom: 0,
         alignItems: 'center'
       }}>
-
-        <ErroresComponentes></ErroresComponentes>
-        <Spinn></Spinn>
-
+        <ErroresComponent errores={errors}></ErroresComponent>
+        <Spinner isLoading={activate} />
       </View>
-      <View style={styles.container}>
 
+      <View style={styles.container}>
 
         <Text style={styles.titulo}>INICIAR SESION</Text>
         <TextInput
@@ -181,7 +182,8 @@ const LoginScreen = ({ isLoading, setIsLoading, setlogin, login, errores,
           icon="camera"
           label="Cedula"
           mode="outlined"
-          defaultValue={ci}
+          defaultValue={"22270222138"}
+          onFocus={() => setFirstFocusCi(true)}
           onChangeText={(e) => {
             setCedula(e);
           }}
@@ -192,6 +194,7 @@ const LoginScreen = ({ isLoading, setIsLoading, setlogin, login, errores,
           label="Contraseña"
           mode="outlined"
           defaultValue={pw}
+          onFocus={() => setFirstFocusPw(true)}
           onChangeText={(e) => {
             setPassword(e);
           }}
@@ -200,7 +203,10 @@ const LoginScreen = ({ isLoading, setIsLoading, setlogin, login, errores,
           <Text style={stylesApp.text}>¿Olvidaste la contraseña?</Text>
           <BotonComponente
             texto="Iniciar Sesión"
-            onPress={() => { setActivate(true) }}
+            onPress={() => {
+
+              loginUser()
+            }}
             estilo={styles.botonSecundario}
           />
 
@@ -212,17 +218,16 @@ const LoginScreen = ({ isLoading, setIsLoading, setlogin, login, errores,
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    flexDirection: 'column',
-    paddingVertical: 15,
+    flex: 1,
+    paddingVertical: 2,
     paddingLeft: 16,
     borderBottomWidth: 1,
-    alignContent: 'space-between',
+    alignContent: 'center',
     height: '100%',
     marginTop: 0
   },
   containerBotones: {
-    alignContent: 'flex-end',
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
 
@@ -234,7 +239,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
     marginTop: 200,
     marginBottom: 16,
-  },
+  }
 });
 
 export default LoginScreen;

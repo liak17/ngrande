@@ -32,9 +32,10 @@ import {MenuNegocio,MenuUsuario} from '../MyDrawer/Menus.js';
 
 export const Stack = createStackNavigator();
 
-export const StackNegocioUser = ({drawer, user, setlogin}) => {
+export const StackNegocioUser = ({drawer, user, setlogin,
+  negocioData}) => {
   const {rol, nombre_completo} = user;
-
+    console.log("codNeg",negocioData);
   const getMenu = useCallback(props => {
     return <MenuNegocio {...props} nombre_completo={nombre_completo} />;
   }, []);
@@ -58,6 +59,7 @@ export const StackNegocioUser = ({drawer, user, setlogin}) => {
             {...props}
             user={user}
             drawer={drawer}
+            negocioData={negocioData}
             menu={getMenu(props)}></DashboardScreen>
         )}
       </Stack.Screen>
