@@ -2,11 +2,11 @@ import React from 'react';
 import {Text, StyleSheet, View, TouchableHighlight} from 'react-native';
 import {Card, Title, Avatar, Paragraph, Button} from 'react-native-paper';
 import {stylesApp} from '../const/styles.js';
-export default function CuponNegocio ({cupon, onPress}){
+export default function CuponNegocio ({cupon, handlerOnPress}){
     return(
-        <TouchableHighlight onPress={onPress} style={{marginTop:16}}>
+        <TouchableHighlight  onPress={()=>handlerOnPress(cupon)} >
         <View>
-            <Card>
+            <Card >
                 <Card.Cover source={{uri:cupon.imagen}} />
                 <Card.Content>
                     <Title style={stylesApp.titleCupon}>{cupon.titulo}</Title>

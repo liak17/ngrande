@@ -1,17 +1,15 @@
-import React from 'react';
+import React,{ useEffect,useState } from 'react';
 import { View, Text, StyleSheet, ScrollView ,DrawerLayoutAndroid} from 'react-native';
 import { Title, Card, Button, Switch } from 'react-native-paper';
 import BotonComponente from '../componentes/BotonComponente';
 
 const CuponScreen = ({
-  menu,drawer,titulo,
-  descripcion,
-  precioNormal,
-  gana,
-  estado,
+  menu,drawer,currentCuponSelected,
   navigation
 }) => {
-  const [isSwitchOn, setIsSwitchOn] = React.useState(true);
+  const {cod_cupon,titulo,descripcion,precio,precio_descuento,estado}=currentCuponSelected ;  
+  
+  const [isSwitchOn, setIsSwitchOn] = useState(estado)
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
   return (
     <DrawerLayoutAndroid
@@ -25,10 +23,10 @@ const CuponScreen = ({
           <Card>
             <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
           </Card>
-          <Text style={styles.textoTitulo}>{titulo|"helo"}</Text>
-          <Text style={styles.textoNormal}>{descripcion|"descripcion"}</Text>
-          <Text style={styles.textoNormal}>Precio Normal: {precioNormal|'100'}</Text>
-          <Text style={styles.textoNormal}>GANA: {gana|'25'}$</Text>
+          <Text style={styles.textoTitulo}>{titulo}</Text>
+          <Text style={styles.textoNormal}>{descripcion}</Text>
+          <Text style={styles.textoNormal}>Precio Normal: {precio}</Text>
+          <Text style={styles.textoNormal}>GANA: {precio_descuento}$</Text>
           <Text style={styles.textoNormal}>Estado: {estado}</Text>
           <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
 

@@ -14,7 +14,8 @@ import ItemCiudad from '../componentes/ItemCiudad';
 import UltimaSucursal from '../componentes/UltimaSucursal';
 import { stylesApp } from '../const/styles.js';
 import { ListaCupones } from '../componentes/ListOfCupones.js'
-import { GET_NEGOCIO ,GETCUPONES} from '../const/Urls.js'
+import { GET_NEGOCIO, GETCUPONES, GETSUCURSALES } from '../const/Urls.js'
+import * as ViewsNames from '../const/ViewsNames.js';
 const SUCURSALES_LIST = [
   {
     id: 1,
@@ -71,42 +72,54 @@ const CIUDADES_LISTS = [
 
 
 
-const DashboardScreen = ({ drawer, menu, navigation, user, negocioData }) => {
+const DashboardScreen = ({ drawer, menu, navigation, negocioData, setCurrentCuponSelected, setCurrentSucursalSelected }) => {
 
-  const [dataInit, setData] = useState(null);
+
+  const [dataInitSucursales, setdataInitSucursales] = useState(null)
+  const [dataInitCupones, setDataCupones] = useState(null);
+
   const [refresh, setrefresh] = useState(false)
-  const [cupon, setState] = useState([]);
 
-  
-  useEffect(async () => { 
-      
-    const consultarCuponesRecientes=async()=>{
 
+
+  useEffect(async () => {
+    const consultarCuponesRecientes = async () => {
       try {
-        
-        const url=GETCUPONES;
-        const whereClause=({whereClause:[{attr:"negocioCodNegocio",value:negocioData}]})
-        const resultado =await axios.post(url,whereClause);
-        const cupones=resultado.data;
-        setData(cupones);
-
+        const url = GETCUPONES;
+        const whereClause = ({ whereClause: [{ attr: "negocioCodNegocio", value: negocioData }] })
+        const resultado = await axios.post(url, whereClause);
+        const cupones = resultado.data;
+        setDataCupones(cupones);
       } catch (error) {
         alert('algo salio mal');
-        console.log(error);
       }
-
     }
-    
-    dataInit===null?await consultarCuponesRecientes():null;
-    
+    const consultarSucursalesRecientes = async () => {
+      try {
+        const url = GETSUCURSALES;
+        const whereClause = ({ whereClause: [{ attr: "negocioCodNegocio", value: negocioData }] })
+        const resultado = await axios.post(url, whereClause)
+        const sucursales = resultado.data;
+        setdataInitSucursales(sucursales);
+      } catch (error) {
+        alert('algo salio mal');
+      }
+    }
+    dataInitCupones === null ? await consultarCuponesRecientes() : null;
+    dataInitSucursales === null ? await consultarSucursalesRecientes() : null;
   })
 
   const onRefreshHandler = () => {
     setrefresh(true)
   }
 
-  function handleOnPress() {
-    navigation.navigate('CuponScreen');
+  function handleOnPressCupon(item) {
+    setCurrentCuponSelected(item);
+    navigation.navigate(ViewsNames.CuponScreenName)
+  }
+  function handleOnPresssSucursal(item) {
+    setCurrentSucursalSelected(item);
+    navigation.navigate(ViewsNames.SucursalScreenName)
   }
 
   const listaCuponFlatListConfig = ({
@@ -115,7 +128,7 @@ const DashboardScreen = ({ drawer, menu, navigation, user, negocioData }) => {
     flatListOptions: {
       renderItem: ({ item }) => (
         <CuponNegocio cupon={item}
-          onPress={handleOnPress} />),
+          onPress={handleOnPressCupon} />),
       keyNameAtrr: "cod_cupon"
     },
   });
@@ -123,8 +136,8 @@ const DashboardScreen = ({ drawer, menu, navigation, user, negocioData }) => {
     style: { flex: 2 },
     flatListOptions: {
       renderItem: (({ item }) => (
-        <UltimaSucursal  sucursal={item}
-          onPress={handleOnPress} />
+        <UltimaSucursal sucursal={item}
+          onPress={() => navigation.navigate(ViewsNames.SucursalScreenName)} />
       )),
       keyNameAtrr: "cod_sucursal",
       horizontal: true,
@@ -142,6 +155,7 @@ const DashboardScreen = ({ drawer, menu, navigation, user, negocioData }) => {
 
       <ScrollView style={stylesApp.container}>
         <Text style={stylesApp.textTitle}>MIS SUCURSALES</Text>
+        
         <View style={{ flex: 1 }}>
           <Text style={stylesApp.subTitle}>Ordenar por Ciudad</Text>
           <View style={{ paddingTop: 12 }}>
@@ -149,39 +163,45 @@ const DashboardScreen = ({ drawer, menu, navigation, user, negocioData }) => {
               horizontal={true}
               data={CIUDADES_LISTS}
               renderItem={({ item }) => (
-                <ItemCiudad ciudad={item} onPress={handleOnPress} />
+                <ItemCiudad ciudad={item} onPress={handleOnPressCupon} />
               )}
             />
           </View>
         </View>
-        <View style={{ flex: 2 }}>
+        
+        <View style={{ flex: 1 }}>
           <Text
             style={stylesApp.subTitle}
-            onPress={() => navigation.navigate('ListaCuponesScreen')}>
+            onPress={() => navigation.navigate(ViewsNames.SucursalScreenName)}>
             Últimas Sucursales
           </Text>
-          <ListaCupones
-            refresh={false}
-            dataInit={SUCURSALES_LIST}
-            settings={listaSucursalesFlatListConfig}
-          />
+          <FlatList style={{ flex: 1 }}
+            data={dataInitSucursales}
+            horizontal={true}
+            keyExtractor={item => item.cod_sucursal}
+            renderItem={({ item }) => (
+              <UltimaSucursal
+                sucursal={item}
+                handlerOnPress={()=>handleOnPresssSucursal(item)}
+              />
+            )}
+          ></FlatList>
 
         </View>
         <View>
-          
+
           <Text
             style={stylesApp.subTitle}
             onPress={() => navigation.navigate('ListaCuponesScreen')}>
             Últimos Cupones
           </Text>
-
           <FlatList
             style={{ flex: 1 }}
             renderItem={({ item }) => (
               <CuponNegocio cupon={item}
-                onPress={handleOnPress} />)}
-            data={dataInit}
-            keyExtractor={item => item.id}
+                handlerOnPress={() => handleOnPressCupon(item)} />)}
+            data={dataInitCupones}
+            keyExtractor={item => item.cod_cupon}
             ListEmptyComponent={<Text>NADA Aùn</Text>}
           />
 
@@ -208,10 +228,3 @@ const styles = StyleSheet.create({
 
 export default DashboardScreen;
 
-{/* <TouchableHighlight
-              onPress={() => navigation.navigate('SucursalScreen')}>
-              <UltimaSucursal
-                nombreSucursal="Calzado de Pedro"
-                ciudadSucursal="Quito - Ecuador"
-              />
-            </TouchableHighlight> */}

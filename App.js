@@ -17,7 +17,7 @@ export default function App() {
       setuser={setuser}
     />)
   }, [errores, login]);
-  
+
   const [currentStack, setcurrentStack] = useState(StackBasic);
   const [user, setuser] = useState({});
   const [errores, seterrores] = useState([]);
@@ -35,22 +35,21 @@ export default function App() {
 
   useEffect(async () => {
     const consultaNegocioData = async () => {
-    
+
       const url = `https://infinite-crag-10539.herokuapp.com/negocio/user/${user.cod_user}`
       try {
-        const res= await axios.get(url);
+        const res = await axios.get(url);
         setNegocioData(res.data.cod_negocio);
 
       } catch (error) {
-
         alert('algo salio mal intentalo más tarde');
       }
     }
-    user.cod_user > 0 && user.roleCodRol===Roles.NEGOCIO.roleCodRol? await consultaNegocioData() : null;
+    user.cod_user > 0 && user.roleCodRol === Roles.NEGOCIO.roleCodRol ? await consultaNegocioData() : null;
   });
 
   const StackNegocio = useCallback(() => {
-    
+
     return (<StackNegocioUser
       drawer={drawer}
       setlogin={setlogin}
@@ -65,7 +64,7 @@ export default function App() {
   useEffect(async () => {
 
     if (login) {
-      
+
       const { roleCodRol } = user;
 
       switch (roleCodRol) {
@@ -83,7 +82,7 @@ export default function App() {
       setcurrentStack(StackBasic)
     }
 
-  }, [login,negocioData])
+  }, [login, negocioData])
 
 
   return (
