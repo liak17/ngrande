@@ -47,7 +47,7 @@ const getErrores = ({ validators }) => {
                 return validator(params)
             }
         );
-        const erroresFiltrados = erroresTrigged.filter((val) => val != true);
+        const erroresFiltrados = erroresTrigged.filter((val) => val != true && val !=false);
         return erroresFiltrados;
     }
 

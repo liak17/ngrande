@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import {createStackNavigator} from '@react-navigation/stack';
-import React, {useEffect, useCallback} from 'react';
+import React, {useEffect, useCallback,useState} from 'react';
 
 //Pantallas Negocios
 import DashboardScreen from '../screens/DashboardScreen.js';
@@ -32,9 +32,11 @@ import {MenuNegocio,MenuUsuario} from '../MyDrawer/Menus.js';
 
 export const Stack = createStackNavigator();
 
-export const StackNegocioUser = ({drawer, user, setlogin}) => {
-  const {rol, nombre_completo} = user;
-
+export const StackNegocioUser = ({drawer, user, setlogin,
+  negocioData}) => {
+  const [currentCuponSelected ,setCurrentCuponSelected] = useState(null);
+  const  [currentSucursalSelected,setCurrentSucursalSelected]= useState(null);
+  const {rol, nombre_completo} = user;  
   const getMenu = useCallback(props => {
     return <MenuNegocio {...props} nombre_completo={nombre_completo} />;
   }, []);
@@ -43,7 +45,7 @@ export const StackNegocioUser = ({drawer, user, setlogin}) => {
     <Stack.Navigator
       screenOptions={{
         title: 'Ngrande',
-        headerTitleAlign: 'center',
+        headerTitleAlign: 'center',        
         headerStyle: {
           backgroundColor: '#f4520a',
         },
@@ -57,7 +59,10 @@ export const StackNegocioUser = ({drawer, user, setlogin}) => {
           <DashboardScreen
             {...props}
             user={user}
+            setCurrentSucursalSelected={setCurrentSucursalSelected}
             drawer={drawer}
+            negocioData={negocioData}
+            setCurrentCuponSelected={setCurrentCuponSelected}
             menu={getMenu(props)}></DashboardScreen>
         )}
       </Stack.Screen>
@@ -85,6 +90,7 @@ export const StackNegocioUser = ({drawer, user, setlogin}) => {
           <CuponScreen
             {...props}
             drawer={drawer}
+            currentCuponSelected={currentCuponSelected}
             menu={getMenu(props)}></CuponScreen>
         )}
       </Stack.Screen>

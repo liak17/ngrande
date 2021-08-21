@@ -39,7 +39,8 @@ export const stylesApp =
         },
         text: {
             fontFamily:'Poppins-Regular',
-            paddingTop:16
+            paddingTop:16,
+            paddingHorizontal:5
         },
         textProducto: {
             fontFamily:'Poppins-Light',
