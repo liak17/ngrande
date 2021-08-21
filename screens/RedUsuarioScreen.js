@@ -34,8 +34,8 @@ const RedUsuarioScreen = ({drawer, menu,navigation}) => {
           <View style={{flex: 1}}>
             <View style={{paddingTop: 16}}>
                 <CartaNombre
-                cedula='182789217927'
-                nombre='Nombre en la red'
+                cedula='1729765465'
+                nombre='Marco Diaz Gonzalez'
                 />
                 
             </View>

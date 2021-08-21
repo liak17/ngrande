@@ -30,7 +30,7 @@ const OficinaUserScreen = ({drawer, menu, navigation}) => {
         <Text style={stylesApp.textTitle}>MI OFICINA</Text>
         <View style={{flex: 1}}>
           <View style={{paddingTop: 16}}>
-            <CartaNombre cedula="182789217927" nombre="Nombre en la red" />
+            <CartaNombre cedula="1729765465" nombre="Marco Diaz Gonzalez" />
           </View>
         </View>
         <View style={{flex: 2, paddingTop: 22, justifyContent: 'center'}}>

@@ -115,6 +115,14 @@ export const StackNegocioUser = ({drawer, user, setlogin}) => {
             menu={getMenu(props)}></ListaCuponesScreen>
         )}
       </Stack.Screen>
+      <Stack.Screen name={ViewsNames.ListaCategoriasScreenName}>
+        {props => (
+          <ListaCategoriasScreen
+            {...props}
+            drawer={drawer}
+            menu={getMenu(props)}></ListaCategoriasScreen>
+        )}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 };
@@ -198,6 +206,24 @@ export const StackUsuario = ({drawer}) => {
             menu={getMenu(props)}
             drawer={drawer}
 ></OficinaUserScreen>
+        )}
+      </Stack.Screen>
+      <Stack.Screen name={ViewsNames.ListaCategoriasScreenName}>
+        {props => (
+          <ListaCategoriasScreen
+            {...props}
+            menu={getMenu(props)}
+            drawer={drawer}
+></ListaCategoriasScreen>
+        )}
+      </Stack.Screen>
+      <Stack.Screen name={ViewsNames.ListaCuponesScreenName}>
+        {props => (
+          <ListaCuponesScreen
+            {...props}
+            menu={getMenu(props)}
+            drawer={drawer}
+></ListaCuponesScreen>
         )}
       </Stack.Screen>
       <Stack.Screen name={ViewsNames.ReaderUsuarioScreenName}>

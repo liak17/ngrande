@@ -5,11 +5,22 @@ export const stylesApp =
             fontSize:36,
             paddingTop:16,
         },
+        textTitleProducto:{
+            fontFamily:"Poppins-SemiBold",
+            fontSize:24,
+            paddingTop:16,
+        },
         subTitle:{
             fontSize: 18,
             fontFamily: 'Poppins-Regular',
             marginTop:16,
             color: "#000000"
+        },
+        styleVerTodas:{
+            fontSize: 15,
+            fontFamily: 'Poppins-Regular',
+            marginTop:16,
+            color: "#FA4141"
         },
         subTitle2:{
             fontSize: 16,
@@ -29,6 +40,20 @@ export const stylesApp =
         text: {
             fontFamily:'Poppins-Regular',
             paddingTop:16
+        },
+        textProducto: {
+            fontFamily:'Poppins-Light',
+            fontSize:18,
+            marginTop:8,
+        },
+        textButtons: {
+            fontFamily:'Poppins-Medium',
+            fontSize:16,
+            padding:0
+        },
+        textCuadroDoble: {
+            fontFamily:'Poppins-Light',
+            fontSize:24,
         },
         btnPrimary: {
             backgroundColor: '#FA4141',

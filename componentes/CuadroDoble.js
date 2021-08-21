@@ -14,8 +14,10 @@ export default function CuadroDoble ({texto, onPress}){
             <Card.Cover source={{uri: 'https://picsum.photos/100/100'}} />
           </Card>
           </TouchableHighlight>
-          <Text style={stylesApp.text}>{texto.texto}</Text>
-          <Text style={stylesApp.text}>{texto.cantidadSucursales}</Text>
+          <View style={{display: 'flex', alignItems: 'center'}}>
+          <Text style={stylesApp.textCuadroDoble}>{texto.texto}</Text>
+          <Text style={stylesApp.textCuadroDoble}>{texto.cantidadSucursales}</Text>
+          </View>
         </View>
         </View>
     );

@@ -201,7 +201,7 @@ const LoginScreen = ({ isLoading, setIsLoading, setlogin, login, errores,
           <BotonComponente
             texto="Iniciar Sesión"
             onPress={() => { setActivate(true) }}
-            estilo={styles.botonSecundario}
+            estilo={styles.btnSecondary}
           />
 
         </View>

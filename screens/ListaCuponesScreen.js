@@ -4,37 +4,37 @@ import { Card, Title, Avatar, Paragraph, Button } from 'react-native-paper';
 import CuponNegocio from '../componentes/CuponNegocio';
 import ItemCiudad from '../componentes/ItemCiudad';
 import UltimaSucursal from '../componentes/UltimaSucursal';
-
+import { stylesApp } from '../const/styles';
 const CUPON_LIST = [
     {
-        id: 1,
-        tituloCupon: 'Zapatos marca nike',
-        precioNormal: 23,
-        imagen: 'https://picsum.photos/650',
-        gana: 10,
+      id: 1,
+      titulo: 'Zapatos marca nike',
+      precio: 23,
+      imagen: 'https://picsum.photos/650',
+      precio_descuento: 10,
     },
     {
-        id: 2,
-        tituloCupon: 'Tacones rojos de chanel',
-        precioNormal: 23,
-        imagen: 'https://picsum.photos/500',
-        gana: 10,
+      id: 2,
+      titulo: 'Tacones rojos de chanel',
+      precio: 23,
+      imagen: 'https://picsum.photos/500',
+      precio_descuento: 10,
     },
     {
-        id: 3,
-        tituloCupon: 'Deportivos adidaas',
-        precioNormal: 23,
-        imagen: 'https://picsum.photos/600',
-        gana: 10,
+      id: 3,
+      titulo: 'Deportivos adidaas',
+      precio: 23,
+      imagen: 'https://picsum.photos/600',
+      precio_descuento: 10,
     },
     {
-        id: 4,
-        tituloCupon: 'Crocs amarillas',
-        precioNormal: 23,
-        imagen: 'https://picsum.photos/700',
-        gana: 10,
-    }
-];
+      id: 4,
+      titulo: 'Crocs amarillas',
+      precio: 23,
+      imagen: 'https://picsum.photos/700',
+      precio_descuento: 10,
+    },
+  ];
 
 const ListaCuponesScreen = ({ navigation, drawer, menu }) => {
 
@@ -57,11 +57,11 @@ const ListaCuponesScreen = ({ navigation, drawer, menu }) => {
             ref={drawer}
         >
 
-            <View style={styles.contenedor}>
+            <View style={stylesApp.container}>
 
 
                 <View style={{ flex: 3 }}>
-                    <Text style={styles.subtitulo}>Últimos Cupones</Text>
+                    <Text style={stylesApp.subTitle}>Últimos Cupones</Text>
                     <FlatList
                         data={CUPON_LIST}
                         renderItem={({ item }) => <CuponNegocio cupon={item} onPress={handleOnPress} />}

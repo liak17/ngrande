@@ -6,13 +6,13 @@ export const menuNegocio = [
     {title:'Nueva Sucursal',screen: ViewsNames.NuevaSucursalScreenName,id:4},
     {title:'Salir', screen:ViewsNames.InicioScreenName,id:5}]
 export const menuUsuario = [
-    {title:'Inicio', screen:ViewsNames.DashboardUserScreenName,icon:'account'},
-    {title:'Mi Perfil', screen:ViewsNames.PerfilUsuarioScreenName,icon:'account'},
-    {title:'Mi Estado', screen:ViewsNames.EstadoUsuarioScreenName,icon:'account'},
-    {title:'Mi Red', screen:ViewsNames.RedUsuarioScreenName,icon:'camera'},
-    {title:'Mi Oficina', screen:ViewsNames.OficinaUserScreenName,icon:'account'},
-    {title:'Reader', screen:ViewsNames.ReaderUsuarioScreenName,icon:'account'},
-    {title:'Motiva', screen:ViewsNames.MotivaUserScreenName,icon:'account'},
+    {title:'Inicio', id:1,screen:ViewsNames.DashboardUserScreenName,icon:'home'},
+    {title:'Mi Perfil',id:2, screen:ViewsNames.PerfilUsuarioScreenName,icon:'account'},
+    {title:'Mi Estado',id:3, screen:ViewsNames.EstadoUsuarioScreenName,icon:'account-details'},
+    {title:'Mi Red',id:4, screen:ViewsNames.RedUsuarioScreenName,icon:'arrange-bring-to-front'},
+    {title:'Mi Oficina',id:5, screen:ViewsNames.OficinaUserScreenName,icon:'briefcase'},
+    {title:'Reader',id:6, screen:ViewsNames.ReaderUsuarioScreenName,icon:'book'},
+    {title:'Motiva', id:7,screen:ViewsNames.MotivaUserScreenName,icon:'clipboard-text'},
     
 
 ]

@@ -12,6 +12,28 @@ import {Avatar, Card, Button} from 'react-native-paper';
 import CuadroDoble from '../componentes/CuadroDoble.js';
 import CartaNombre from '../componentes/CartaNombre';
 import { stylesApp} from '../const/styles.js';
+const CUPON_LIST = [
+  {
+      id:1,
+  texto:'Mi Tarjeta Virtual',
+
+    },
+    {
+      id:2,
+      texto:'Mi Oficina Virtual',
+
+    },
+    {
+      id:3,
+      texto:'Motiva Entrepreneurs',
+      
+    },
+    {
+      id:4,
+      texto:'Mi Billetera',
+      
+    },
+];
 
 
 const PerfilUsuarioScreen = ({drawer, menu,navigation}) => {
@@ -32,18 +54,24 @@ const PerfilUsuarioScreen = ({drawer, menu,navigation}) => {
           <Text style={stylesApp.textTitle}>MI PERFIL</Text>
           <View style={{flex: 1}}>
             <View style={{paddingTop: 16}}>
-                <CartaNombre>
-
-                <Text style={stylesApp.subTitle}>09875664421</Text>
-                <Text style={stylesApp.subTitle}>Emprendedor Senior</Text>
-
-                </CartaNombre>
+                <CartaNombre 
+                cedula={'1729765465'}
+                nombre='Marco Diaz Gonzalez'
+                numero='0988765645'
+                />
                 
             </View>
           </View>
           <View style={{flex: 2, paddingTop:22, justifyContent: 'center'}}>
-          <CuadroDoble texto="Hola"/>
-          <CuadroDoble texto='holi'/>
+          <FlatList
+                        columnWrapperStyle={{display: 'flex',justifyContent: 'center'}}
+                        data={CUPON_LIST}
+                        horizontal={false}
+                        numColumns={2}
+                        renderItem={({ item }) => <CuadroDoble texto={item} onPress={handleOnPress} />}
+                        keyExtractor={item => item.id}
+
+                    />
      
           </View>
         <View style={{paddingTop:16}}>

@@ -3,6 +3,7 @@ import {Text, StyleSheet, View,Image} from 'react-native';
 import {Card, Avatar} from 'react-native-paper';
 import { stylesApp } from '../const/styles';
 export default function CartaNombre ({cedula, nombre, numero}){
+    console.log(cedula, nombre, numero);
     return(
             <View>
             <Card style={styles.card}>

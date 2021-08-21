@@ -7,11 +7,11 @@ import {stylesApp} from '../const/styles.js';
 const InicioScreen = ({navigation}) => {
   return (
     <View style={stylesApp.container}>
-      <Image source={require('../assets/gg.jpeg')}
-        style={{ justifyContent: 'center', height:300, width:300}}
+      <Image source={require('../assets/personas.png')}
+        style={{ justifyContent: 'center', height:300, width:350}}
       />
       <Text style={stylesApp.subTitle}>BIENVENIDO A</Text>
-      <Text style={stylesApp.textTitle}>NGRANDE</Text>
+      <Text style={stylesApp.textTitle}>Dealers Plus</Text>
     
       <View style={styles.containerBotones}>
         <BotonComponente
