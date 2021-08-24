@@ -156,7 +156,7 @@ const DashboardScreen = ({ drawer, menu, navigation, negocioData, setCurrentCupo
       <ScrollView style={stylesApp.container}>
         <Text style={stylesApp.textTitle}>MIS SUCURSALES</Text>
         
-        <View style={{ flex: 1 }}>
+        <View >
           <Text style={stylesApp.subTitle}>Ordenar por Ciudad</Text>
           <View style={{ paddingTop: 12 }}>
             <FlatList
@@ -169,13 +169,13 @@ const DashboardScreen = ({ drawer, menu, navigation, negocioData, setCurrentCupo
           </View>
         </View>
         
-        <View style={{ flex: 1 }}>
+        <View >
           <Text
             style={stylesApp.subTitle}
             onPress={() => navigation.navigate(ViewsNames.SucursalScreenName)}>
             Últimas Sucursales
           </Text>
-          <FlatList style={{ flex: 1 }}
+          <FlatList
             data={dataInitSucursales}
             horizontal={true}
             keyExtractor={item => item.cod_sucursal}
@@ -196,7 +196,7 @@ const DashboardScreen = ({ drawer, menu, navigation, negocioData, setCurrentCupo
             Últimos Cupones
           </Text>
           <FlatList
-            style={{ flex: 1 }}
+            
             renderItem={({ item }) => (
               <CuponNegocio cupon={item}
                 handlerOnPress={() => handleOnPressCupon(item)} />)}
