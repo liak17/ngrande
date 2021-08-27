@@ -122,30 +122,7 @@ const DashboardScreen = ({ drawer, menu, navigation, negocioData, setCurrentCupo
     navigation.navigate(ViewsNames.SucursalScreenName)
   }
 
-  const listaCuponFlatListConfig = ({
-    onRefreshHandler,
-    style: { flex: 1 },
-    flatListOptions: {
-      renderItem: ({ item }) => (
-        <CuponNegocio cupon={item}
-          onPress={handleOnPressCupon} />),
-      keyNameAtrr: "cod_cupon"
-    },
-  });
-  const listaSucursalesFlatListConfig = ({
-    style: { flex: 2 },
-    flatListOptions: {
-      renderItem: (({ item }) => (
-        <UltimaSucursal sucursal={item}
-          onPress={() => navigation.navigate(ViewsNames.SucursalScreenName)} />
-      )),
-      keyNameAtrr: "cod_sucursal",
-      horizontal: true,
-
-    },
-  });
-
-  return (
+    return (
     <DrawerLayoutAndroid
       renderNavigationView={() => menu}
       drawerPosition='left'
