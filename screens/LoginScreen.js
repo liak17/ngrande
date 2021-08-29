@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { TextInput } from 'react-native-paper';
+import { TextInput, Button } from 'react-native-paper';
 import axios from 'axios';
 import BotonComponente from '../componentes/BotonComponente';
 import { VALIDAR } from '../const/Urls.js';
 import { ERRORS } from '../const/Errors.js';
 import { stylesApp } from '../const/styles.js';
 import { Spinner } from '../componentes/ui/Spinner.js'
+import Icon from 'react-native-vector-icons/Feather';
 import { getRuleFormat, LOGINRULES, RULESLENGTH, RULESSTRING } from '../const/Rules.js';
 import { useCampoWithRules } from '../utils/HooksCustom.js';
 import { ErroresComponent } from '../componentes/ErroresComponent.js'
@@ -16,6 +17,7 @@ const { loginScreen } = ERRORS;
 const consulta = async (url, whereClause) => {
   return await axios.post(url, { whereClause: whereClause });
 }
+
 
 const whoIsThisIdentificador = (identificador) => {
 
@@ -163,7 +165,7 @@ const LoginScreen = ({ setlogin,login, setuser }) => {
 
 
   return (
-    <ScrollView>
+    <ScrollView style={{height: '100%'}}>
       <View style={{
         paddingTop: 10, justifyContent: 'center',
         marginBottom: 0,
@@ -175,11 +177,12 @@ const LoginScreen = ({ setlogin,login, setuser }) => {
 
       <View style={styles.container}>
 
-        <Text style={styles.titulo}>INICIAR SESION</Text>
+        <Text style={styles.titulo}>INICIAR SESIÓN</Text>
+        
         <TextInput
           style={stylesApp.inputStyle}
           outlineColor="#ffff"
-          icon="camera"
+          left={<TextInput.Icon name={()=> <Icon name="mail" size={24} color='#000000'/> } />}
           label="Cedula"
           mode="outlined"
           defaultValue={"22270222138"}
@@ -193,6 +196,7 @@ const LoginScreen = ({ setlogin,login, setuser }) => {
           outlineColor="#ffff"
           label="Contraseña"
           mode="outlined"
+          left={<TextInput.Icon name={()=> <Icon name="lock" size={24} color='#000000'/> } />}
           defaultValue={pw}
           onFocus={() => setFirstFocusPw(true)}
           onChangeText={(e) => {
@@ -201,15 +205,22 @@ const LoginScreen = ({ setlogin,login, setuser }) => {
         />
         <View style={styles.containerBotones}>
           <Text style={stylesApp.text}>¿Olvidaste la contraseña?</Text>
-          <BotonComponente
+          {/* <BotonComponente
             texto="Iniciar Sesión"
             onPress={() => {
 
               loginUser()
             }}
-            estilo={styles.botonSecundario}
-          />
-
+            estilo={stylesApp.btnSecondary}
+          /> */}
+        <Button
+        uppercase={false}
+        dark={true}
+        
+        style={stylesApp.btnSecondary}
+        mode='contained'
+        onPress={() =>{loginUser()}}
+        ><Text style={stylesApp.txtBtnSecondary}>Iniciar Sesión</Text></Button>
         </View>
       </View>
     </ScrollView>
@@ -230,12 +241,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-
+    marginTop:150,
+    marginBottom:29
   },
   titulo: {
-    fontSize: 48,
-    fontFamily: 'Poppins',
-    fontWeight: 'bold',
+    fontSize: 36,
+    fontFamily: 'Poppins-Bold',
     marginTop: 16,
     marginTop: 200,
     marginBottom: 16,

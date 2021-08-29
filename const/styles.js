@@ -10,6 +10,18 @@ export const stylesApp =
             fontSize:24,
             paddingTop:16,
         },
+        textDescriptionProducto:{
+            fontSize: 18,
+            fontFamily: 'Poppins-Light',
+            marginTop:16,
+            color: "#2A3747"
+        },
+        textProducto:{
+            fontSize: 18,
+            fontFamily: 'Poppins-Light',
+            marginTop:16,
+            color: "#000000"
+        },
         subTitle:{
             fontSize: 18,
             fontFamily: 'Poppins-Regular',
@@ -83,6 +95,10 @@ export const stylesApp =
             marginEnd: 8,
             fontFamily: 'Poppins-Regular',
         },
+        txtBtnSecondary: {
+            fontSize: 14,
+            fontFamily: 'Poppins-Regular',
+        },
         btnSecondaryCuadrado: {
             backgroundColor: '#7755CC',
             padding: 18,
@@ -112,5 +128,14 @@ export const stylesApp =
             color:'#2A3747',
             marginTop: 16
         },
-        
+        titleSucursal:{
+            fontFamily: 'Poppins-Regular',
+            fontSize: 24,
+            color:'#000000',
+            marginTop: 16
+        },
+        inputTextMarginTop:{
+            fontSize: 18,
+        marginTop: 16,
+        },
     }

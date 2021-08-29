@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import {Button, TextInput, Checkbox, List} from 'react-native-paper';
+import Icon from 'react-native-vector-icons/Feather';
 
 const RegistroScreen = (props) => {
   const [state, setState] = useState({
@@ -39,49 +40,56 @@ const RegistroScreen = (props) => {
         outlineColor="#ffff"
           label="Cedula"
           mode="outlined"
-          left={<TextInput.Icon name="eye" />}
+          left={<TextInput.Icon name={()=> <Icon name="credit-card" size={24} color='#000000'/> } />}
           onChangeText={value => cogerTexto('cedula', value)}
         />
         <TextInput
         outlineColor="#ffff"
           label="Nombre"
           mode="outlined"
-          left={<TextInput.Icon name="eye" />}
+          left={<TextInput.Icon name={()=> <Icon name="user" size={24} color='#000000'/> } />}
           onChangeText={value => cogerTexto('nombre', value)}
         />
         <TextInput
         outlineColor="#ffff"
           label="Email"
           mode="outlined"
-          left={<TextInput.Icon name="eye" />}
+          left={<TextInput.Icon name={()=> <Icon name="mail" size={24} color='#000000'/> } />}
           onChangeText={value => cogerTexto('email', value)}
+        />
+        <TextInput
+        outlineColor="#ffff"
+          label="Contraseña"
+          mode="outlined"
+          left={<TextInput.Icon name={()=> <Icon name="lock" size={24} color='#000000'/> } />}
+          onChangeText={value => cogerTexto('password', value)}
         />
         <TextInput
         outlineColor="#ffff"
           label="Teléfono"
           mode="outlined"
-          left={<TextInput.Icon name="eye" />}
+          left={<TextInput.Icon name={()=> <Icon name="phone" size={24} color='#000000'/> } />}
           onChangeText={value => cogerTexto('telefono', value)}
         />
         <TextInput
         outlineColor="#ffff"
           label="País"
           mode="outlined"
-          left={<TextInput.Icon name="eye" />}
+          left={<TextInput.Icon name={()=> <Icon name="globe" size={24} color='#000000'/> } />}
           onChangeText={value => cogerTexto('pais', value)}
         />
         <TextInput
         outlineColor="#ffff"
           label="Ciudad"
           mode="outlined"
-          left={<TextInput.Icon name="eye" />}
+          left={<TextInput.Icon name={()=> <Icon name="map-pin" size={24} color='#000000'/> } />}
           onChangeText={value => cogerTexto('ciudad', value)}
         />
         <TextInput
         outlineColor="#ffff"
           label="Categoria"
           mode="outlined"
-          left={<TextInput.Icon name="eye" />}
+          left={<TextInput.Icon name={()=> <Icon name="gift" size={24} color='#000000'/> } />}
           onChangeText={value => cogerTexto('categoria', value)}
         />
         <Text style={{fontFamily: 'Poppins-Light'}}>

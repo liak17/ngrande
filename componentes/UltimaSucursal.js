@@ -3,9 +3,9 @@ import { Text, StyleSheet, View, TouchableHighlight } from 'react-native';
 import { Card, Title, Avatar, Paragraph, Button } from 'react-native-paper';
 export default function UltimaSucursal({ sucursal, handlerOnPress }) {
     return (
-        <TouchableHighlight style={{paddingRight: 16}} onPress={() =>handlerOnPress(sucursal)}>
+        <TouchableHighlight style={{paddingRight: 16}} >
             <View >
-                <Card style={styles.imagen}>
+                <Card style={styles.imagen} onPress={() =>handlerOnPress(sucursal)}>
                     <Card.Cover source={{ uri: 'https://picsum.photos/200' }} />
                 </Card>
                 <Text style={styles.texto}>{sucursal.direccion}</Text>
