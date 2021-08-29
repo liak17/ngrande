@@ -13,7 +13,7 @@ export const getWhereClause = (listOfattr) => {
 }
 
 export const validateFieldExactLength = (data, ...values) => {
-  return values.some(val=>data.length===val);
+  return values.some(val => data.length === val);
 }
 
 export const validateFieldRage = (source, minSize, maxSize) => {
@@ -29,3 +29,30 @@ export const existThisDataForThisScreen = (errores, attr, value) => {
     return false;
   }
 };
+
+export const getCiudadesFromSucursales = (sucursales) => {
+
+  const cantidadDeSucursalesXCiudades = [];
+  sucursales.forEach(sucursal => {
+    const { descripcion: ciudadAnalizar } = sucursal.ciudade;
+    const exist = cantidadDeSucursalesXCiudades.some(sucursalesExistentes => sucursalesExistentes.ciudade === ciudadAnalizar);
+    if (exist) {
+      cantidadDeSucursalesXCiudades.find((sucursalesExistentes, i) => {
+        const { ciudade: ciudadExistente, cantidad } = sucursalesExistentes
+        if (ciudadAnalizar === ciudadExistente) {
+          cantidadDeSucursalesXCiudades[i] = ({
+            ciudade: ciudadAnalizar, cantidad: cantidad + 1,cod_sucursal:sucursal.cod_sucursal
+          });
+          return;
+        }
+      });
+
+    } else {
+      cantidadDeSucursalesXCiudades.push({
+        ciudade: ciudadAnalizar, cantidad: 1,cod_sucursal:sucursal.cod_sucursal
+      });
+
+    }
+  });
+  return cantidadDeSucursalesXCiudades;
+}

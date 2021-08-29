@@ -4,11 +4,7 @@ import {Title, Card, Button, Switch} from 'react-native-paper';
 
 const CuponScreen = ({
   drawer,menu,
-  titulo,
-  descripcion,
-  ciudad,
-  direccion,
-  telefono,
+  currentSucursalSelected,
   navigation
 }) => {
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
@@ -26,11 +22,11 @@ const CuponScreen = ({
         <Card>
           <Card.Cover source={{uri: 'https://picsum.photos/700'}} />
         </Card>
-        <Text style={styles.textoTitulo}>{titulo}</Text>
-        <Text style={styles.textoNormal}>{descripcion}</Text>
-        <Text style={styles.textoNormal}>Ciudad {ciudad}</Text>
-        <Text style={styles.textoNormal}>Direccion: {direccion}</Text>
-        <Text style={styles.textoNormal}>Telefono: {telefono}</Text>
+        <Text style={styles.textoTitulo}>{currentSucursalSelected.titulo}</Text>
+        <Text style={styles.textoNormal}>{currentSucursalSelected.descripcion}</Text>
+        <Text style={styles.textoNormal}>Ciudad {currentSucursalSelected.ciudade.descripcion}</Text>
+        <Text style={styles.textoNormal}>Direccion: {currentSucursalSelected.direccion}</Text>
+        <Text style={styles.textoNormal}>Telefono: {currentSucursalSelected.telefono}</Text>
         <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
 
         <Button

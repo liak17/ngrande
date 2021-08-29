@@ -100,6 +100,7 @@ export const StackNegocioUser = ({drawer, user, setlogin,
           <SucursalScreen
             {...props}
             drawer={drawer}
+            currentSucursalSelected={currentSucursalSelected}
             menu={getMenu(props)}></SucursalScreen>
         )}
       </Stack.Screen>

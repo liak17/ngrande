@@ -1,12 +1,11 @@
 import axios from 'axios';
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   FlatList,
   ScrollView,
-  TouchableHighlight,
   DrawerLayoutAndroid,
 } from 'react-native';
 import CuponNegocio from '../componentes/CuponNegocio';
@@ -15,6 +14,7 @@ import UltimaSucursal from '../componentes/UltimaSucursal';
 import { stylesApp } from '../const/styles.js';
 import { ListaCupones } from '../componentes/ListOfCupones.js'
 import { GET_NEGOCIO, GETCUPONES, GETSUCURSALES } from '../const/Urls.js'
+import { getCiudadesFromSucursales } from '../utils/index.js'
 import * as ViewsNames from '../const/ViewsNames.js';
 const SUCURSALES_LIST = [
   {
@@ -77,11 +77,10 @@ const DashboardScreen = ({ drawer, menu, navigation, negocioData, setCurrentCupo
 
   const [dataInitSucursales, setdataInitSucursales] = useState(null)
   const [dataInitCupones, setDataCupones] = useState(null);
-
+  const[ciudadesXSucursales,setCiudadesXSucursales]=useState(null)
   const [refresh, setrefresh] = useState(false)
 
-
-
+  
   useEffect(async () => {
     const consultarCuponesRecientes = async () => {
       try {
@@ -100,7 +99,12 @@ const DashboardScreen = ({ drawer, menu, navigation, negocioData, setCurrentCupo
         const whereClause = ({ whereClause: [{ attr: "negocioCodNegocio", value: negocioData }] })
         const resultado = await axios.post(url, whereClause)
         const sucursales = resultado.data;
+                
         setdataInitSucursales(sucursales);
+        //set preformated sucursales cantidad
+        const sucursalesXciudad=getCiudadesFromSucursales(sucursales);
+        console.log(sucursalesXciudad,"here");
+        setCiudadesXSucursales(sucursalesXciudad)
       } catch (error) {
         alert('algo salio mal');
       }
@@ -119,10 +123,11 @@ const DashboardScreen = ({ drawer, menu, navigation, negocioData, setCurrentCupo
   }
   function handleOnPresssSucursal(item) {
     setCurrentSucursalSelected(item);
+
     navigation.navigate(ViewsNames.SucursalScreenName)
   }
 
-    return (
+  return (
     <DrawerLayoutAndroid
       renderNavigationView={() => menu}
       drawerPosition='left'
@@ -132,20 +137,25 @@ const DashboardScreen = ({ drawer, menu, navigation, negocioData, setCurrentCupo
 
       <ScrollView style={stylesApp.container}>
         <Text style={stylesApp.textTitle}>MIS SUCURSALES</Text>
-        
+
         <View >
           <Text style={stylesApp.subTitle}>Ordenar por Ciudad</Text>
           <View style={{ paddingTop: 12 }}>
             <FlatList
               horizontal={true}
-              data={CIUDADES_LISTS}
-              renderItem={({ item }) => (
-                <ItemCiudad ciudad={item} onPress={handleOnPressCupon} />
-              )}
+              data={ciudadesXSucursales}
+              renderItem={({ item }) => {
+                return (
+                  <ItemCiudad
+                    ciudad={item}
+                    onPress={handleOnPressCupon} />
+                )
+              }}
+              keyExtractor={item => item.cod_sucursal}
             />
           </View>
         </View>
-        
+
         <View >
           <Text
             style={stylesApp.subTitle}
@@ -159,7 +169,7 @@ const DashboardScreen = ({ drawer, menu, navigation, negocioData, setCurrentCupo
             renderItem={({ item }) => (
               <UltimaSucursal
                 sucursal={item}
-                handlerOnPress={()=>handleOnPresssSucursal(item)}
+                handlerOnPress={() => handleOnPresssSucursal(item)}
               />
             )}
           ></FlatList>
@@ -173,7 +183,7 @@ const DashboardScreen = ({ drawer, menu, navigation, negocioData, setCurrentCupo
             Últimos Cupones
           </Text>
           <FlatList
-            
+
             renderItem={({ item }) => (
               <CuponNegocio cupon={item}
                 handlerOnPress={() => handleOnPressCupon(item)} />)}
