@@ -34,6 +34,7 @@ export const Stack = createStackNavigator();
 
 export const StackNegocioUser = ({drawer, user, setlogin,
   negocioData}) => {
+  const [SucursalesData,setDataSucursales]=useState(null);
   const [currentCuponSelected ,setCurrentCuponSelected] = useState(null);
   const  [currentSucursalSelected,setCurrentSucursalSelected]= useState(null);
   const {rol, nombre_completo} = user;  
@@ -63,6 +64,7 @@ export const StackNegocioUser = ({drawer, user, setlogin,
             drawer={drawer}
             negocioData={negocioData}
             setCurrentCuponSelected={setCurrentCuponSelected}
+            setDataSucursales={setDataSucursales}
             menu={getMenu(props)}></DashboardScreen>
         )}
       </Stack.Screen>

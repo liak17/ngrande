@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList,DrawerLayoutAndroid} from 'react-native';
-import { Card, Title, Avatar, Paragraph, Button } from 'react-native-paper';
-import CuponNegocio from '../componentes/CuponNegocio';
 import CuadroDoble from '../componentes/CuadroDoble';
 import { stylesApp } from '../const/styles';
 

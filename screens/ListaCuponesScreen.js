@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList,DrawerLayoutAndroid} from 'react-native';
-import { Card, Title, Avatar, Paragraph, Button } from 'react-native-paper';
+import { View, Text, FlatList,DrawerLayoutAndroid} from 'react-native';
 import CuponNegocio from '../componentes/CuponNegocio';
-import ItemCiudad from '../componentes/ItemCiudad';
-import UltimaSucursal from '../componentes/UltimaSucursal';
 import { stylesApp } from '../const/styles';
 const CUPON_LIST = [
     {
@@ -75,30 +72,5 @@ const ListaCuponesScreen = ({ navigation, drawer, menu }) => {
     )
 }
 
-const styles = StyleSheet.create({
-    subtitulo: {
-        fontSize: 18,
-        marginTop: 8,
-        fontWeight: 'bold'
-    },
-    titulo: {
-        fontSize: 36,
-        fontWeight: 'bold',
-    },
-    tituloSucursales: {
-        fontSize: 14
-    },
-    subtituloSucursales: {
-        fontSize: 13
-    },
-    contenedor: {
-        flex: 1,
-        marginTop: 26,
-        marginLeft: 26,
-        marginRight: 26,
-        height: '100%',
-        marginBottom: 16,
-    }
-})
 
 export default ListaCuponesScreen;

@@ -4,16 +4,18 @@ import Icon from 'react-native-vector-icons/Feather';
 import {stylesApp} from '../const/styles.js';
 
 
-export default function TextoVerTodas() {
+export default function TextoVerTodas({onPress}) {
   return (
     <View
+            
             style={{
               width: '30%',
               alignItems: 'center',
               display: 'flex',
               flexDirection: 'row',
             }}>
-            <Text style={stylesApp.styleVerTodas} icon="camera">
+            <Text style={stylesApp.styleVerTodas} icon="camera"
+            onPress={()=>onPress()}>
               Ver Todas
             </Text>
 

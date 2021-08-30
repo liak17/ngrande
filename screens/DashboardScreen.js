@@ -12,197 +12,164 @@ import CuponNegocio from '../componentes/CuponNegocio';
 import ItemCiudad from '../componentes/ItemCiudad';
 import UltimaSucursal from '../componentes/UltimaSucursal';
 import { stylesApp } from '../const/styles.js';
-import { ListaCupones } from '../componentes/ListOfCupones.js'
-import { GET_NEGOCIO, GETCUPONES, GETSUCURSALES } from '../const/Urls.js'
+import TextoVerTodas from '../componentes/TextoVerTodas';
+import { ListaCupones } from '../componentes/ListOfCupones.js';
 import { getCiudadesFromSucursales } from '../utils/index.js'
+import { GET_NEGOCIO, GETCUPONES, GETSUCURSALES } from '../const/Urls.js';
 import * as ViewsNames from '../const/ViewsNames.js';
-const SUCURSALES_LIST = [
-  {
-    id: 1,
-    cod_sucursal: 1,
-    nombreSucursal: 'Calzado de Pedro',
-    ciudad: 'Quito',
-    pais: 'Ecuador'
-  },
-  {
-    id: 2,
-    cod_sucursal: 2,
-    nombreSucursal: 'Calzado de Pedro',
-    ciudad: 'Quito',
-    pais: 'Ecuador'
-  },
-  {
-    id: 3,
-    cod_sucursal: 3,
-    nombreSucursal: 'Calzado de Pedro',
-    ciudad: 'Quito',
-    pais: 'Ecuador'
-  },
-  {
-    id: 4,
-    cod_sucursal: 4,
-    nombreSucursal: 'Calzado de Pedro',
-    ciudad: 'Quito',
-    pais: 'Ecuador'
-  },
-]
-
-const CIUDADES_LISTS = [
-  {
-    id: 1,
-    ciudad: 'Quito',
-    cantidadSucursales: 12,
-  },
-  {
-    id: 2,
-    ciudad: 'Guayaquil',
-    cantidadSucursales: 12,
-  },
-  {
-    id: 3,
-    ciudad: 'Loja',
-    cantidadSucursales: 12,
-  },
-  {
-    id: 4,
-    ciudad: 'Cuenca',
-    cantidadSucursales: 12,
-  },
-]
 
 
-
-const DashboardScreen = ({ drawer, menu, navigation, negocioData, setCurrentCuponSelected, setCurrentSucursalSelected }) => {
-
-
-  const [dataInitSucursales, setdataInitSucursales] = useState(null)
+const DashboardScreen = ({
+  drawer,
+  menu,
+  navigation,
+  negocioData,
+  setCurrentCuponSelected,
+  setCurrentSucursalSelected,
+  setDataSucursales,
+}) => {
+  const [dataInitSucursales, setDataInitSucursales] = useState(null);
   const [dataInitCupones, setDataCupones] = useState(null);
-  const[ciudadesXSucursales,setCiudadesXSucursales]=useState(null)
+  const [ciudadesXSucursales, setCiudadesXSucursales] = useState(null)
   const [refresh, setrefresh] = useState(false)
 
-  
+
   useEffect(async () => {
     const consultarCuponesRecientes = async () => {
       try {
         const url = GETCUPONES;
-        const whereClause = ({ whereClause: [{ attr: "negocioCodNegocio", value: negocioData }] })
+        const whereClause = {
+          whereClause: [{ attr: 'negocioCodNegocio', value: negocioData }],
+        };
         const resultado = await axios.post(url, whereClause);
         const cupones = resultado.data;
         setDataCupones(cupones);
       } catch (error) {
         alert('algo salio mal');
       }
-    }
+    };
     const consultarSucursalesRecientes = async () => {
       try {
         const url = GETSUCURSALES;
-        const whereClause = ({ whereClause: [{ attr: "negocioCodNegocio", value: negocioData }] })
-        const resultado = await axios.post(url, whereClause)
+        const whereClause = {
+          whereClause: [{ attr: 'negocioCodNegocio', value: negocioData }],
+        };
+        const resultado = await axios.post(url, whereClause);
         const sucursales = resultado.data;
-                
-        setdataInitSucursales(sucursales);
+
+        setDataInitSucursales(sucursales);
+        setDataSucursales(sucursales)
         //set preformated sucursales cantidad
-        const sucursalesXciudad=getCiudadesFromSucursales(sucursales);
-        console.log(sucursalesXciudad,"here");
-        setCiudadesXSucursales(sucursalesXciudad)
+        const sucursalesXciudad = getCiudadesFromSucursales(sucursales);
+        setCiudadesXSucursales(sucursalesXciudad);
       } catch (error) {
         alert('algo salio mal');
       }
-    }
+    };
     dataInitCupones === null ? await consultarCuponesRecientes() : null;
     dataInitSucursales === null ? await consultarSucursalesRecientes() : null;
-  })
+  });
 
   const onRefreshHandler = () => {
-    setrefresh(true)
-  }
+    setrefresh(true);
+  };
 
   function handleOnPressCupon(item) {
     setCurrentCuponSelected(item);
-    navigation.navigate(ViewsNames.CuponScreenName)
+    navigation.navigate(ViewsNames.CuponScreenName);
   }
   function handleOnPresssSucursal(item) {
     setCurrentSucursalSelected(item);
-
     navigation.navigate(ViewsNames.SucursalScreenName)
   }
 
   return (
     <DrawerLayoutAndroid
       renderNavigationView={() => menu}
-      drawerPosition='left'
+      drawerPosition="left"
       drawerWidth={300}
-      ref={drawer}
-    >
-
+      ref={drawer}>
       <ScrollView style={stylesApp.container}>
         <Text style={stylesApp.textTitle}>MIS SUCURSALES</Text>
 
-        <View >
-          <Text style={stylesApp.subTitle}>Ordenar por Ciudad</Text>
-          <View style={{ paddingTop: 12 }}>
-            <FlatList
-              horizontal={true}
-              data={ciudadesXSucursales}
-              renderItem={({ item }) => {
-                return (
-                  <ItemCiudad
-                    ciudad={item}
-                    onPress={handleOnPressCupon} />
-                )
-              }}
-              keyExtractor={item => item.cod_sucursal}
-            />
+        <View style={{ display: 'flex', flexDirection: 'row' }}>
+          <View style={{ width: '70%' }}>
+            <Text style={stylesApp.subTitle}>Ordenar por Ciudad</Text>
           </View>
+          <TextoVerTodas
+            onPress={() => navigation.navigate(ViewsNames.ListaCiudadesScreenName)}
+          />
         </View>
-
-        <View >
-          <Text
-            style={stylesApp.subTitle}
-            onPress={() => navigation.navigate(ViewsNames.SucursalScreenName)}>
-            Últimas Sucursales
-          </Text>
+        <View style={{ paddingTop: 12 }}>
           <FlatList
-            data={dataInitSucursales}
             horizontal={true}
-            keyExtractor={item => item.cod_sucursal}
-            renderItem={({ item }) => (
-              <UltimaSucursal
-                sucursal={item}
-                handlerOnPress={() => handleOnPresssSucursal(item)}
-              />
-            )}
-          ></FlatList>
-
+            data={ciudadesXSucursales}
+            keyExtractor={item => item.ciudadeCodCiudad}
+            renderItem={({ item }) => {
+              return (
+                <ItemCiudad
+                  ciudad={item}
+                  onPress={handleOnPressCupon} />
+              )
+            }}
+          />
         </View>
-        <View>
+        <View style={{ display: 'flex', flexDirection: 'row' }}>
+          <View style={{ width: '70%' }}>
+            <Text
+              style={stylesApp.subTitle}
+            >
+              Últimas Sucursales
+            </Text>
+          </View>
 
-          <Text
-            style={stylesApp.subTitle}
-            onPress={() => navigation.navigate('ListaCuponesScreen')}>
-            Últimos Cupones
-          </Text>
-          <FlatList
-
-            renderItem={({ item }) => (
-              <CuponNegocio cupon={item}
-                handlerOnPress={() => handleOnPressCupon(item)} />)}
-            data={dataInitCupones}
-            keyExtractor={item => item.cod_cupon}
-            ListEmptyComponent={<Text>NADA Aùn</Text>}
+          <TextoVerTodas
+           onPress={() => navigation.navigate(ViewsNames.SucursalScreenName)
+          }
+           
+          />
+        </View>
+        <FlatList
+          data={dataInitSucursales}
+          horizontal={true}
+          keyExtractor={item => item.cod_sucursal}
+          renderItem={({ item }) => (
+            <UltimaSucursal
+              sucursal={item}
+              handlerOnPress={() => handleOnPresssSucursal(item)}
+            />
+          )}></FlatList>
+        <View style={{ display: 'flex', flexDirection: 'row' }}>
+          <View style={{ width: '70%' }}>
+            <Text
+              style={stylesApp.subTitle}
+             >
+              Últimos Cupones
+            </Text>
+          </View>
+          <TextoVerTodas
+            onPress={() => navigation.navigate(ViewsNames.ListaCuponesScreenName)}
           />
 
-
         </View>
+        <FlatList
 
+          renderItem={({ item }) => (
+            <CuponNegocio
+              cupon={item}
+              handlerOnPress={() => handleOnPressCupon(item)}
+            />
+          )}
+          data={dataInitCupones}
+          keyExtractor={item => item.cod_cupon}
+          ListEmptyComponent={<Text>NADA Aùn</Text>}
+        />
       </ScrollView>
-
     </DrawerLayoutAndroid>
   );
 };
 
 const styles = StyleSheet.create({
-
   contenedor: {
     flex: 1,
     marginTop: 26,
@@ -214,4 +181,3 @@ const styles = StyleSheet.create({
 });
 
 export default DashboardScreen;
-

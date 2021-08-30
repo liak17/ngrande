@@ -67,30 +67,4 @@ const ListaCiudadesScreen = ({ navigation, drawer, menu }) => {
     )
 }
 
-const styles = StyleSheet.create({
-    subtitulo: {
-        fontSize: 18,
-        marginTop: 8,
-        fontWeight: 'bold'
-    },
-    titulo: {
-        fontSize: 36,
-        fontWeight: 'bold',
-    },
-    tituloSucursales: {
-        fontSize: 14
-    },
-    subtituloSucursales: {
-        fontSize: 13
-    },
-    contenedor: {
-        flex: 1,
-        marginTop: 26,
-        marginLeft: 26,
-        marginRight: 26,
-        height: '100%',
-        marginBottom: 16,
-    }
-})
-
 export default ListaCiudadesScreen;

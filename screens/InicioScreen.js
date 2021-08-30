@@ -11,7 +11,7 @@ const InicioScreen = ({navigation}) => {
         style={{ justifyContent: 'center', height:300, width:350}}
       />
       <Text style={stylesApp.subTitle}>BIENVENIDO A</Text>
-      <Text style={stylesApp.textTitle}>Dealers Plus</Text>
+      <Text style={stylesApp.textTitle}>Quanti</Text>
     
       <View style={styles.containerBotones}>
         <BotonComponente

@@ -22,9 +22,9 @@ export const MenuSimple = () => (
 
 export const MenuNegocio = ({ navigation,nombre_completo }) => {
   const opcionesNegocio = menuNegocio;
-  const renderMenu = ({ title, screen, id }) => (
+  const renderMenu = ({ title, screen, id, icon }) => (
     <View key={id}>
-    <Menu.Item onPress={() => navigation.navigate(screen)} title={title} icon='camera' />
+    <Menu.Item onPress={() => navigation.navigate(screen)} title={title} icon={icon} />
     </View>
     )
   const menu = opcionesNegocio.map(renderMenu);

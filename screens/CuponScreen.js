@@ -1,6 +1,8 @@
 import React,{ useEffect,useState } from 'react';
 import { View, Text, StyleSheet, ScrollView ,DrawerLayoutAndroid} from 'react-native';
 import { Title, Card, Button, Switch } from 'react-native-paper';
+import {stylesApp} from '../const/styles.js';
+import Icon from 'react-native-vector-icons/Feather';
 import BotonComponente from '../componentes/BotonComponente';
 
 const CuponScreen = ({
@@ -19,66 +21,39 @@ const CuponScreen = ({
       ref={drawer}
     >
       <ScrollView>
-        <View style={styles.contenedor}>
+        <View style={stylesApp.container}>
           <Card>
             <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
           </Card>
-          <Text style={styles.textoTitulo}>{titulo}</Text>
-          <Text style={styles.textoNormal}>{descripcion}</Text>
-          <Text style={styles.textoNormal}>Precio Normal: {precio}</Text>
-          <Text style={styles.textoNormal}>GANA: {precio_descuento}$</Text>
-          <Text style={styles.textoNormal}>Estado: {estado}</Text>
+          <Text style={stylesApp.subTitle}>{titulo}</Text>
+          <Text style={stylesApp.textDescriptionProducto}>{descripcion}</Text>
+          <Text style={stylesApp.textProducto}>Precio Normal: {precio}</Text>
+          <Text style={stylesApp.textoGana}>GANA: {precio_descuento}$</Text>
+          <Text style={stylesApp.textProducto}>Estado: {estado}</Text>
           <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
 
           <Button
-            style={styles.botonPrimario}
+          uppercase={false}
+            style={stylesApp.btnPrimaryCuadrado}
             mode="contained"
-            icon="pencil"
+            icon={()=> <Icon name="edit" size={24} color='#FFFFFF'/> }
             onPress={() => navigation.navigate('NuevoCuponScreen')}>
-            Crear Nuevo Cupón
+            <Text style={stylesApp.textProducto}>Editar Cupón</Text>
           </Button>
+          <View style={{marginTop:16}}>
           <Button
-            style={styles.botonSecundario}
+          uppercase={false}
+            style={stylesApp.btnSecondaryCuadrado}
             mode="contained"
             onPress={() => navigation.navigate('DashboardScreen')}>
-            Eliminar
+            <Text style={stylesApp.textProducto}>Eliminar</Text>
           </Button>
+          </View>
         </View>
       </ScrollView>
     </DrawerLayoutAndroid>
   );
 };
-const styles = StyleSheet.create({
-  botonPrimario: {
-    backgroundColor: '#FA4141',
-    padding: 18,
-    fontSize: 14,
-    borderRadius: 10,
-    marginTop: 16,
-  },
-  botonSecundario: {
-    backgroundColor: '#7755CC',
-    padding: 18,
-    fontSize: 14,
-    borderRadius: 10,
-    marginTop: 16,
-  },
-  textoTitulo: {
-    marginTop: 21,
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  contenedor: {
-    flex: 1,
-    marginTop: 26,
-    marginLeft: 26,
-    marginRight: 26,
-    height: '100%',
-  },
-  textoNormal: {
-    fontSize: 18,
-    marginTop: 16,
-  },
-});
+
 
 export default CuponScreen;

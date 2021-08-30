@@ -41,7 +41,7 @@ export const getCiudadesFromSucursales = (sucursales) => {
         const { ciudade: ciudadExistente, cantidad } = sucursalesExistentes
         if (ciudadAnalizar === ciudadExistente) {
           cantidadDeSucursalesXCiudades[i] = ({
-            ciudade: ciudadAnalizar, cantidad: cantidad + 1,cod_sucursal:sucursal.cod_sucursal
+            ciudade: ciudadAnalizar, cantidad: cantidad + 1,ciudadeCodCiudad:sucursal.ciudadeCodCiudad
           });
           return;
         }
@@ -49,7 +49,7 @@ export const getCiudadesFromSucursales = (sucursales) => {
 
     } else {
       cantidadDeSucursalesXCiudades.push({
-        ciudade: ciudadAnalizar, cantidad: 1,cod_sucursal:sucursal.cod_sucursal
+        ciudade: ciudadAnalizar, cantidad: 1,ciudadeCodCiudad:sucursal.ciudadeCodCiudad
       });
 
     }

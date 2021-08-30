@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, TouchableHighlight} from 'react-native';
 import {Button, Title, Checkbox, Card} from 'react-native-paper';
 import {stylesApp} from '../const/styles.js';
+import Icon from 'react-native-vector-icons/Feather';
 import * as ViewsNames from '../const/ViewsNames.js';
 
 const RegistroUnoScreen = ({navigation}) => {
@@ -27,7 +28,7 @@ const RegistroUnoScreen = ({navigation}) => {
       </View>
       </View>
       <View style={styles.textoFinal}>
-      <Text style={stylesApp.text} >Seguir como invitado</Text>
+      <Text style={stylesApp.text} ><Icon name="eye" size={24} color='#747474'/> Seguir como invitado</Text>
       </View>
 
     </View>

@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet,DrawerLayoutAndroid, ScrollView} from 'react-native';
 import {Title, Card, Button, Switch} from 'react-native-paper';
+import {stylesApp} from '../const/styles.js';
+import Icon from 'react-native-vector-icons/Feather';
 
 const CuponScreen = ({
   drawer,menu,
@@ -18,7 +20,7 @@ const CuponScreen = ({
     ref={drawer}
     >
     <ScrollView>
-      <View style={styles.contenedor}>
+      <View style={stylesApp.container}>
         <Card>
           <Card.Cover source={{uri: 'https://picsum.photos/700'}} />
         </Card>
@@ -30,17 +32,19 @@ const CuponScreen = ({
         <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
 
         <Button
-          style={styles.botonPrimario}
+        uppercase={false}
+          style={stylesApp.btnPrimaryCuadrado}
           mode="contained"
-          icon="pencil"
+          icon={()=> <Icon name="edit" size={24} color='#FFFFFF'/> }
           onPress={() => navigation.navigate('NuevaSucursalScreen')}>
-          Editar Sucursal
+          <Text style={stylesApp.textProducto}>Editar Sucursal</Text>
         </Button>
         <Button
-          style={styles.botonSecundario}
+        uppercase={false}
+        style={stylesApp.btnSecondaryCuadrado}
           mode="contained"
           onPress={() => navigation.navigate('DashboardScreen')}>
-          Eliminar
+          <Text style={stylesApp.textProducto}>Eliminar</Text>
         </Button>
       </View>
     </ScrollView>
