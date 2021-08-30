@@ -27,9 +27,10 @@ const DashboardScreen = ({
   setCurrentCuponSelected,
   setCurrentSucursalSelected,
   setDataSucursales,
+  setDataCupones
 }) => {
   const [dataInitSucursales, setDataInitSucursales] = useState(null);
-  const [dataInitCupones, setDataCupones] = useState(null);
+  const [dataInitCupones, setDataInitCupones] = useState(null);
   const [ciudadesXSucursales, setCiudadesXSucursales] = useState(null)
   const [refresh, setrefresh] = useState(false)
 
@@ -43,6 +44,7 @@ const DashboardScreen = ({
         };
         const resultado = await axios.post(url, whereClause);
         const cupones = resultado.data;
+        setDataInitCupones(cupones);
         setDataCupones(cupones);
       } catch (error) {
         alert('algo salio mal');
