@@ -33,7 +33,7 @@ import {MenuNegocio,MenuUsuario} from '../MyDrawer/Menus.js';
 export const Stack = createStackNavigator();
 
 export const StackNegocioUser = ({drawer, user, setlogin,
-  negocioData}) => {
+   codNegocio}) => {
   const [sucursalesData,setDataSucursales]=useState(null);
   const [cuponesData,setDataCupones]=useState(null);
   const [currentCuponSelected ,setCurrentCuponSelected] = useState(null);
@@ -63,7 +63,7 @@ export const StackNegocioUser = ({drawer, user, setlogin,
             user={user}
             setCurrentSucursalSelected={setCurrentSucursalSelected}
             drawer={drawer}
-            negocioData={negocioData}
+            codNegocio={codNegocio}
             setCurrentCuponSelected={setCurrentCuponSelected}
             setDataSucursales={setDataSucursales}
             setDataCupones={setDataCupones}
@@ -85,6 +85,7 @@ export const StackNegocioUser = ({drawer, user, setlogin,
           <NuevoCuponScreen
             {...props}
             drawer={drawer}
+            codNegocio={codNegocio}
             menu={getMenu(props)}></NuevoCuponScreen>
         )}
       </Stack.Screen>

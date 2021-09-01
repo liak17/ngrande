@@ -127,7 +127,7 @@ const LoginScreen = ({ setlogin,login, setuser }) => {
     const isActivate = activate;
     const userDoFirstActions=errors.length === 0 && firstFocusCi && firstFocusPw;
     setActivate(!isActivate)
-    console.log(whoIsThisIdentificador(ci))
+    
     if (userDoFirstActions) {
       const campos = [{
         attr: whoIsThisIdentificador(ci),

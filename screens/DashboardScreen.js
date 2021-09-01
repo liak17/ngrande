@@ -23,7 +23,7 @@ const DashboardScreen = ({
   drawer,
   menu,
   navigation,
-  negocioData,
+  codNegocio,
   setCurrentCuponSelected,
   setCurrentSucursalSelected,
   setDataSucursales,
@@ -40,7 +40,7 @@ const DashboardScreen = ({
       try {
         const url = GETCUPONES;
         const whereClause = {
-          whereClause: [{ attr: 'negocioCodNegocio', value: negocioData }],
+          whereClause: [{ attr: 'negocioCodNegocio', value: codNegocio }],
         };
         const resultado = await axios.post(url, whereClause);
         const cupones = resultado.data;
@@ -54,7 +54,7 @@ const DashboardScreen = ({
       try {
         const url = GETSUCURSALES;
         const whereClause = {
-          whereClause: [{ attr: 'negocioCodNegocio', value: negocioData }],
+          whereClause: [{ attr: 'negocioCodNegocio', value: codNegocio }],
         };
         const resultado = await axios.post(url, whereClause);
         const sucursales = resultado.data;
