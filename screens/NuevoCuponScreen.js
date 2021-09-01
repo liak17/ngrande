@@ -63,7 +63,8 @@ const NuevoCuponScreen = ({ navigation, menu, drawer,codNegocio }) => {
           <TextInput
             mode="outlined"
             style={stylesApp.inputTextMarginTop}
-            label="Título"             
+            label="Título" 
+            maxSize={50}            
             onChangeText={(e) =>setAttr('titulo',e)}  
             defaultValue={`${cuponInformation.titulo}`} 
             />
@@ -72,6 +73,8 @@ const NuevoCuponScreen = ({ navigation, menu, drawer,codNegocio }) => {
             mode="outlined"
             style={stylesApp.inputTextMarginTop}
             label="Descripción"
+            maxSize={250}
+            multiline={true}
             onChangeText={(e) =>setAttr('descripcion',e)}
             defaultValue={`${cuponInformation.descripcion}`}
           />         
@@ -80,13 +83,17 @@ const NuevoCuponScreen = ({ navigation, menu, drawer,codNegocio }) => {
             mode="outlined"
             style={stylesApp.inputTextMarginTop}
             label="Precio Normal"
+            keyboardType="number-pad"
+            maxSize={8}
             onChangeText={(e) =>setAttr('precio',e)}
             defaultValue={`${cuponInformation.precio}`}
           />
           <TextInput
             mode="outlined"            
             style={stylesApp.inputTextMarginTop}
+            maxSize={8}
             label="Precio con Descuento"
+            keyboardType="number-pad"
             onChangeText={(e) =>setAttr('precio_descuento',e)}
             defaultValue={`${cuponInformation.precio_descuento}`}
           />
