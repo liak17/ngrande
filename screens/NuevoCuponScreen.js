@@ -10,8 +10,11 @@ import {
 import { Title, Card, TextInput, Button } from 'react-native-paper';
 
 import { stylesApp } from '../const/styles.js';
-
+import {ErroresComponent} from '../componentes/ErroresComponent'
+import {ERRORS}from '../const/Errors.js'
 import {CREAR_CUPON} from '../const/Urls.js';
+
+
 const NuevoCuponScreen = ({ navigation, menu, drawer,codNegocio }) => {
   const [createCupon, setcreateCupon] = useState(false);
   const [cuponInformation, setcuponInformation] = useState({titulo: "", descripcion: "", precio:"", precio_descuento: "",}) ;
@@ -54,9 +57,16 @@ const NuevoCuponScreen = ({ navigation, menu, drawer,codNegocio }) => {
       drawerPosition="left"
       drawerWidth={300}
       ref={drawer}>
+      
       <ScrollView>
+        
         <View style={stylesApp.container}>
+        
           <Title style={stylesApp.textTitle}>Nuevo Cupón</Title>
+          <ErroresComponent
+        errores={[ERRORS.nuevoCuponScreen.camposVacios,ERRORS.nuevoCuponScreen.tipoDeDatoIncorrecto]}
+        />
+        
           <Card>
             <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
           </Card>
