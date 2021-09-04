@@ -15,6 +15,42 @@ import { ERRORS } from '../const/Errors.js'
 import { CREAR_CUPON } from '../const/Urls.js';
 import { validateFieldRage } from '../utils/index.js';
 
+const isValidateFields = (rules) => {
+  const isValidFields =[] ;
+  rules.forEach(rule => {
+    const { validator, attr, min, max } = rule;
+    const isFieldValidate = validator(attr, min, max);
+    isValidFields.push(isFieldValidate);
+  });
+  const reducer=(accumulator,current)=>accumulator&&current;
+  const isValidAllFields=isValidFields.reduce(reducer)
+  return  isValidAllFields ;
+}
+
+const createErrorsFromFields=(rules,setErrores)=>{
+  
+  rules.forEach((rule,i)=>{
+    const { validator, attr, min, max,nameAtrr } = rule;
+    const isFieldValidate = validator(attr, min, max);        
+    const indexCreate=i>0?i:rules.length+2;
+    const codErrorCustom=(102+indexCreate);
+    console.log(codErrorCustom,isFieldValidate,rule);
+    if (!isFieldValidate) {            
+      const errorCustom=ERRORS.nuevoCuponScreen.tipoDeDatoIncorrecto.createCustoError(`el campo ${nameAtrr} debe tener una longitud minima ${min} y como maximo ${max}`,codErrorCustom);
+      setErrores(prev => {
+        const haveThisError = prev.some(error => error.cod === codErrorCustom);
+        const currentErrores = [...prev, errorCustom]
+        return haveThisError ? prev : currentErrores;
+      });      
+    }else{
+      setErrores(prev => {
+        const deleteError = prev.filter(error => error.cod !== codErrorCustom);
+        return deleteError;
+      });
+    }
+  });
+  
+}
 
 const NuevoCuponScreen = ({ navigation, menu, drawer, codNegocio }) => {
   const [createCupon, setcreateCupon] = useState(false);
@@ -25,26 +61,19 @@ const NuevoCuponScreen = ({ navigation, menu, drawer, codNegocio }) => {
     () => {
       const currentCuponInfo = Object.assign({}, cuponInformation);
       const { titulo, descripcion, precio, precio_descuento } = currentCuponInfo;
-      const isValidateTitulo = validateFieldRage(titulo, 3, 25);
-      const isValidateDescripcion = validateFieldRage(descripcion, 10, 250);
-      const isValidatePrecio = validateFieldRage(precio, 1, 6);
-      const isValidatePrecioDescuento = validateFieldRage(precio_descuento, 1, 6);
-      const isAllCampsFills = isValidatePrecioDescuento && isValidatePrecio && isValidateDescripcion && isValidateTitulo;      
-      alert(isAllCampsFills);
-      if (!isAllCampsFills) {        
-        setErrores(prev => {
-          const haveThisError = prev.some(error => error.cod === ERRORS.nuevoCuponScreen.camposVacios.cod);
-          const currentErrores = [...prev, ERRORS.nuevoCuponScreen.camposVacios]
-          return haveThisError ? prev : currentErrores;
-        });
-      }else{        
-        setErrores(prev => {
-          const deleteError = prev.filter(error => error.cod !== ERRORS.nuevoCuponScreen.camposVacios.cod);
-          return deleteError;
-        });
+      const rules = [
+        { validator: validateFieldRage, attr: titulo,nameAtrr:"titulo", min: 3, max: 25 },
+        { validator: validateFieldRage, attr: descripcion,nameAtrr:"descripcion", min: 10, max: 250 },
+        { validator: validateFieldRage, attr: precio, min: 1,nameAtrr:"precio", max: 6 },
+        { validator: validateFieldRage, attr: precio_descuento, nameAtrr:"precio_descuento",min: 1, max:6 }
+      ];
 
+      createErrorsFromFields(rules,setErrores)
+      const isValidateAllFields=isValidateFields(rules);
+      if (isValidateAllFields) {
         setcreateCupon(true);
-      }      
+        
+      }
       setTimeout(() => {
         setcreateCupon(false);
       }, 1000);
