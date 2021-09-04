@@ -115,6 +115,7 @@ export const StackNegocioUser = ({drawer, user, setlogin,
           <NuevaSucursalScreen
             {...props}
             drawer={drawer}
+            codNegocio={codNegocio}
             menu={getMenu(props)}></NuevaSucursalScreen>
         )}
       </Stack.Screen>
