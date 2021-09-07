@@ -1,9 +1,9 @@
 export const LOGINRULES = {
     cedula: {
-        length: 13
+        length: 10,
     },
     ruc: {
-        length: 11
+        length: 11,
     },
     password: {
         min: '',

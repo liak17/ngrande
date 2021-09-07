@@ -1,79 +1,59 @@
+import axios from 'axios';
 import React, {useEffect, useState, useRef} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   FlatList,
-  ScrollView,
-  TouchableHighlight,
+  ScrollView,  
   DrawerLayoutAndroid,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
 import CuponNegocio from '../componentes/CuponNegocio';
-import ItemCiudad from '../componentes/ItemCiudad';
+import ItemCategorias from '../componentes/ItemCategorias';
 import TextoVerTodas from '../componentes/TextoVerTodas';
 import UltimaSucursal from '../componentes/UltimaSucursal';
 import {stylesApp} from '../const/styles.js';
+import { GETCUPONES } from '../const/Urls';
 
-const CUPON_LIST = [
-  {
-    id: 1,
-    titulo: 'Zapatos marca nike',
-    precio: 23,
-    imagen: 'https://picsum.photos/650',
-    precio_descuento: 10,
-  },
-  {
-    id: 2,
-    titulo: 'Tacones rojos de chanel',
-    precio: 23,
-    imagen: 'https://picsum.photos/500',
-    precio_descuento: 10,
-  },
-  {
-    id: 3,
-    titulo: 'Deportivos adidaas',
-    precio: 23,
-    imagen: 'https://picsum.photos/600',
-    precio_descuento: 10,
-  },
-  {
-    id: 4,
-    titulo: 'Crocs amarillas',
-    precio: 23,
-    imagen: 'https://picsum.photos/700',
-    precio_descuento: 10,
-  },
-];
-
-const CIUDADES_LISTS = [
-  {
-    id: 1,
-    ciudad: 'Tecnologia',
-    cantidadSucursales: 12,
-  },
-  {
-    id: 2,
-    ciudad: 'Ropa',
-    cantidadSucursales: 12,
-  },
-  {
-    id: 3,
-    ciudad: 'Zapatos',
-    cantidadSucursales: 12,
-  },
-  {
-    id: 4,
-    ciudad: 'Camisas',
-    cantidadSucursales: 12,
-  },
-];
-
-const DashboardUserScreen = ({drawer, menu, navigation}) => {
+const DashboardUserScreen = ({drawer, menu, navigation,categoriasData}) => {
   const [cupon, setState] = useState([]);
+  const [cupones,setCupones]= useState(null);
+  /*consulta de promociones */
+
+  useEffect(() => {
+    
+    const consultaPromociones=async()=>{
+      
+      try {
+        const url =GETCUPONES;
+        const whereClause = {
+          whereClause:[  {
+            "attr": "estado",
+            "value": 1
+        }]
+        };
+        const cupones=await axios.post(url,whereClause);        
+        setCupones(prev=>{
+          const currentCupones= Object.assign(cupones.data, prev);
+          return currentCupones;
+        });       
+
+      } catch (error) {
+        alert('algo salio mal,intentalo más tarde');
+      }
+    
+    }
+    if (!cupones) {
+      consultaPromociones();
+      
+    }
+  }, [])
+
+
   function handleOnPress() {
-    navigation.navigate('NegocioScreen');
+    alert('not funtional')
   }
 
   return (
@@ -101,9 +81,10 @@ const DashboardUserScreen = ({drawer, menu, navigation}) => {
         <View style={{paddingTop: 12}}>
           <FlatList
             horizontal={true}
-            data={CIUDADES_LISTS}
+            keyExtractor={item => item.cod_categoria}
+            data={categoriasData}
             renderItem={({item}) => (
-              <ItemCiudad ciudad={item} onPress={handleOnPress} />
+              <ItemCategorias categoria={item} onPress={handleOnPress} />
             )}
           />
         </View>
@@ -121,11 +102,11 @@ const DashboardUserScreen = ({drawer, menu, navigation}) => {
           />
         </View>
         <FlatList
-          data={CUPON_LIST}
+          data={cupones}
           renderItem={({item}) => (
             <CuponNegocio cupon={item} onPress={handleOnPress} />
           )}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.cod_cupon}
         />
       </ScrollView>
     </DrawerLayoutAndroid>

@@ -3,8 +3,9 @@ import {Text, StyleSheet, View,TouchableHighlight, Dimensions} from 'react-nativ
 import {Card} from 'react-native-paper';
 import { stylesApp } from '../const/styles';
 let width = Dimensions.get('window').width/2-8;
-export default function CuadroDoble ({texto, onPress}){
-  
+export default function CuadroDoble ({texto,categoria, onPress}){
+    const titulo=texto?texto.texto:categoria.descripcion;
+    const cantidad=texto?texto.cantidadSucursales:"";
     return(
       
         <View style={{flexDirection:'row', paddingTop:16, width:width}}>
@@ -15,8 +16,8 @@ export default function CuadroDoble ({texto, onPress}){
           </Card>
           </TouchableHighlight>
           <View style={{display: 'flex', alignItems: 'center'}}>
-          <Text style={stylesApp.textCuadroDoble}>{texto.texto}</Text>
-          <Text style={stylesApp.textCuadroDoble}>{texto.cantidadSucursales}</Text>
+          <Text style={stylesApp.textCuadroDoble}>{titulo}</Text>
+          <Text style={stylesApp.textCuadroDoble}>{cantidad}</Text>
           </View>
         </View>
         </View>
