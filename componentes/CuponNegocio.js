@@ -3,6 +3,7 @@ import {Text, StyleSheet, View, TouchableHighlight} from 'react-native';
 import {Card, Title, Avatar, Paragraph, Button} from 'react-native-paper';
 import {stylesApp} from '../const/styles.js';
 export default function CuponNegocio({cupon, handlerOnPress}) {
+  
   return (
     <TouchableHighlight  onPress={()=>handlerOnPress(cupon)} style={{marginTop: 16}}>
       <View>

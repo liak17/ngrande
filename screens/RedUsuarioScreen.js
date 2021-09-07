@@ -3,22 +3,24 @@ import {
   View,
   Text,
   StyleSheet,
-  FlatList,
+  
   ScrollView,
-  TouchableHighlight,
+  
   DrawerLayoutAndroid,
 } from 'react-native';
 import {Avatar, Card, Button, Paragraph, Title,} from 'react-native-paper';
-import CuadroDoble from '../componentes/CuadroDoble.js';
+
 import CartaNombre from '../componentes/CartaNombre';
 import CuadroTexto from '../componentes/CuadroTexto';
 import { stylesApp} from '../const/styles.js';
 
 
-const RedUsuarioScreen = ({drawer, menu,navigation}) => {
-   const [cupon, setState] = useState([]);
+const RedUsuarioScreen = ({drawer, menu,navigation,user}) => {
+   
+  const {nombre_completo,cedula}= user;
+
   function handleOnPress() {
-    navigation.navigate('CuponScreen');
+   
   }
 
   return (
@@ -34,8 +36,8 @@ const RedUsuarioScreen = ({drawer, menu,navigation}) => {
           <View style={{flex: 1}}>
             <View style={{paddingTop: 16}}>
                 <CartaNombre
-                cedula='1729765465'
-                nombre='Marco Diaz Gonzalez'
+                cedula={cedula}
+                nombre={nombre_completo}
                 />
                 
             </View>
@@ -46,17 +48,17 @@ const RedUsuarioScreen = ({drawer, menu,navigation}) => {
             </Text>
             <Text style={stylesApp.subTitle2}>
                 Puntos:  
-                <CuadroTexto texto='190 pts'/>
+                <CuadroTexto texto='0 pts'/>
             </Text>
             <Text style={stylesApp.subTitle2}>
                 Ganancias: 
-                <CuadroTexto texto='100 $'/>
+                <CuadroTexto texto='0 $'/>
             </Text>
             <Text style={stylesApp.subTitle}>
                 Tus Links de Patrocinio
             </Text>
             <Text>
-            <CuadroTexto texto="https://app.com/join/ECLA23 2"/>
+            <CuadroTexto texto="https://app.com/join/ECLA23 2" />
             </Text>
             
             <Text style={stylesApp.subTitle}>
@@ -65,7 +67,7 @@ const RedUsuarioScreen = ({drawer, menu,navigation}) => {
             <Text>
             <CuadroTexto texto="https://app.com/join/ECLA23 2"/>
             </Text>
-            <Button style={stylesApp.btnPrimaryCuadrado} mode="contained">
+            <Button style={stylesApp.btnPrimaryCuadrado} mode="contained" onPress={()=>alert('Proximamente podras unir a más personas en este proyecto Ngrande')}>
                 VER RAMA
             </Button>
             <Text style={stylesApp.subTitle}>
@@ -74,7 +76,7 @@ const RedUsuarioScreen = ({drawer, menu,navigation}) => {
             <Text>
             <CuadroTexto texto="https://app.com/join/ECLA23 2"/>
             </Text>
-            <Button style={stylesApp.btnPrimaryCuadrado} mode="contained">
+            <Button style={stylesApp.btnPrimaryCuadrado} mode="contained" onPress={()=>alert('Proximamente podras unir a más personas en este proyecto Ngrande')}>
                 VER RAMA
             </Button>
           </View>
@@ -86,13 +88,5 @@ const RedUsuarioScreen = ({drawer, menu,navigation}) => {
   );
 };
 
-const styles = StyleSheet.create({
-
-  card: {
-  alignItems: 'center',
-  marginLeft:16,
-  justifyContent: 'center'
-  },
-});
 
 export default RedUsuarioScreen;

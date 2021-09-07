@@ -208,15 +208,7 @@ const LoginScreen = ({ setlogin, login, setuser }) => {
           }}
         />
         <View style={styles.containerBotones}>
-          <Text style={stylesApp.text}>¿Olvidaste la contraseña?</Text>
-          {/* <BotonComponente
-            texto="Iniciar Sesión"
-            onPress={() => {
-
-              loginUser()
-            }}
-            estilo={stylesApp.btnSecondary}
-          /> */}
+          <Text onPress={()=>alert('no disponible por el momento')} style={stylesApp.text}>¿Olvidaste la contraseña?</Text>          
           <Button
             uppercase={false}
             dark={true}

@@ -38,8 +38,9 @@ const CIUDADES_LISTS = [
   },
 ];
 
-const PerfilScreen = ({drawer, menu, navigation}) => {
-  const [cupon, setState] = useState([]);
+const PerfilScreen = ({drawer, menu, navigation,user,setlogin}) => {
+  
+  const {ruc,nombre_completo,telefono,email}=user;
   function handleOnPress() {
     navigation.navigate('CuponScreen');
   }
@@ -54,8 +55,7 @@ const PerfilScreen = ({drawer, menu, navigation}) => {
         <View style={{display: 'flex', flexDirection: 'row'}}>
           <View style={{width: '70%'}}>
             <Text style={stylesApp.textTitle}>MI PERFIL</Text>
-          </View>
-          <Icon name="map-pin" size={24} color='#000000'/> 
+          </View>          
         </View>
         <View style={{flex: 1}}>
           <View style={{paddingTop: 16}}>
@@ -66,23 +66,23 @@ const PerfilScreen = ({drawer, menu, navigation}) => {
                 source={require('../assets/avatar.jpg')}
               />
               <Text style={stylesApp.subTitle}>
-                Luis Alfonso Hernadez Garcia
+               {nombre_completo}
               </Text>
-              <Text style={stylesApp.subTitle}>RUC: 1722785642</Text>
+              <Text style={stylesApp.subTitle}>RUC: {ruc}</Text>
             </Card>
           </View>
         </View>
         <View style={{flex: 2, paddingTop: 22, justifyContent: 'center'}}>
           <Card style={styles.card}>
-            <Text style={stylesApp.subTitle}>Numero: 0978234522</Text>
-            <Text style={stylesApp.subTitle}>Correo: micorreo@gmail.com</Text>
+            <Text style={stylesApp.subTitle}>Numero: {telefono}</Text>
+            <Text style={stylesApp.subTitle}>Correo: {email}</Text>
             <Text style={stylesApp.subTitle}>Pais: Ecuador</Text>
             <Text style={stylesApp.subTitle}>Ciudad: Quito</Text>
             <Text style={stylesApp.subTitle}>Contraseña: ************</Text>
           </Card>
         </View>
         <View style={{paddingTop: 16}}>
-          <Button style={stylesApp.btnPrimaryCuadrado} mode="contained">
+          <Button style={stylesApp.btnPrimaryCuadrado} onPress={()=>setlogin(false)} mode="contained">
             Salir
           </Button>
         </View>

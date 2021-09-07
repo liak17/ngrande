@@ -36,14 +36,14 @@ const CuponScreen = ({
           style={stylesApp.btnPrimaryCuadrado}
           mode="contained"
           icon={()=> <Icon name="edit" size={24} color='#FFFFFF'/> }
-          onPress={() => navigation.navigate('NuevaSucursalScreen')}>
+          onPress={() => alert('proximamente estara disponible')}>
           <Text style={stylesApp.textProducto}>Editar Sucursal</Text>
         </Button>
         <Button
         uppercase={false}
         style={stylesApp.btnSecondaryCuadrado}
           mode="contained"
-          onPress={() => navigation.navigate('DashboardScreen')}>
+          onPress={() => alert('proximamente esta sección estara disponible')}>
           <Text style={stylesApp.textProducto}>Eliminar</Text>
         </Button>
       </View>

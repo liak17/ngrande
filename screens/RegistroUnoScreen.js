@@ -19,7 +19,7 @@ const RegistroUnoScreen = ({navigation}) => {
         <Text style={stylesApp.text}>REGISTRARSE COMO NEGOCIO</Text>
       </View>
       <View style={styles.cuadro}>
-      <TouchableHighlight onPress={() => navigation.navigate('DashboardUserScreen')}>
+      <TouchableHighlight onPress={() => alert('en construccion,lamentamos los inconvenientes')}>
         <Card>
           <Card.Cover source={{uri: 'https://picsum.photos/200/200'}} />
         </Card>
@@ -28,7 +28,7 @@ const RegistroUnoScreen = ({navigation}) => {
       </View>
       </View>
       <View style={styles.textoFinal}>
-      <Text style={stylesApp.text} ><Icon name="eye" size={24} color='#747474'/> Seguir como invitado</Text>
+      <Text style={stylesApp.text} onPress={() =>alert('estamos en construcción')}><Icon name="eye" size={24} color='#747474'/> Seguir como invitado</Text>
       </View>
 
     </View>

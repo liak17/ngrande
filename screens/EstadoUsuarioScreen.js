@@ -14,10 +14,12 @@ import CartaNombre from '../componentes/CartaNombre';
 import { stylesApp} from '../const/styles.js';
 
 
-const EstadoUsuarioScreen = ({drawer, menu,navigation}) => {
-   const [cupon, setState] = useState([]);
+const EstadoUsuarioScreen = ({drawer, menu,navigation,user}) => {
+  
+  const {cedula, nombre_completo, telefono}=user;
+
   function handleOnPress() {
-    navigation.navigate('CuponScreen');
+   
   }
 
   return (
@@ -33,9 +35,9 @@ const EstadoUsuarioScreen = ({drawer, menu,navigation}) => {
           <View style={{flex: 1}}>
             <View style={{paddingTop: 16}}>
                 <CartaNombre
-                cedula='1729765465'
-                nombre='Marco Diaz Gonzalez'
-                numero='0988765645'
+                cedula={cedula}
+                nombre={nombre_completo}
+                numero={telefono}
                 />
                 
             </View>
@@ -49,7 +51,7 @@ const EstadoUsuarioScreen = ({drawer, menu,navigation}) => {
             </Text>
           </View>
         <View style={{paddingTop:16}}>
-        <Button style={stylesApp.btnPrimaryCuadrado} mode='contained'>
+        <Button style={stylesApp.btnPrimaryCuadrado} onPress={()=>alert('no disponible,Estamos construyendo un app nGrande')} mode='contained'>
             ENVIAR PAGO
         </Button>
         </View>
@@ -61,21 +63,5 @@ const EstadoUsuarioScreen = ({drawer, menu,navigation}) => {
   );
 };
 
-const styles = StyleSheet.create({
-
-  card: {
-  alignItems: 'center',
-  paddingVertical:16,
-  justifyContent: 'center'
-  },
-});
 
 export default EstadoUsuarioScreen;
-
-{/* <TouchableHighlight
-              onPress={() => navigation.navigate('SucursalScreen')}>
-              <UltimaSucursal
-                nombreSucursal="Calzado de Pedro"
-                ciudadSucursal="Quito - Ecuador"
-              />
-            </TouchableHighlight> */}

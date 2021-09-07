@@ -10,7 +10,7 @@ export default function CuadroDoble ({texto,categoria, onPress}){
       
         <View style={{flexDirection:'row', paddingTop:16, width:width}}>
         <View style={styles.cuadro}>
-          <TouchableHighlight onPress={() => navigation.navigate('RegistroScreen')}>
+          <TouchableHighlight onPress={() => onPress()}>
           <Card>
             <Card.Cover source={{uri: 'https://picsum.photos/100/100'}} />
           </Card>

@@ -15,7 +15,7 @@ import { stylesApp } from '../const/styles.js';
 import TextoVerTodas from '../componentes/TextoVerTodas';
 import { ListaCupones } from '../componentes/ListOfCupones.js';
 import { getCiudadesFromSucursales } from '../utils/index.js'
-import { GET_NEGOCIO, GETCUPONES, GETSUCURSALES } from '../const/Urls.js';
+import {  GETCUPONES, GETSUCURSALES } from '../const/Urls.js';
 import * as ViewsNames from '../const/ViewsNames.js';
 
 
@@ -32,7 +32,7 @@ const DashboardScreen = ({
   const [dataInitSucursales, setDataInitSucursales] = useState(null);
   const [dataInitCupones, setDataInitCupones] = useState(null);
   const [ciudadesXSucursales, setCiudadesXSucursales] = useState(null)
-  const [refresh, setrefresh] = useState(false)
+  const [refresh, setrefresh] = useState(false);
 
 
   useEffect(async () => {
@@ -99,7 +99,10 @@ const DashboardScreen = ({
             <Text style={stylesApp.subTitle}>Ordenar por Ciudad</Text>
           </View>
           <TextoVerTodas
-            onPress={() => navigation.navigate(ViewsNames.ListaCiudadesScreenName)}
+            onPress={() =>{
+              alert('Pronto estara disponible esta sección');
+              // navigation.navigate(ViewsNames.ListaCiudadesScreenName)
+            }}
           />
         </View>
         <View style={{ paddingTop: 12 }}>
@@ -126,7 +129,10 @@ const DashboardScreen = ({
           </View>
 
           <TextoVerTodas
-           onPress={() => navigation.navigate(ViewsNames.SucursalScreenName)
+           onPress={() => {
+             return alert('Pronto estara disponible esta sección')
+             //navigation.navigate(ViewsNames.SucursalScreenName)
+           }
           }
            
           />

@@ -15,8 +15,8 @@ import CuadroTexto from '../componentes/CuadroTexto';
 import { stylesApp} from '../const/styles.js';
 
 
-const MotivaUserScreen = ({drawer, menu,navigation}) => {
-   const [cupon, setState] = useState([]);
+const MotivaUserScreen = ({drawer, menu,navigation,user}) => {
+   const{nombre_completo,cedula}=user;
   function handleOnPress() {
     navigation.navigate('CuponScreen');
   }
@@ -34,23 +34,23 @@ const MotivaUserScreen = ({drawer, menu,navigation}) => {
           <View style={{flex: 1}}>
             <View style={{paddingTop: 16}}>
                 <CartaNombre
-                cedula='1729765465'
-                nombre='Marco Diaz Gonzalez'
+                cedula={cedula}
+                nombre={nombre_completo}
                 />
                 
             </View>
           </View>
           <View style={{flex: 2, paddingTop:22, justifyContent: 'center'}}>
           <Text style={stylesApp.subTitle}>¿Qué es FINDER CONEXIÓN</Text>
-          <Card>
+          <Card onPress={()=>alert('Pronto podras enterarte más sobre este proyecto Ngrande')}>
             <Card.Cover source={{uri: 'https://picsum.photos/700'}} />
           </Card>
           <Text style={stylesApp.subTitle}>Plan de Ganancias</Text>
-          <Card>
+          <Card onPress={()=>alert('Pronto podras enterarte más sobre este proyecto Ngrande')}>
             <Card.Cover source={{uri: 'https://picsum.photos/700'}} />
           </Card>
           <Text style={stylesApp.subTitle}>ACTIVATE AHORA</Text>
-          <Card>
+          <Card onPress={()=>alert('Pronto podras enterarte más sobre este proyecto Ngrande')}>
             <Card.Cover source={{uri: 'https://picsum.photos/700'}} />
           </Card>
 

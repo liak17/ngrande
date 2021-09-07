@@ -14,8 +14,8 @@ import CartaNombre from '../componentes/CartaNombre';
 import CuadroTexto from '../componentes/CuadroTexto';
 import {stylesApp} from '../const/styles.js';
 
-const OficinaUserScreen = ({drawer, menu, navigation}) => {
-  const [cupon, setState] = useState([]);
+const OficinaUserScreen = ({drawer, menu, navigation,user}) => {
+  const{cedula, nombre_completo}= user;
   function handleOnPress() {
     navigation.navigate('CuponScreen');
   }
@@ -30,25 +30,25 @@ const OficinaUserScreen = ({drawer, menu, navigation}) => {
         <Text style={stylesApp.textTitle}>MI OFICINA</Text>
         <View style={{flex: 1}}>
           <View style={{paddingTop: 16}}>
-            <CartaNombre cedula="1729765465" nombre="Marco Diaz Gonzalez" />
+            <CartaNombre cedula={cedula} nombre={nombre_completo} />
           </View>
         </View>
         <View style={{flex: 2, paddingTop: 22, justifyContent: 'center'}}>
           <Text style={stylesApp.subTitle}>Ganancias Directas</Text>
           <Text>
-            <CuadroTexto texto="2800$" />
+            <CuadroTexto texto="0$" />
           </Text>
 
           <Text style={stylesApp.subTitle}>Ganancias por Red</Text>
           <Text>
-            <CuadroTexto texto="789$" />
+            <CuadroTexto texto="0$" />
           </Text>
           <Text style={stylesApp.subTitle}>Ganancias de la App</Text>
           <Text>
-            <CuadroTexto texto="5567$" />
+            <CuadroTexto texto="0$" />
           </Text>
           <Text style={stylesApp.textTitle}>NOTICIAS</Text>
-          <Card>
+          <Card onPress={() =>alert('Pronto podras tener mas noticias sobre este proyecto Ngrande')}>
             <Card.Cover source={{uri: 'https://picsum.photos/700'}} />
           </Card>
         </View>
@@ -57,12 +57,6 @@ const OficinaUserScreen = ({drawer, menu, navigation}) => {
   );
 };
 
-const styles = StyleSheet.create({
-  card: {
-    alignItems: 'center',
-    marginLeft: 16,
-    justifyContent: 'center',
-  },
-});
+
 
 export default OficinaUserScreen;

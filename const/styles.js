@@ -84,7 +84,7 @@ export const stylesApp =
             borderRadius:10,
             fontFamily: 'Poppins-Regular',
             marginStart: 4,
-            marginEnd: 8,
+            marginEnd: 8,            
             paddingTop:16,
         },
         btnSecondary: {

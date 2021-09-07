@@ -15,8 +15,8 @@ import CuadroTexto from '../componentes/CuadroTexto';
 import { stylesApp} from '../const/styles.js';
 
 
-const ReaderUserScreen = ({drawer, menu,navigation}) => {
-   const [cupon, setState] = useState([]);
+const ReaderUserScreen = ({drawer, menu,navigation,user}) => {
+   const {cedula, nombre_completo}= user;
   function handleOnPress() {
     navigation.navigate('CuponScreen');
   }
@@ -34,14 +34,14 @@ const ReaderUserScreen = ({drawer, menu,navigation}) => {
           <View style={{flex: 1}}>
             <View style={{paddingTop: 16}}>
                 <CartaNombre
-                cedula='1729765465'
-                nombre='Marco Diaz Gonzalez'
+                cedula={cedula}
+                nombre={nombre_completo}
                 />
                 
             </View>
           </View>
           <View style={{flex: 2, paddingTop:22, justifyContent: 'center'}}>
-          
+            <Text>Pronto podras enterarte de que trata este proyecto Ngrande</Text>
           </View>
         
           

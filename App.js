@@ -26,6 +26,7 @@ export default function App() {
 
   const StackUser = useCallback(() => {
     return (<StackUsuario
+    setlogin={setlogin}
       drawer={drawer}
       user={user}
     />)
