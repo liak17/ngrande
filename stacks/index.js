@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
-import {createStackNavigator} from '@react-navigation/stack';
-import React, {useEffect, useCallback,useState} from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
+import React, { useEffect, useCallback, useState } from 'react';
 
 //Pantallas Negocios
 import DashboardScreen from '../screens/DashboardScreen.js';
@@ -28,16 +28,19 @@ import ReaderUserScreen from '../screens/ReaderUserScreen';
 import MotivaUserScreen from '../screens/MotivaUserScreen';
 import * as ViewsNames from '../const/ViewsNames.js';
 
-import {MenuNegocio,MenuUsuario} from '../MyDrawer/Menus.js';
+import { MenuNegocio, MenuUsuario } from '../MyDrawer/Menus.js';
+import axios from 'axios';
+import { GET_CATEGORIAS, GET_CUPONES } from '../const/Urls.js';
 
 export const Stack = createStackNavigator();
 
-export const StackNegocioUser = ({drawer, user, setlogin,
-  negocioData}) => {
-  const [SucursalesData,setDataSucursales]=useState(null);
-  const [currentCuponSelected ,setCurrentCuponSelected] = useState(null);
-  const  [currentSucursalSelected,setCurrentSucursalSelected]= useState(null);
-  const {rol, nombre_completo} = user;  
+export const StackNegocioUser = ({ drawer, user, setlogin,
+  codNegocio }) => {
+  const [sucursalesData, setDataSucursales] = useState(null);
+  const [cuponesData, setDataCupones] = useState(null);
+  const [currentCuponSelected, setCurrentCuponSelected] = useState(null);
+  const [currentSucursalSelected, setCurrentSucursalSelected] = useState(null);
+  const { rol, nombre_completo } = user;
   const getMenu = useCallback(props => {
     return <MenuNegocio {...props} nombre_completo={nombre_completo} />;
   }, []);
@@ -46,7 +49,7 @@ export const StackNegocioUser = ({drawer, user, setlogin,
     <Stack.Navigator
       screenOptions={{
         title: 'Ngrande',
-        headerTitleAlign: 'center',        
+        headerTitleAlign: 'center',
         headerStyle: {
           backgroundColor: '#f4520a',
         },
@@ -62,9 +65,10 @@ export const StackNegocioUser = ({drawer, user, setlogin,
             user={user}
             setCurrentSucursalSelected={setCurrentSucursalSelected}
             drawer={drawer}
-            negocioData={negocioData}
+            codNegocio={codNegocio}
             setCurrentCuponSelected={setCurrentCuponSelected}
             setDataSucursales={setDataSucursales}
+            setDataCupones={setDataCupones}
             menu={getMenu(props)}></DashboardScreen>
         )}
       </Stack.Screen>
@@ -83,6 +87,7 @@ export const StackNegocioUser = ({drawer, user, setlogin,
           <NuevoCuponScreen
             {...props}
             drawer={drawer}
+            codNegocio={codNegocio}
             menu={getMenu(props)}></NuevoCuponScreen>
         )}
       </Stack.Screen>
@@ -112,6 +117,7 @@ export const StackNegocioUser = ({drawer, user, setlogin,
           <NuevaSucursalScreen
             {...props}
             drawer={drawer}
+            codNegocio={codNegocio}
             menu={getMenu(props)}></NuevaSucursalScreen>
         )}
       </Stack.Screen>
@@ -120,6 +126,8 @@ export const StackNegocioUser = ({drawer, user, setlogin,
         {props => (
           <ListaCuponesScreen
             {...props}
+            setCurrentCuponSelected={setCurrentCuponSelected}
+            cuponesData={cuponesData}
             drawer={drawer}
             menu={getMenu(props)}></ListaCuponesScreen>
         )}
@@ -136,12 +144,33 @@ export const StackNegocioUser = ({drawer, user, setlogin,
   );
 };
 
-export const StackUsuario = ({drawer}) => {
- 
-    const getMenu = useCallback(props => {
-        return <MenuUsuario {...props} nombre_completo={"Juan del hierro"} />;
-      }, []);
-    
+export const StackUsuario = ({ drawer, user }) => {
+  const { cod_user, nombre_completo } = user;
+  const [categorias, setCategorias] = useState(null);
+  useEffect(() => {
+    const consultaCategorias = async () => {
+      const url = GET_CATEGORIAS;
+      try {
+        const categorias = await axios.get(url);
+        console.log(categorias.data);
+        setCategorias(categorias.data);
+
+      } catch (error) {
+        alert('algo salio mal,intentalo más tarde')
+      }
+
+    }
+
+    if (!categorias) {
+      consultaCategorias();
+    }
+
+  }, [])
+
+  const getMenu = useCallback(props => {
+    return <MenuUsuario {...props} nombre_completo={nombre_completo} />;
+  }, []);
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -156,13 +185,15 @@ export const StackUsuario = ({drawer}) => {
         },
       }}>
       <Stack.Screen
-        name={ViewsNames.DashboardUserScreenName}       
+        name={ViewsNames.DashboardUserScreenName}
       >
-           {(props) =>(<DashboardUserScreen
-            {... props}
-            drawer={drawer}
-            menu={getMenu(props)}
-           />)}
+        {(props) => (<DashboardUserScreen
+          {...props}
+          drawer={drawer}
+          categoriasData={categorias}
+          menu={getMenu(props)}
+
+        />)}
       </Stack.Screen>
       <Stack.Screen name={ViewsNames.NegocioScreenName}>
         {props => (
@@ -178,7 +209,7 @@ export const StackUsuario = ({drawer}) => {
             {...props}
             menu={getMenu(props)}
             drawer={drawer}></ProductoScreen>
-            
+
         )}
       </Stack.Screen>
       <Stack.Screen name={ViewsNames.PerfilUsuarioScreenName}>
@@ -187,7 +218,7 @@ export const StackUsuario = ({drawer}) => {
             {...props}
             menu={getMenu(props)}
             drawer={drawer}></PerfilUsuarioScreen>
-            
+
         )}
       </Stack.Screen>
       <Stack.Screen name={ViewsNames.EstadoUsuarioScreenName}>
@@ -214,7 +245,7 @@ export const StackUsuario = ({drawer}) => {
             {...props}
             menu={getMenu(props)}
             drawer={drawer}
-></OficinaUserScreen>
+          ></OficinaUserScreen>
         )}
       </Stack.Screen>
       <Stack.Screen name={ViewsNames.ListaCategoriasScreenName}>
@@ -223,7 +254,8 @@ export const StackUsuario = ({drawer}) => {
             {...props}
             menu={getMenu(props)}
             drawer={drawer}
-></ListaCategoriasScreen>
+            categoriasData={categorias}
+          ></ListaCategoriasScreen>
         )}
       </Stack.Screen>
       <Stack.Screen name={ViewsNames.ListaCuponesScreenName}>
@@ -232,7 +264,7 @@ export const StackUsuario = ({drawer}) => {
             {...props}
             menu={getMenu(props)}
             drawer={drawer}
-></ListaCuponesScreen>
+          ></ListaCuponesScreen>
         )}
       </Stack.Screen>
       <Stack.Screen name={ViewsNames.ReaderUsuarioScreenName}>
@@ -241,7 +273,7 @@ export const StackUsuario = ({drawer}) => {
             {...props}
             menu={getMenu(props)}
             drawer={drawer}
-            ></ReaderUserScreen>
+          ></ReaderUserScreen>
         )}
       </Stack.Screen>
       <Stack.Screen name={ViewsNames.MotivaUserScreenName}>
@@ -250,7 +282,7 @@ export const StackUsuario = ({drawer}) => {
             {...props}
             menu={getMenu(props)}
             drawer={drawer}
-            ></MotivaUserScreen>
+          ></MotivaUserScreen>
         )}
       </Stack.Screen>
     </Stack.Navigator>

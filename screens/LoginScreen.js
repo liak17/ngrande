@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import axios from 'axios';
-import BotonComponente from '../componentes/BotonComponente';
+
 import { VALIDAR } from '../const/Urls.js';
 import { ERRORS } from '../const/Errors.js';
 import { stylesApp } from '../const/styles.js';
@@ -24,7 +24,6 @@ const whoIsThisIdentificador = (identificador) => {
   if (!identificador) {
     return 'na';
   }
-
   const isTypeCedula = identificador.length === LOGINRULES.cedula.length;
   const isTypeRuc = identificador.length === LOGINRULES.ruc.length;
   if (isTypeCedula) {
@@ -60,16 +59,16 @@ const validatorCampo = ({ value, typeOfrule, valueOfRule, trowError }) => {
 
 
 /*Render*/
-const LoginScreen = ({ setlogin,login, setuser }) => {
+const LoginScreen = ({ setlogin, login, setuser }) => {
 
-  
+
   const [firstFocusCi, setFirstFocusCi] = useState(false);
 
   const [firstFocusPw, setFirstFocusPw] = useState(false);
 
   const [activate, setActivate] = useState(false)
 
-  const [ci, setCedula, erroresCedula, setRulesCedula] = useCampoWithRules("");
+  const [docIdentidad, setDocIdentidad, erroresDocIdentidad, setRulesDocIdentidad] = useCampoWithRules("");
 
   const [pw, setPassword, erroresPassword, setRulesPassword] = useCampoWithRules("");
 
@@ -79,13 +78,13 @@ const LoginScreen = ({ setlogin,login, setuser }) => {
     return (getRuleFormat({
       validator: validatorCampo,
       params: {
-        value: whoIsThisIdentificador(ci),
+        value: whoIsThisIdentificador(docIdentidad),
         typeOfrule: RULESSTRING.equalBetween,
         valueOfRule: { a: 'cedula', b: 'ruc' },
         trowError: loginScreen.limiteCaracteres
       }
     }))
-  }, [ci]);
+  }, [docIdentidad]);
 
   const rulesPassword = useMemo(() => {
     return (getRuleFormat({
@@ -110,50 +109,53 @@ const LoginScreen = ({ setlogin,login, setuser }) => {
   useEffect(() => {
 
     if (firstFocusCi) {
-      setRulesCedula(rulesCedula);
+      setRulesDocIdentidad(rulesCedula);
     }
 
-  }, [ci, firstFocusCi])
+  }, [docIdentidad, firstFocusCi])
 
   useEffect(() => {
 
-    setErrors([...erroresCedula, ...erroresPassword]);
-  }, [erroresPassword, erroresCedula])
+    setErrors([...erroresDocIdentidad, ...erroresPassword]);
+  }, [erroresPassword, erroresDocIdentidad])
 
 
 
   const loginUser = async () => {
 
     const isActivate = activate;
-    const userDoFirstActions=errors.length === 0 && firstFocusCi && firstFocusPw;
+    const userDoFirstActions = errors.length === 0 && firstFocusCi && firstFocusPw;
     setActivate(!isActivate)
-    console.log(whoIsThisIdentificador(ci))
+
     if (userDoFirstActions) {
+
       const campos = [{
-        attr: whoIsThisIdentificador(ci),
-        value: ci
+        attr: whoIsThisIdentificador(docIdentidad),
+        value: docIdentidad
       }, {
         attr: "password",
         value: pw
       }];
+      console.log(campos);
       await consulta(VALIDAR, campos).then(res => {
         const { cod_user } = res.data;
+        console.log(res.data);
+        console.log("here");
         if (cod_user === 0) {
           alert('Verifica el usuario o la contraseña ');
         } else {
           setuser(res.data)
           setlogin(prev => {
-            const currentData=prev;
-             return setlogin(true);
+            const currentData = prev;
+            return setlogin(true);
 
-             })
+          })
         }
 
-
-      }).
-        catch(e => {
-          alert('Verifica el usuario o la contraseña ');
-        })
+      }).catch(e => {
+        alert('Verifica el usuario o la contraseña ');
+        console.log(e);
+      })
 
     } else {
       alert('Ingresa el usuario y contraseña')
@@ -165,7 +167,7 @@ const LoginScreen = ({ setlogin,login, setuser }) => {
 
 
   return (
-    <ScrollView style={{height: '100%'}}>
+    <ScrollView style={{ height: '100%' }}>
       <View style={{
         paddingTop: 10, justifyContent: 'center',
         marginBottom: 0,
@@ -178,17 +180,19 @@ const LoginScreen = ({ setlogin,login, setuser }) => {
       <View style={styles.container}>
 
         <Text style={styles.titulo}>INICIAR SESIÓN</Text>
-        
+
         <TextInput
           style={stylesApp.inputStyle}
           outlineColor="#ffff"
-          left={<TextInput.Icon name={()=> <Icon name="mail" size={24} color='#000000'/> } />}
+          left={<TextInput.Icon name={() => <Icon name="mail" size={24} color='#000000' />} />}
           label="Cedula"
+          maxLength={13}
+          keyboardType='number-pad'
           mode="outlined"
           defaultValue={"22270222138"}
           onFocus={() => setFirstFocusCi(true)}
           onChangeText={(e) => {
-            setCedula(e);
+            setDocIdentidad(e.trimEnd());
           }}
         />
         <TextInput
@@ -196,7 +200,7 @@ const LoginScreen = ({ setlogin,login, setuser }) => {
           outlineColor="#ffff"
           label="Contraseña"
           mode="outlined"
-          left={<TextInput.Icon name={()=> <Icon name="lock" size={24} color='#000000'/> } />}
+          left={<TextInput.Icon name={() => <Icon name="lock" size={24} color='#000000' />} />}
           defaultValue={pw}
           onFocus={() => setFirstFocusPw(true)}
           onChangeText={(e) => {
@@ -213,14 +217,14 @@ const LoginScreen = ({ setlogin,login, setuser }) => {
             }}
             estilo={stylesApp.btnSecondary}
           /> */}
-        <Button
-        uppercase={false}
-        dark={true}
-        
-        style={stylesApp.btnSecondary}
-        mode='contained'
-        onPress={() =>{loginUser()}}
-        ><Text style={stylesApp.txtBtnSecondary}>Iniciar Sesión</Text></Button>
+          <Button
+            uppercase={false}
+            dark={true}
+
+            style={stylesApp.btnSecondary}
+            mode='contained'
+            onPress={() => { loginUser() }}
+          ><Text style={stylesApp.txtBtnSecondary}>Iniciar Sesión</Text></Button>
         </View>
       </View>
     </ScrollView>
@@ -241,8 +245,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop:150,
-    marginBottom:29
+    marginTop: 150,
+    marginBottom: 29
   },
   titulo: {
     fontSize: 36,

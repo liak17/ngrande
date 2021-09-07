@@ -26,16 +26,14 @@ const CUPON_LIST = [
       },
 ];
 
-const ListaCategoriasScreen = ({ navigation, drawer, menu }) => {
+const ListaCategoriasScreen = ({ navigation, drawer, menu,categoriasData }) => {
 
-    const [cupon, setState] = useState([])
+    
 
-    useEffect(() => {
-        //carga los datos al inicio, aqui debemos traelo
-    }, [])
+    
 
     function handleOnPress() {
-        navigation.navigate('CuponScreen');
+        //navigation.navigate();
 
     }
 
@@ -53,11 +51,11 @@ const ListaCategoriasScreen = ({ navigation, drawer, menu }) => {
                     <Text style={stylesApp.textTitle}>CATEGORIAS</Text>
                     <FlatList
                         columnWrapperStyle={{display: 'flex',justifyContent: 'center'}}
-                        data={CUPON_LIST}
+                        data={categoriasData}
                         horizontal={false}
                         numColumns={2}
-                        renderItem={({ item }) => <CuadroDoble texto={item} onPress={handleOnPress} />}
-                        keyExtractor={item => item.id}
+                        renderItem={({ item }) => <CuadroDoble categoria={item} onPress={handleOnPress} />}
+                        keyExtractor={item => item.cod_categoria}
 
                     />
                 </View>

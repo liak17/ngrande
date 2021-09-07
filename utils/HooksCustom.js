@@ -31,7 +31,7 @@ export const useErrores = (errores) => {
 
 export const useCampoSimple = (valInit) => {
     const initialVal = valInit || null;
-    const [campo, setCampo] = useState(initialVal);
+    const [campo, setCampo] = useState(initialVal);  
     return [
         campo,
         setCampo

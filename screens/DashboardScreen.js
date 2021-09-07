@@ -23,13 +23,14 @@ const DashboardScreen = ({
   drawer,
   menu,
   navigation,
-  negocioData,
+  codNegocio,
   setCurrentCuponSelected,
   setCurrentSucursalSelected,
   setDataSucursales,
+  setDataCupones
 }) => {
   const [dataInitSucursales, setDataInitSucursales] = useState(null);
-  const [dataInitCupones, setDataCupones] = useState(null);
+  const [dataInitCupones, setDataInitCupones] = useState(null);
   const [ciudadesXSucursales, setCiudadesXSucursales] = useState(null)
   const [refresh, setrefresh] = useState(false)
 
@@ -39,10 +40,11 @@ const DashboardScreen = ({
       try {
         const url = GETCUPONES;
         const whereClause = {
-          whereClause: [{ attr: 'negocioCodNegocio', value: negocioData }],
+          whereClause: [{ attr: 'negocioCodNegocio', value: codNegocio }],
         };
         const resultado = await axios.post(url, whereClause);
         const cupones = resultado.data;
+        setDataInitCupones(cupones);
         setDataCupones(cupones);
       } catch (error) {
         alert('algo salio mal');
@@ -52,7 +54,7 @@ const DashboardScreen = ({
       try {
         const url = GETSUCURSALES;
         const whereClause = {
-          whereClause: [{ attr: 'negocioCodNegocio', value: negocioData }],
+          whereClause: [{ attr: 'negocioCodNegocio', value: codNegocio }],
         };
         const resultado = await axios.post(url, whereClause);
         const sucursales = resultado.data;
