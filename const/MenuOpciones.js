@@ -13,7 +13,13 @@ export const menuUsuario = [
     {title:'Mi Oficina',id:5, screen:ViewsNames.OficinaUserScreenName,icon:'briefcase'},
     {title:'Reader',id:6, screen:ViewsNames.ReaderUsuarioScreenName,icon:'book'},
     {title:'Motiva', id:7,screen:ViewsNames.MotivaUserScreenName,icon:'clipboard-text'},
-    {title:'Salir', screen:ViewsNames.InicioScreenName,id:8,icon: 'exit-to-app'}
-    
+    {title:'Salir', screen:ViewsNames.InicioScreenName,id:8,icon: 'exit-to-app'}   
 
+]
+
+
+export const menuInvitado=[
+    {title:'Reader',id:1,screen:ViewsNames.ReaderUsuarioScreenName,icon:'book'},
+    {title:'Motiva',id:2,screen:ViewsNames.MotivaUserScreenName,icon:'clipboard-text'},
+    {title:'Salir', screen:ViewsNames.InicioScreenName,id:3,icon: 'exit-to-app'}
 ]
