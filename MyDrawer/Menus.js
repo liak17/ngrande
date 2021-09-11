@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableHighlight, StyleSheet } from 'react-native';
-import { menuNegocio, menuUsuario } from '../const/MenuOpciones.js';
+import { menuInvitado, menuNegocio, menuUsuario } from '../const/MenuOpciones.js';
 import { Menu, Divider, Title } from 'react-native-paper';
 import { InicioScreenName } from '../const/ViewsNames.js';
 
@@ -65,6 +65,34 @@ export const MenuUsuario = ({ navigation, nombre_completo ,setlogin}) => {
     <View style={styles.contenedor}>
       <Title style={styles.txtMenu}>{nombre_completo}</Title>
       <Text style={styles.txtMenu}>ADMINISTRA TU PERFIL</Text>
+      <Divider style={{ marginTop: 16 }} />
+      {menu}
+    </View>
+  )
+}
+export const MenuInvitado = ({ navigation, nombre_completo ,setlogin}) => {
+  const opcionesUsuario = menuInvitado;  
+  const renderMenu = ({ title, screen, id, icon }) => (
+    <View key={id}>
+      <Menu.Item onPress={() => {
+        if (screen === InicioScreenName) {          
+          
+          //algo ocurre y no sale cuando se coloca true,el 
+          //app.js se va por la opcion de dafault y ahi si sale del app
+          
+          return setlogin(true);
+        } else {
+          return navigation.navigate(screen);
+        }
+
+      }} title={title} icon={icon} />
+    </View>
+  )
+  const menu = opcionesUsuario.map(renderMenu);
+  return (
+    <View style={styles.contenedor}>
+      <Title style={styles.txtMenu}>Registrate te estamos esperando</Title>
+      <Text style={styles.txtMenu}>{nombre_completo}</Text>
       <Divider style={{ marginTop: 16 }} />
       {menu}
     </View>

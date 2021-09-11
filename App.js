@@ -1,12 +1,19 @@
 import 'react-native-gesture-handler';
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import {  StackGeneral, StackNegocioUser, StackUsuario } from './stacks/index.js';
+import { StackGeneral, StackNegocioUser, StackUsuario } from './stacks/index.js';
 import { NavigationContainer } from '@react-navigation/native';
 import { Roles } from './const/Roles.js';
 import axios from 'axios';
 
 export default function App() {
   const drawer = useRef(null);
+
+
+  const [currentStack, setcurrentStack] = useState(StackBasic);
+  const [user, setuser] = useState({});
+  const [errores, seterrores] = useState([]);
+  const [login, setlogin] = useState(false);
+  const [codNegocio, setCodNegocio] = useState(0);
 
   const StackBasic = useCallback(() => {
     return (<StackGeneral
@@ -15,18 +22,13 @@ export default function App() {
       login={login}
       setlogin={setlogin}
       setuser={setuser}
+      setcurrentStack={setcurrentStack}
     />)
   }, [errores, login]);
-
-  const [currentStack, setcurrentStack] = useState(StackBasic);
-  const [user, setuser] = useState({});
-  const [errores, seterrores] = useState([]);
-  const [login, setlogin] = useState(false);
-  const [codNegocio, setCodNegocio] = useState(0);
-
+  
   const StackUser = useCallback(() => {
     return (<StackUsuario
-    setlogin={setlogin}
+      setlogin={setlogin}
       drawer={drawer}
       user={user}
     />)
@@ -38,7 +40,7 @@ export default function App() {
   //sirve  para mandar directamente al screen de negocios sin necesidad de 
   //pasar por el login
   useEffect(async () => {
-    
+
     const consultaNegocioData = async () => {
 
       const url = `https://infinite-crag-10539.herokuapp.com/negocio/user/${user.cod_user}`

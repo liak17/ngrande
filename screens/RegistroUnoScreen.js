@@ -4,8 +4,19 @@ import {Button, Title, Checkbox, Card} from 'react-native-paper';
 import {stylesApp} from '../const/styles.js';
 import Icon from 'react-native-vector-icons/Feather';
 import * as ViewsNames from '../const/ViewsNames.js';
+import {StackInvitado} from '../stacks/index.js';
 
-const RegistroUnoScreen = ({navigation}) => {
+
+const RegistroUnoScreen = ({navigation,setcurrentStack,setlogin}) => {
+  const StackInvitadoModule=()=>{
+    return(
+      <StackInvitado          
+          setlogin={setlogin}  
+      />
+    
+    )
+    
+  }
   return (
     <View style={stylesApp.container}>
       <Title style={stylesApp.textTitle}>REGISTRARSE</Title>
@@ -28,7 +39,9 @@ const RegistroUnoScreen = ({navigation}) => {
       </View>
       </View>
       <View style={styles.textoFinal}>
-      <Text style={stylesApp.text} onPress={() =>alert('estamos en construcción')}><Icon name="eye" size={24} color='#747474'/> Seguir como invitado</Text>
+      <Text style={stylesApp.text} onPress={() =>{
+        setcurrentStack(StackInvitadoModule)
+      }}><Icon name="eye" size={24} color='#747474'/> Seguir como invitado</Text>
       </View>
 
     </View>

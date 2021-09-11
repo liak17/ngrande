@@ -19,7 +19,8 @@ export const menuUsuario = [
 
 
 export const menuInvitado=[
-    {title:'Reader',id:1,screen:ViewsNames.ReaderUsuarioScreenName,icon:'book'},
-    {title:'Motiva',id:2,screen:ViewsNames.MotivaUserScreenName,icon:'clipboard-text'},
-    {title:'Salir', screen:ViewsNames.InicioScreenName,id:3,icon: 'exit-to-app'}
-]
+    {title:'Inicio', id:1,screen:ViewsNames.DashboardUserScreenName,icon:'home'},    
+    {title:'Reader',id:2,screen:ViewsNames.ReaderUsuarioScreenName,icon:'book'},
+    {title:'Motiva',id:3,screen:ViewsNames.MotivaUserScreenName,icon:'clipboard-text'},    
+    {title:'Salir',id:4 ,screen:ViewsNames.InicioScreenName,icon: 'exit-to-app'}
+]   

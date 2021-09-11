@@ -28,7 +28,7 @@ import ReaderUserScreen from '../screens/ReaderUserScreen';
 import MotivaUserScreen from '../screens/MotivaUserScreen';
 import * as ViewsNames from '../const/ViewsNames.js';
 
-import { MenuNegocio, MenuUsuario } from '../MyDrawer/Menus.js';
+import { MenuInvitado, MenuNegocio, MenuUsuario } from '../MyDrawer/Menus.js';
 import axios from 'axios';
 import { GETCUPONES, GET_CATEGORIAS, GET_CUPONES } from '../const/Urls.js';
 
@@ -147,37 +147,36 @@ export const StackNegocioUser = ({ drawer, user, setlogin,
   );
 };
 
-export const StackUsuario = ({ drawer, user,setlogin }) => {
-  const { cod_user, nombre_completo } = user;
+export const StackInvitado = ({ drawer, setlogin }) => {
+  const user={nombre_completo:"Invitado",cedula:""}
   const [categorias, setCategorias] = useState(null);
   const [currentCuponSelected, setCurrentCuponSelected] = useState(null);
-  const [cupones,setCupones]= useState(null);
-
+  const [cupones, setCupones] = useState(null);
 
 
   /*consulta categorias */
   useEffect(() => {
-    
-    const consultaPromociones=async()=>{
-      
+
+    const consultaPromociones = async () => {
+
       try {
-        const url =GETCUPONES;
+        const url = GETCUPONES;
         const whereClause = {
-          whereClause:[  {
+          whereClause: [{
             "attr": "estado",
             "value": 1
-        }]
+          }]
         };
-        const cupones=await axios.post(url,whereClause);        
-        setCupones(prev=>{
-          const currentCupones= Object.assign(cupones.data, prev);
+        const cupones = await axios.post(url, whereClause);
+        setCupones(prev => {
+          const currentCupones = Object.assign(cupones.data, prev);
           return currentCupones;
-        });       
+        });
 
       } catch (error) {
         alert('algo salio mal,intentalo más tarde');
       }
-    
+
     }
 
     const consultaCategorias = async () => {
@@ -197,11 +196,170 @@ export const StackUsuario = ({ drawer, user,setlogin }) => {
       consultaCategorias();
     }
 
-    if(!cupones){
+    if (!cupones) {
       consultaPromociones();
     }
 
-  }, [])
+  }, []);
+
+  const getMenu = useCallback(props => {
+    return <MenuInvitado {...props} nombre_completo={"Invitado"} setlogin={setlogin} />;
+  }, []);
+
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        title: 'Ngrande',
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: '#f4520a',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}>
+        <Stack.Screen
+        name={ViewsNames.DashboardUserScreenName}
+      >
+        {(props) => (<DashboardUserScreen
+          {...props}
+          drawer={drawer}
+          categoriasData={categorias}
+          setCurrentCuponSelected={setCurrentCuponSelected}
+          menu={getMenu(props)}
+          cupones={cupones}
+
+        />)}
+      </Stack.Screen>
+      <Stack.Screen name={ViewsNames.NegocioScreenName}>
+        {props => (
+          <NegocioScreen
+            {...props}
+            drawer={drawer}
+            menu={getMenu(props)}></NegocioScreen>
+        )}
+      </Stack.Screen>
+      <Stack.Screen name={ViewsNames.ProductoScreenName}>
+        {props => (
+          <ProductoScreen
+            {...props}
+            menu={getMenu(props)}
+            drawer={drawer}></ProductoScreen>
+
+        )}
+      </Stack.Screen> 
+      <Stack.Screen name={ViewsNames.ListaCategoriasScreenName}>
+        {props => (
+          <ListaCategoriasScreen
+            {...props}
+            menu={getMenu(props)}
+            drawer={drawer}
+            categoriasData={categorias}
+          ></ListaCategoriasScreen>
+        )}
+      </Stack.Screen>
+      <Stack.Screen name={ViewsNames.ListaCuponesScreenName}>
+        {props => (
+          <ListaCuponesScreen
+            {...props}
+            cuponesData={cupones}
+            menu={getMenu(props)}
+            setCurrentCuponSelected={setCurrentCuponSelected}
+            drawer={drawer}
+          ></ListaCuponesScreen>
+        )}
+      </Stack.Screen>
+      <Stack.Screen name={ViewsNames.CuponScreenName}>
+        {props => (
+          <CuponScreen
+            {...props}
+            editable={false}
+            drawer={drawer}
+            currentCuponSelected={currentCuponSelected}
+            menu={getMenu(props)}></CuponScreen>
+        )}
+      </Stack.Screen>
+      <Stack.Screen name={ViewsNames.ReaderUsuarioScreenName}>
+        {props => (
+          <ReaderUserScreen
+            {...props}
+            user={user}
+            menu={getMenu(props)}
+            drawer={drawer}
+          ></ReaderUserScreen>
+        )}
+      </Stack.Screen>
+      <Stack.Screen name={ViewsNames.MotivaUserScreenName}>
+        {props => (
+          <MotivaUserScreen
+            {...props}
+            user={user}
+            menu={getMenu(props)}
+            drawer={drawer}
+          ></MotivaUserScreen>)}
+      </Stack.Screen>
+    </Stack.Navigator>
+  )
+
+
+}
+
+export const StackUsuario = ({ drawer, user, setlogin }) => {
+  const { cod_user, nombre_completo } = user;
+  const [categorias, setCategorias] = useState(null);
+  const [currentCuponSelected, setCurrentCuponSelected] = useState(null);
+  const [cupones, setCupones] = useState(null);
+
+
+
+  /*consulta categorias */
+  useEffect(() => {
+
+    const consultaPromociones = async () => {
+
+      try {
+        const url = GETCUPONES;
+        const whereClause = {
+          whereClause: [{
+            "attr": "estado",
+            "value": 1
+          }]
+        };
+        const cupones = await axios.post(url, whereClause);
+        setCupones(prev => {
+          const currentCupones = Object.assign(cupones.data, prev);
+          return currentCupones;
+        });
+
+      } catch (error) {
+        alert('algo salio mal,intentalo más tarde');
+      }
+
+    }
+
+    const consultaCategorias = async () => {
+      const url = GET_CATEGORIAS;
+      try {
+        const categorias = await axios.get(url);
+        console.log(categorias.data);
+        setCategorias(categorias.data);
+
+      } catch (error) {
+        alert('algo salio mal,intentalo más tarde')
+      }
+
+    }
+
+    if (!categorias) {
+      consultaCategorias();
+    }
+
+    if (!cupones) {
+      consultaPromociones();
+    }
+
+  }, []);
 
   const getMenu = useCallback(props => {
     return <MenuUsuario {...props} nombre_completo={nombre_completo} setlogin={setlogin} />;
@@ -305,6 +463,7 @@ export const StackUsuario = ({ drawer, user,setlogin }) => {
         {props => (
           <ListaCuponesScreen
             {...props}
+            setCurrentCuponSelected={setCurrentCuponSelected}
             cuponesData={cupones}
             menu={getMenu(props)}
             drawer={drawer}
@@ -353,6 +512,7 @@ export const StackGeneral = ({
   errores,
   seterrores,
   setuser,
+  setcurrentStack
 }) => {
   const LS = useCallback(
     props => {
@@ -372,6 +532,7 @@ export const StackGeneral = ({
     [errores, login, isLoading],
   );
 
+    
   return (
     <Stack.Navigator
       initialRouteName={ViewsNames.InicioScreenName}
@@ -391,7 +552,7 @@ export const StackGeneral = ({
       </Stack.Screen>
 
       <Stack.Screen name={ViewsNames.RegistroUnoScreenName}>
-        {props => <RegistroUnoScreen {...props} />}
+        {props => <RegistroUnoScreen {...props} setcurrentStack={setcurrentStack} setlogin={setlogin} />}
       </Stack.Screen>
 
       <Stack.Screen name={ViewsNames.RegistroScreenName}>
